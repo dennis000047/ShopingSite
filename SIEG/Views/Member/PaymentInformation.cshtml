@@ -1,0 +1,304 @@
+﻿@{
+    ViewData["Title"] = "支付信息";
+    ViewData["enTitle"] = "PaymentInformation";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-7">
+                    <div class="orderTopWidth-2">
+                        <div>
+                            <h1>帳單</h1>
+                            <p>請提供你的帳單資訊</p>
+                            <div>
+                                <h4>
+                                    信用卡
+                                </h4>
+                            </div>
+                            <div>
+                                <input type="text" name="text" class="form-control cc-number-input" maxlength="19" placeholder="信用卡卡號" v-model="PaymentInformationDTOes.creditCard">
+                            </div>
+                            <div class="addressgroup-1">
+                                <div class="addressgroup-2">
+                                    <input type="text" name="text" class="form-control cc-expiry-input" maxlength="5" placeholder="MM/YY" v-model="PaymentInformationDTOes.creditCardDate">
+                                </div>
+                                <div>
+                                    <input type="text" name="text" class="form-control cc-cvc-input" maxlength="3" placeholder="信用卡檢查碼" oninput="value=value.replace(/[^\d]/g,'')" v-model="PaymentInformationDTOes.creditCardCCV">
+                                </div>
+                            </div>
+                            <div class="addressgroup-1">
+                                <h4>
+                                    帳單資訊
+                                </h4>
+                            </div>
+                            <div>
+                                <label>名字</label>
+                                <input type="text" disabled="disabled" name="text" class="form-control" :value="PaymentInformationDTOes.name">
+                            </div>
+
+                            <div class="addressgroup">
+                                <label>電話號碼</label>
+                                <input type="text" disabled="disabled" name="tel" class="form-control" :value="PaymentInformationDTOes.phone">
+                            </div>
+                            <div class="addressgroup">
+                                <label>地址</label>
+                                <input type="text" name="text" class="form-control" placeholder="請輸入地址" v-model="PaymentInformationDTOes.billingAddress">
+                            </div>
+
+                            <div class="addressgroup">
+                                <a asp-area="" asp-controller="Member" asp-action="SettingCreditcard">
+                                    <button type="button" class="btn btncolor">
+                                        取消
+                                    </button>
+                                </a>
+                                <input type="submit" class="btn btncolor inputright" value="儲存" @@click="update(PaymentInformationDTOes)">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                PaymentInformationDTOes: {},
+                PersonalDTOes: {},
+                Filter: "",
+
+            },
+            mounted: function () {
+                let _this = this;
+                $('.SidebarSetting').css("background", "#ededed");
+                _this.getPaymentInformationDTOes();
+                _this.getPersonalDTOes();
+                let ccNumberInput = document.querySelector('.cc-number-input'),
+                    ccNumberPattern = /^\d{0,16}$/g,
+                    ccNumberSeparator = " ",
+                    ccNumberInputOldValue,
+                    ccNumberInputOldCursor,
+
+                    ccExpiryInput = document.querySelector('.cc-expiry-input'),
+                    ccExpiryPattern = /^\d{0,4}$/g,
+                    ccExpirySeparator = "/",
+                    ccExpiryInputOldValue,
+                    ccExpiryInputOldCursor,
+
+                    ccCVCInput = document.querySelector('.cc-cvc-input'),
+                    ccCVCPattern = /^\d{0,3}$/g,
+
+                    mask = (value, limit, separator) => {
+                        var output = [];
+                        for (let i = 0; i < value.length; i++) {
+                            if (i !== 0 && i % limit === 0) {
+                                output.push(separator);
+                            }
+
+                            output.push(value[i]);
+                        }
+
+                        return output.join("");
+                    },
+                    unmask = (value) => value.replace(/[^\d]/g, ''),
+                    checkSeparator = (position, interval) => Math.floor(position / (interval + 1)),
+                    ccNumberInputKeyDownHandler = (e) => {
+                        let el = e.target;
+                        ccNumberInputOldValue = el.value;
+                        ccNumberInputOldCursor = el.selectionEnd;
+                    },
+                    ccNumberInputInputHandler = (e) => {
+                        let el = e.target,
+                            newValue = unmask(el.value),
+                            newCursorPosition;
+
+                        if (newValue.match(ccNumberPattern)) {
+                            newValue = mask(newValue, 4, ccNumberSeparator);
+
+                            newCursorPosition =
+                                ccNumberInputOldCursor - checkSeparator(ccNumberInputOldCursor, 4) +
+                                checkSeparator(ccNumberInputOldCursor + (newValue.length - ccNumberInputOldValue.length), 4) +
+                                (unmask(newValue).length - unmask(ccNumberInputOldValue).length);
+
+                            el.value = (newValue !== "") ? newValue : "";
+                        } else {
+                            el.value = ccNumberInputOldValue;
+                            newCursorPosition = ccNumberInputOldCursor;
+                        }
+
+                        el.setSelectionRange(newCursorPosition, newCursorPosition);
+
+                        highlightCC(el.value);
+                    },
+                    highlightCC = (ccValue) => {
+                        let ccCardType = '',
+                            ccCardTypePatterns = {
+                                amex: /^3/,
+                                visa: /^4/,
+                                mastercard: /^5/,
+                                disc: /^6/,
+
+                                genric: /(^1|^2|^7|^8|^9|^0)/,
+                            };
+
+                        for (const cardType in ccCardTypePatterns) {
+                            if (ccCardTypePatterns[cardType].test(ccValue)) {
+                                ccCardType = cardType;
+                                break;
+                            }
+                        }
+
+                        let activeCC = document.querySelector('.cc-types__img--active'),
+                            newActiveCC = document.querySelector(`.cc-types__img--${ccCardType}`);
+
+                        if (activeCC) activeCC.classList.remove('cc-types__img--active');
+                        if (newActiveCC) newActiveCC.classList.add('cc-types__img--active');
+                    },
+                    ccExpiryInputKeyDownHandler = (e) => {
+                        let el = e.target;
+                        ccExpiryInputOldValue = el.value;
+                        ccExpiryInputOldCursor = el.selectionEnd;
+                    },
+                    ccExpiryInputInputHandler = (e) => {
+                        let el = e.target,
+                            newValue = el.value;
+
+                        newValue = unmask(newValue);
+                        if (newValue.match(ccExpiryPattern)) {
+                            newValue = mask(newValue, 2, ccExpirySeparator);
+                            el.value = newValue;
+                        } else {
+                            el.value = ccExpiryInputOldValue;
+                        }
+                    };
+
+                ccNumberInput.addEventListener('keydown', ccNumberInputKeyDownHandler);
+                ccNumberInput.addEventListener('input', ccNumberInputInputHandler);
+
+                ccExpiryInput.addEventListener('keydown', ccExpiryInputKeyDownHandler);
+                ccExpiryInput.addEventListener('input', ccExpiryInputInputHandler);
+
+            },
+            methods: {
+                getPaymentInformationDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_PaymentInformation/${_this.mID}`).then(
+                        response => {
+                            _this.PaymentInformationDTOes = response.data;
+
+                        }
+                    );
+                },
+                update: function (PaymentInformation) {
+                    let _this = this;
+                    var request = {};
+                    request.MemberId = PaymentInformation.memberId;
+                    request.BillingAddress = PaymentInformation.billingAddress;
+                    request.CreditCard = PaymentInformation.creditCard;
+                    request.CreditCardDate = PaymentInformation.creditCardDate;
+                    request.CreditCardCcv = PaymentInformation.creditCardCCV;
+                    if (PaymentInformation.creditCard.length == 19) {
+                        if (PaymentInformation.creditCardDate.length == 5) {
+                            if (PaymentInformation.creditCardCCV.length == 3) {
+                                //var ret = confirm("確定要修改嗎?");
+                                Swal.fire({
+                                    title: '確定要修改嗎?',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: '修改成功',
+                                            showConfirmButton: false,
+                                        })
+                                        axios.put(`${webApiBaseAddress}/api/B_PaymentInformation/${_this.mID}`, request).then(
+                                            response => {
+                                                //alert(response.data);
+                                                setTimeout(function () {
+                                                    window.location = "/Member/SettingCreditcard"
+                                                }, 1500);
+                                            }
+                                        );
+                                    }
+                                })
+                                //if (ret == true) {
+                                //    axios.put(`${webApiBaseAddress}/api/B_PaymentInformation/${_this.mID}`, request).then(
+                                //        response => {
+                                //            alert(response.data);
+                                //            window.location = "/Member/SettingCreditcard"
+                                //        }
+                                //    );
+                                //}
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '驗證碼不正確',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                            }
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '日期不正確',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
+
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '信用卡號不正確',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    }
+                },
+                getPersonalDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+						response => {
+							_this.PersonalDTOes = response.data						
+						}
+					);
+				},
+            },
+        });
+
+    </script>
+
+    }
+
+
+
+
+
+
+
+
+
+

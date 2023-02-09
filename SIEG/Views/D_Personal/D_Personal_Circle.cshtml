@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "Circle";
+}
+
+@section Style{
+    <!--forum Article Stylesheet-->
+    <link href="~/css/ben.css" rel="stylesheet" />
+    <link href="~/css/circle.css" rel="stylesheet" />
+}
+<div id="Circle">
+    <div class="grade-buyer">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="dennis_block">
+                    買家當前等級與優惠為
+                    <hr>
+                    <div class="gradeing-pg__grade-lev">
+                        <td class="gradeing-pg__lev-lev">
+                            <h4>等級 {{BuyerGrade}}</h4>
+                        </td>
+                        <div id="cont" data-pct="100">
+                            <svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle r="90" cx="100" cy="100" fill="transparent"
+                                        stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                                <circle id="bar" r="90" cx="100" cy="100" fill="transparent"
+                                        stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="gradeing-pg-foot">
+                        <p>距離升級還要 NT$ {{BuyRemain}} </p>
+                        <p>
+                            按此前往使用優惠券。
+                        </p>
+                        <a class="gradeing-pg-foot-bt" href="grade.html">了解更多</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="dennis_block">
+                    賣家當前等級與優惠為
+                    <hr>
+                    <div class="gradeing-pg__grade-lev">
+                        <td class="gradeing-pg__lev-lev">
+                            <h4>等級 {{SellerGrade}}</h4>
+                        </td>
+                        <div id="cont2" data-pct="100">
+                            <svg id="svg2" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle r="90" cx="100" cy="100" fill="transparent"
+                                        stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                                <circle id="bar" r="90" cx="100" cy="100" fill="transparent"
+                                        stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="gradeing-pg-foot">
+                        <p>距離升級還要 NT$ {{SellRemain}} </p>
+                        <p>
+                            有關買賣家費用等完整詳細資訊優惠，請查看我們的介紹頁面。
+                        </p>
+                        <a class="gradeing-pg-foot-bt" href="grade.html">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var Circle = new Vue
+            ({
+                el: "#Circle",
+                name: "Circle",
+                data: {
+                    GradeBuy: {},
+                    Price: null,
+                    BuyerGrade: 0,
+                    SellerGrade: 0,
+                    BuyExp: 0,
+                    SellExp: 0,
+                    Count: null,
+                    State: null,
+                    BuyRemain: 0,
+                    SellRemain: 0,
+                    //Coupontik: null,
+                    //Filter: "",
+                    //買家Id: null,
+                    //賣家Id: null,
+                    //價錢: null,
+                },
+                mounted: function () {
+                    let _this = this;
+                    _this.getD_GradeBuyDTO();
+                    //_this.getD_GradeSellDTO();
+                    $(function () {
+                        setTimeout(function () {
+                            _this.getD_GradeSellDTO();
+                        }, 1000);
+                    });
+                },
+                methods: {
+                    getD_GradeBuyDTO: function () {
+                        var mID = sessionStorage.getItem("mID");
+                        console.log(mID)
+                        let _this = this;
+                        axios.get(`${webApiBaseAddress}/api/D_BuyerGrade/${mID}`).then(
+                            response => {
+                                _this.D_GradeBuyDTO = response.data;
+                                _this.BuyerGrade = _this.D_GradeBuyDTO[0].buyerGrade
+                                //_this.SellerGrade = _this.D_GradeBuyDTO[0].sellerGrade
+                                _this.BuyRemain = _this.D_GradeBuyDTO[0].price
+                                _this.Price = _this.D_GradeBuyDTO[0].price;
+                                _this.Count = _this.D_GradeBuyDTO[0].count;
+
+                                //買家等級判斷
+                                if (_this.Price < 5000) {
+                                    _this.BuyerGrade = Math.floor(_this.Price / 5000);
+                                    if (_this.BuyerGrade == 0) {
+                                        _this.BuyExp = _this.Price % 5000 / 50
+                                    }
+                                } else {
+                                    _this.BuyerGrade = Math.floor(_this.Price / 5000);
+                                    if (_this.BuyerGrade == 0) {
+                                        _this.BuyExp = _this.Price % 5000 / 50
+                                    }
+                                    else if (_this.BuyerGrade == 1) {
+                                        _this.BuyExp = Math.floor(_this.Price % 10000 / 100);
+                                    }
+                                    else if (_this.BuyerGrade == 2) {
+                                        _this.BuyExp = Math.floor(_this.Price % 15000 / 150)
+                                    } else if (_this.BuyerGrade >= 3) {
+                                        _this.BuyerGrade = 3
+                                        if (_this.BuyerGrade = 3) {
+                                            _this.BuyExp = 100
+                                        }
+                                    }
+                                };
+                                //買家剩餘金額
+                                if (_this.BuyerGrade == 0) {
+                                    _this.BuyRemain = 5000 - _this.Price
+                                }
+                                else if (_this.BuyerGrade == 1) {
+                                    _this.BuyRemain = 10000 - _this.Price
+                                }
+                                else if (_this.BuyerGrade == 2) {
+                                    _this.BuyRemain = 15000 - _this.Price
+                                }
+                                else if (_this.BuyerGrade == 3) {
+                                    _this.BuyRemain = 0
+                                }
+                                //買家的圈圈
+                                $('document').ready(function () {
+                                    var val = _this.BuyExp;//放%數
+                                    var $circle = $('#svg #bar');
+                                    if (isNaN(val)) {
+                                        val = 100;
+                                    }
+                                    else {
+                                        var r = $circle.attr('r');
+                                        var c = Math.PI * (r * 2);
+                                        if (val < 0) { val = 0; }
+                                        if (val > 100) { val = 100; }
+                                        var pct = ((100 - val) / 100) * c;
+                                        $circle.css({ strokeDashoffset: pct });
+                                        $('#cont').attr('data-pct', val);
+                                    }
+                                });
+                                _this.updateB();
+                            }
+                        );
+                    },
+                    getD_GradeSellDTO: function () {
+                        var mID = sessionStorage.getItem("mID");
+                        let _this = this;
+                        axios.get(`${webApiBaseAddress}/api/D_SellGrade/${mID}`).then(
+                            response => {
+                                _this.D_GradeSellDTO = response.data;
+                                //_this.BuyerGrade = _this.D_GradeSellDTO[0].buyerGrade
+                                _this.SellerGrade = _this.D_GradeSellDTO[0].sellerGrade
+                                _this.SellRemain = _this.D_GradeSellDTO[0].price
+                                _this.Price = _this.D_GradeSellDTO[0].price;
+
+                                //賣家等級判斷
+                                if (_this.Price < 15000) {
+                                    _this.SellerGrade = Math.floor(_this.Price / 15000);
+                                    if (_this.SellerGrade == 0) {
+                                        _this.SellExp = Math.floor(_this.Price % 15000 / 150)
+                                    }
+                                } else {
+                                    _this.SellerGrade = Math.floor(_this.Price / 15000);
+                                    if (_this.SellerGrade == 0) {
+                                        _this.SellExp = Math.floor(_this.Price % 15000 / 150);
+                                    }
+                                    else if (_this.SellerGrade == 1) {
+                                        _this.SellExp = Math.floor(_this.Price % 30000 / 300);
+                                    }
+                                    else if (_this.SellerGrade == 2) {
+                                        _this.SellExp = Math.floor(_this.Price % 45000 / 450);
+                                    } else if (_this.SellerGrade >= 3) {
+                                        _this.SellerGrade = 3
+                                        if (_this.SellerGrade = 3) {
+                                            _this.SellExp = 100
+                                        }
+                                    }
+                                };
+                                // 賣家的圈圈
+                                $('document').ready(function () {
+                                    var val = _this.SellExp;
+                                    var $circle = $('#svg2 #bar');
+                                    if (isNaN(val)) {
+                                        val = 100;
+                                    }
+                                    else {
+                                        var r = $circle.attr('r');
+                                        var c = Math.PI * (r * 2);
+                                        if (val < 0) { val = 0; }
+                                        if (val > 100) { val = 100; }
+                                        var pct = ((100 - val) / 100) * c;
+                                        $circle.css({ strokeDashoffset: pct });
+                                        $('#cont2').attr('data-pct', val);
+                                    }
+                                });
+                                //賣家剩餘金額
+                                if (_this.SellerGrade == 0) {
+                                    _this.SellRemain = 15000 - _this.Price
+                                }
+                                else if (_this.SellerGrade == 1) {
+                                    _this.SellRemain = 30000 - _this.Price
+                                }
+                                else if (_this.SellerGrade == 2) {
+                                    _this.SellRemain = 45000 - _this.Price
+                                }
+                                else if (_this.SellerGrade == 3) {
+                                    _this.SellRemain = 0
+                                }
+                                _this.updateS();
+                            }
+                        );
+                    },
+                    updateB: function () {
+                        let _this = this;
+                        var request = {};
+                        var mID = sessionStorage.getItem("mID");
+                        console.log(mID)//yes 101
+
+                        request.BuyerGrade = _this.BuyerGrade;
+                        //request.SellerGrade = _this.SellerGrade;
+                        request.BuyerId = mID;
+                        request.SellerId = 0;
+                        request.State = _this.State;
+                        request.Price = _this.Price;
+                        request.Count = _this.Count;
+                        console.log(request.BuyerId);
+                        axios.put(`${webApiBaseAddress}/api/D_BuyerGrade/${mID}`, request).then(
+                            response => {
+                                console.log("我是get賣家" + response.data)
+                                if (response.status == 200) {
+                                    alert("成功")
+                                } else {
+                                    alert("失敗")
+                                }
+                            }
+                        );
+                    },
+                    updateS: function () {
+                        let _this = this;
+                        var request = {};
+                        var mID = sessionStorage.getItem("mID");
+                        //request.BuyerGrade = _this.BuyerGrade;
+                        request.SellerGrade = _this.SellerGrade;
+                        request.BuyerId = 0;
+                        request.SellerId = mID;
+                        request.State = _this.State;
+                        request.Price = _this.Price;
+                        request.Count = _this.Count;
+                        console.log(request)
+
+                        axios.put(`${webApiBaseAddress}/api/D_SellGrade/${mID}`, request).then(
+                            response => {
+                                console.log(response.data)
+                                if (response.status == 200) {
+                                    alert("成功")
+                                } else {
+                                    alert("失敗")
+                                }
+                            }
+                        );
+                    },
+                },
+            });
+    </script>
+}

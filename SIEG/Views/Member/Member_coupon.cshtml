@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "優惠券";
+    ViewData["enTitle"] = "coupon";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-9">
+                    <div class="orderTopWidth ">
+                        <div>
+                            <h4>可使用的優惠卷</h4>
+                        </div>
+                        <hr>
+                        <template v-if="couponDTOes.length==0">
+                            <h6>無</h6>
+                        </template>
+                        <template v-else>
+                            <div class="tab-pane fade show active" id="Currently" role="tabpanel">
+                                <table class="table">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-xl-4" v-for="item in couponDTOes">
+                                            <div class="cupon-block">
+                                                <div class="cupon-value">優惠卷</div>
+                                                <div class="cupon-info">
+                                                    <div class="cupon-name">{{item.couponName}} </div>
+                                                    <div class="cupon-name">折扣價錢:{{item.discountPrice}} </div>
+                                                    <div class="cupon-date">序號:{{item.serialNumber}} 共{{item.count}}張</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </table>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                couponDTOes: {},
+                PersonalDTOes: {},
+                Filter: "",
+
+            },
+            mounted: function () {
+                let _this = this;
+                $('.SidebarCoupon').css("background", "#ededed");
+                _this.getcouponDTOes();
+                _this.getPersonalDTOes();
+            },
+            methods: {
+                getcouponDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_MemberCoupons/${_this.mID}`).then(
+                        response => {
+                            _this.couponDTOes = response.data;
+
+                        }
+                    );
+                },
+                getPersonalDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+						response => {
+							_this.PersonalDTOes = response.data						
+						}
+					);
+				},
+            },
+        });
+
+    </script>
+    }
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "登入註冊";
+    ViewData["enTitle"] = "Sign";
+}
+
+@section Style{
+    <link href="~/css/sign.css" rel="stylesheet">
+}
+<!-- 按鈕 tab 登入&註冊 -->
+<div id="SignVue">
+    <div class="index_space about_sign">
+        <div class="container">
+            <div class="card signUp1">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login" type="button"
+                                role="tab" aria-selected="true">
+                            註冊
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#register" type="button"
+                                role="tab" aria-selected="false">
+                            登入
+                        </button>
+                    </li>
+                </ul>
+                <!-- 註冊內容 -->
+                <div class="tab-content" id="tab-container">
+                    <div class="tab-pane fade show active" id="login" role="tabpanel">
+                        <div class="mb-sm-3 mb-3">
+                            <input type="text" class="form-control" id="FirstName" placeholder="姓名*" required>
+                        </div>
+                        <div class="mb-sm-3 mb-3">
+                            <input type="text" class="form-control" id="NickName" placeholder="暱稱*" required>
+                        </div>
+                        <div class="mb-sm-3 mb-3">
+                            <input type="text" class="form-control" id="Phone" placeholder="手機*" maxlength="11" required>
+                        </div>
+                        <div class="mb-sm-3 mb-3" style="position: relative;">
+                            <input type="password" class="form-control" id="PassWord" placeholder="密碼*" required>
+                            <i class="far fa-eye" id="togglePassword" style="cursor: pointer;position: absolute;top: 12px;right: 15px;"></i>
+                        </div>
+                        <div class="mb-sm-3 mb-3" style="position: relative;">
+                            <input type="password" class="form-control" id="PassWordAG" placeholder="再次輸入密碼*" required>
+                            <i class="far fa-eye" id="togglePasswordAG" style="cursor: pointer;position: absolute;top: 12px;right: 15px;"></i>
+                        </div>
+
+                        <p class="password-text">至少 8 個字元、1 個大寫字母、1 個數字和 1 個符號</p>
+                        <div class="mb-sm-3 mb-3">
+                            <input type="email" inputmode="email" class="form-control" id="SignEmail" placeholder="電子信箱*" required>
+                        </div>
+                        <div class="col-12 d-grid text-center">
+                            <button type="button" class="btn btn-dark" required="required" id="Signbtn" @@click="insert">確認註冊</button>
+                        </div>
+                        <div class="center-text">
+                            <hr />
+                        </div>
+                        <div class="card-footer">註冊即表示你同意<a href="#">服務條款</a>和<a href="#">隱私政策</a></div>
+                    </div>
+                    <div class="tab-pane fade" id="register" role="tabpanel">
+                        <div class="mb-sm-3 mb-3">
+                            <input type="email" inputmode="email" class="form-control" id="loginEmail" placeholder="電子信箱*" required>
+                        </div>
+                        <div class="mb-sm-3 mb-3">
+                            <input type="password" class="form-control" id="loginPassword" placeholder="密碼*" required>
+                            <i class="far fa-eye" id="togglePassword2" style="cursor: pointer;position: absolute;top: 125px;right: 35px;"></i>
+                        </div>
+
+                        <div class="login-f col-12 mb-3">
+                            <a asp-area="" asp-controller="D_Personal" asp-action="Forgetpwd">忘記密碼?</a>
+                        </div>
+                        <div class="col-12 d-grid text-center">
+                            <button type="submit" class="btn btn-dark" id="Loginbtn" @@click="Login">登入</button>
+                        </div>
+                        <div class="center-text">
+                            <hr />
+                        </div>
+                        <div onclick="loginGoogle">
+                            <div id="g_id_onload"
+                                 data-client_id="23813313765-0k1levsqhmu1eritfbgbig3qnulbs3h5.apps.googleusercontent.com"
+                                 @*data-login_uri="https://localhost:7002"*@
+                                 data-login_uri="https://localhost:7002/D_Personal/ValidGoogleLogin"
+                                 @*data-login_uri="https://localhost:7109/Member/ValidGoogleLogin"*@
+                                 data-auto_prompt="false">
+                            </div>
+                            <div class="g_id_signin"
+                                 data-type="standard"
+                                 data-size="large"
+                                 data-theme="outline"
+                                 data-text="sign_in_with"
+                                 data-shape="rectangular"
+                                 data-logo_alignment="left">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="card-footer">註冊即表示你同意<a href="#">服務條款</a>和<a href="#">隱私政策</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="~/js/seepassword.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var SignVue = new Vue
+            ({
+                el: "#SignVue",
+                name: "SignVue",
+                data: {
+                    Filter: "",
+                    MemberId: null,
+                    Name: null,
+                    NickName: null,
+                    Phone: null,
+                    Email: null,
+                    Password: null,
+                },
+                mounted: function () {
+                    let _this = this;
+                },
+                methods: {
+                    insert: function () {
+                        let emailcheck = $("#SignEmail").val()
+                        let pwdcheck = $("#PassWord").val()
+                        let pwdcheckAG = $("#PassWordAG").val()
+                        let telcheck = $("#Phone").val()
+
+                        var emailRegxp = /^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+                        // 至少八個字，一個字母和一個數字
+                        var pwdRegxp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                        var telRegxp = /^09[0-9]{8}$/;
+
+                        if (($("#FirstName").val() && $("#Phone").val() && $("#NickName").val() && $("#SignEmail").val() && $("#PassWord").val()) == "") {
+                            //alert("有地方空白喔!")
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '有地方空白喔!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                        }
+                        else if (emailRegxp.test(emailcheck) == false) {
+                            //alert("信箱格式錯誤")
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '信箱格式錯誤!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                            return;
+                        }
+                        else if (telRegxp.test(telcheck) == false) {
+                            //alert("手機格式錯誤")
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '手機格式錯誤!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                            return;
+                        }
+                        else if (pwdRegxp.test(pwdcheck) == false) {
+                            //alert("密碼格式錯誤");
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '密碼格式錯誤!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                            return;
+                        }
+                        else if (pwdcheckAG != pwdcheck) {
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '第二次密碼輸入錯誤!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                            return;
+                        }
+                        else {
+                            var _this = this;
+                            var request = {};
+                            request.ID = 0;
+                            request.Name = $("#FirstName").val();
+                            request.NickName = $("#NickName").val();
+                            request.Phone = $("#Phone").val();
+                            request.email = $("#SignEmail").val();
+                            request.Password = $("#PassWord").val();
+                            axios.post(`${webApiBaseAddress}/api/D_SignLogin`, request).then(
+                                response => {
+                                    if (response.data == "失敗") {
+                                        //alert("重複");
+                                        Swal.fire({
+                                            position: 'top:50% left:50%',
+                                            icon: 'error',
+                                            title: '重複!',
+                                            showConfirmButton: false,
+                                            timer: 1500,
+                                        })
+                                    } else {
+                                        $("#FirstName").val() && $("#Phone").val() && $("#NickName").val() && $("#SignEmail").val() && $("#PassWord").val() == ""
+                                        //alert("註冊成功")
+                                        Swal.fire({
+                                            position: 'top:50% left:50%',
+                                            icon: 'success',
+                                            title: '註冊成功!',
+                                            showConfirmButton: false,
+                                            timer: 1500,
+                                        })
+                                    }
+                                    setTimeout(function () {
+                                        window.location = "/D_Personal"
+                                    }, 1500);
+                                }
+                            );
+                        }
+                    },
+                    Login: async function () {
+                        let _this = this;
+                        var request = {};
+                        var emailRegxp = /^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+                        let LGemail = $("#loginEmail").val();
+
+                        request.Id = 0;
+                        request.email = $("#loginEmail").val();
+                        request.Password = $("#loginPassword").val();
+                        if (emailRegxp.test(LGemail) == false) {
+                             Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '信箱格式錯誤!',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            })
+                            $("#loginEmail").val() == "";
+                            $("#loginPassword").val() == "";
+
+                            return;
+                        }
+
+                        try {
+                            let response = await axios.post(`${webApiBaseAddress}/api/D_SignLogin/Login`, request)
+                                .then(
+                                    response => {
+                                        //var loginId = response.data.id
+                                        if (response.status == 200) {
+                                            console.log(response.data)
+                                            //alert("登入成功");
+                                            var loginId = response.data.memberId
+                                            console.log(loginId)//找到Id了
+                                            sessionStorage.setItem("mID", loginId)
+
+                                            Swal.fire({
+                                                position: 'top:50% left:50%',
+                                                icon: 'success',
+                                                title: '登入成功',
+                                                showConfirmButton: false,
+                                                timer: 1500,
+                                            })
+                                            //window.location = "/Home/index" //正確的
+                                            setTimeout(function () {
+                                                window.location = "/Home/index"
+                                            }, 1500);
+                                        }
+                                        //else {
+                                        //    alert("失敗")
+                                        //}
+                                    }
+                                );
+                        }
+                        catch {
+                            Swal.fire({
+                                position: 'top:50% left:50%',
+                                icon: 'error',
+                                title: '登入失敗,請確認',
+                                showConfirmButton: false,
+                                timer: 1500,
+
+                            })
+                            document.getElementById("loginEmail").value = "";
+                            document.getElementById("loginPassword").value = "";
+                        };
+
+                    },
+                },
+            });
+    </script>
+}
+

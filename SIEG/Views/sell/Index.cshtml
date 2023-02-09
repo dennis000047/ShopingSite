@@ -1,0 +1,573 @@
+﻿@section Style{
+    <link href="/css/jiazhan/general.css" rel="stylesheet">
+    <link href="/css/jiazhan/product_buy_left.css" rel="stylesheet">
+    <link href="/css/jiazhan/product_sell.css" rel="stylesheet">
+    }
+<div id="appVue">
+    <!-- 上架頁面-->
+    <div class="product_buy">
+        <div>
+            <div class="row align-items-center">
+                <div class="col-xl-4 col-lg-5 col-12 offset-xl-2 offset-lg-1">
+                    <div class="product_buy_Left">
+
+                        <!--   測試用  -->
+@*                        <label> 會員 ID</label>
+                        <input type="number" v-model="mID" />*@
+                        <!--   測試用  -->
+
+                            <h2 class="fontBold" style="margin-top: 120px;">{{productInfo.pName}}</h2>
+                            <h2 class="subTitle">{{productInfo.pModel}}</h2>
+                        <div class="hightAndLowPrice">
+                            <span>最高出價&nbsp:<span class="hightPrice fontBold">&nbsp{{DisplayMaxBid}}&nbsp</span></span> &nbsp|&nbsp
+                            <span>最低報價&nbsp:<span class="lowPrice fontBold">&nbsp{{DisplayMinQuote}}&nbsp</span></span>
+                            <p :class="{displayNone:pLength}">US {{pSize}}</p>
+                        </div>
+                        <img :src="productInfo.pImg" alt="">
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-6 col-12 offset-xl-1">
+                    <div class="product_buy_Right">
+                        <div :class=['selSize',{'displayNone':pLength}] @@click="clickShowSize">
+                            @*<div @@click="showSelSize = !showSelSize" class="selSize">*@
+                            <div>尺碼&nbsp;:&nbsp;&nbsp;<span class="fontBold">US {{pSize}}</span></div>
+                            <img src="https://stockx-assets.imgix.net/svg/icons/pencil.svg?auto=compress,format">
+                        </div>
+
+                        <div>
+                            @*<div :class="{ displayNone: showSelSize }">*@
+                            <div class="selSizeHide">
+                                <p>選擇 US 尺碼</p>
+                                <hr />
+                                <div class="sizeItemContoiner row">
+                                    <div class="col-12">
+                                        <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+
+                                            <!--  動態產生尺碼item  -->
+                                            <div class="sizePriceItem" @@click="activeIndex=index" v-for="(item, index) in DisplaySizeAndPriceList" :key="index">
+                                                <div :class="['divSizeItem', 'sizeItem', {'active':activeIndex==index}]" @@click="clickShowSize();selectSizeItem(item.size,item.price,index,item.pID, item.bID, item.bidID)">
+                                                    <div class="item">
+                                                        <div class="fontBold">US {{item.size}}</div>
+                                                        <div class="fontGreen">{{item.fPrice}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PriceInfo -->
+                        <div class="priceContent">
+                            <div class="inputPriceGroup">
+                                <span class="inputSpan">＄</span>
+                                <input placeholder="輸入報價" type="number" class="inputPrice" v-model="pPrice" @@blur="checkPrice">
+                                <div class="priceState">{{DisplayPriceState}}</div>
+                            </div>
+                            <div class="calculateInfo">
+                                <div class="specialOffer">
+                                    <span>交易費 (10.0%)</span>
+                                    <span> {{DisplayTradeFee}}</span>
+                                </div>
+                                @*                                    <div class="specialOffer">
+                                <span>轉帳手續費(3%)</span>
+                                <span>{{DisplayTransFerFee}}</span>
+                                </div>*@
+                                <div class="specialOffer">
+                                    <span>預計運費</span>
+                                    <span>{{DisplayfreightFee}}</span>
+                                </div>
+                                <div class="specialOffer">
+                                    <span>優惠折扣</span>
+                                    <span>{{specialOffer}} %</span>
+                                </div>
+                                <div class="specialOffer">
+                                    <span>Total</span>
+                                    <span class="money">{{DisplayTotalPrice}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="priceContent">
+                            <div class="specialOffer2">
+                                @*<span>收款資訊</span>*@
+                                <span>{{DisplayBankAccount}}</span>
+                                <!-- ↓↓↓　若有卡片資訊，文字改為編輯　↓↓↓ -->
+                                <span class="add_card">{{DisplayEdit}}</span>
+                            </div>
+                            <div class="credit_card_form">
+                                <div class="credit_card_btn">
+                                    <button @@click="getMemberBankInfo()" class="addMemberInfo ">會員資料匯入</button>
+                                </div>
+
+                                <form>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" placeholder="銀行代碼" v-model="bankCode">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" placeholder="分行名稱" v-model="bankName">
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" placeholder="銀行帳號" v-model="bankAccount">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="credit_card_btn">
+                                    <button class="save" type="submit" @@click="saveBankAccount">儲存帳戶</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btnCancelAndNext">
+                            <a>
+                                <div class="btnCancel" @@click="back">取消</div>
+                            </a>
+                            <div class="btnNext" @@click="next">送出</div>
+                            @*                       <div class="btnNext" @@click="getInfo">查看資料</div>*@
+                        </div>
+
+                        @*<div>
+                        <h2>模擬出價</h2>
+                        <div>
+                        <label>pID</label>
+                        <input type="number" v-model="pID" />
+                        </div>
+                        <div>
+                        <label>sID</label>
+                        <input type="number" v-model="mID" />
+                        </div>
+                        <div>
+                        <label>bID</label>
+                        <input type="number" v-model="bID" />
+                        </div>
+                        </div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/counterup/counterup.min.js"></script>
+    <script src="/lib/parallax/parallax.min.js"></script>
+    <script src="/lib/lightbox/js/lightbox.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+
+    <script>
+        var webApiAddress = "https://localhost:7139/api/J";
+        var appVue = new Vue({
+            el: "#appVue",
+            data() {
+                return {
+                    productInfo: {},
+                    SizeAndPriceList: [],
+                    pID: sessionStorage.getItem("pID"),
+                    mID: sessionStorage.getItem("mID"),
+                    pSize: null,
+                    pPrice: sessionStorage.getItem("pPrice"),
+                    activeIndex: sessionStorage.getItem("selIndex"),
+                    pLength: sessionStorage.getItem("pLength"),
+                    showSelSize: true,
+                    freightFee: 100,
+                    specialOffer: 3,
+                    maxBid: 0,
+                    minQuote: 0,
+                    //DisplayPriceState: null,
+                    pCateID: null,
+                    bankCode: null,
+                    bankName: null,
+                    bankAccount: "",
+                    bID: null,
+                    buyNow: null,
+                    memberQuote: [],
+                    selBid: {},
+                    bidID: sessionStorage.getItem("bidID"),
+  
+
+                }
+            },
+            mounted() {
+                let _this = this;
+                $('.credit_card_form').hide();
+                $(".add_card").click(function () {
+                    $(this).parent().next().slideToggle();
+                });
+
+                $('.selSizeHide').hide();
+
+                _this.getProductInfo();
+
+                //_this.getMemberBankInfo();
+
+            },
+            methods: {
+                async getProductInfo() {
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetProductInfo/${_this.pID}`);
+                        _this.productInfo = response.data;
+
+                        if (_this.pLength == "true" || _this.pLength == true) {
+                            _this.pLength = true;
+
+                        } else {
+                            _this.pLength = false;
+                        }
+                        // 預設資料
+                        _this.productInfo = _this.productInfo[0];
+
+                        _this.pCateID = _this.productInfo.pCateID;
+
+                        _this.getSizeAndBid();
+                    } catch (error) {
+                        console.log(error)
+                    }
+                },
+                async getSizeAndBid() {
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetSizeAndBid/${_this.pCateID}`);
+                        _this.SizeAndPriceList = response.data;
+                        if (_this.bidID) {
+                            let index, result;
+                            _this.DisplaySizeAndPriceList.forEach((item, i) => {
+                                if (item.bidID == _this.bidID) {
+                                    index = i;
+                                    result = item;
+                                }
+                            });
+                            _this.selectSizeItem(result.size, result.price, index, result.pID, result.bID, result.bidID);
+
+                        } else {
+                            //預設選取
+                            let list = _this.SizeAndPriceList;
+                            let i = _this.activeIndex;
+                            _this.selectSizeItem(list[i].pSize, list[i].pPrice, i, list[i].pID, list[i].bID, list[i].bidID);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                },
+                async getMaxMinPrice() {
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetMaxMinPrice/${_this.pID}`);
+                        _this.maxBid = response.data.maxBid;
+                        _this.minQuote = response.data.minQuote;
+                        if (_this.pPrice == _this.maxBid && _this.maxBid != 0) {
+                            _this.buyNow = true;
+                        } else {
+                            _this.buyNow = false;
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async getMemberBankInfo() {
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetMemberBankInfo/${_this.mID}`);
+                        if (response.data.mBankCode != "" || response.data.mBankAccount != "") {
+                            let res = response.data;
+                            _this.bankCode = res.mBankCode;
+                            _this.bankName = res.mBankName;
+                            _this.bankAccount = res.mBankAccount.toString();
+                                                      Swal.fire({
+                                icon: 'success',
+                                title: '匯入成功',
+                                text: '帳戶資料已成功匯入!'
+                            })
+                            console.log(typeof _this.bankAccount)
+
+                        }
+                        else {
+                            swal.fire({
+                                icon: 'error',
+                                title: '無法匯入資料',
+                                 text: '您會員中心尚未設定帳戶, 請填寫表格。'
+                            })
+                            _this.bankCode = "";
+                            _this.bankName = "";
+                            _this.bankAccount = "";
+
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                //async getMemberQuote() {
+                //    try {
+                //        let _this = this;
+                //        let response = await axios.get(`${webApiAddress}/GetMemberQuote/${_this.mID}`);
+                //        this.memberQuote = response.data;
+                //    } catch (error) {
+                //        console.log(error);
+                //    }
+                //},
+                selectSizeItem(pSize, pPrice, index, pID, bID, bidID) {
+                    let _this = this;
+                    _this.pSize = pSize;
+                    _this.pPrice = pPrice;
+                    _this.pID = pID;
+                    _this.bID = bID;
+                    _this.bidID = bidID;
+                    //let result = _this.memberQuote.filter(m => m.pID == _this.pID); //多筆
+                    // let result = _this.memberQuote.find(m => m.pID == _this.pID);
+
+                    //if(result){
+                    //     _this.pPrice = result.pPrice;
+                    //     _this.mQuote.quoteID = result.quoteID;
+                    //     console.log(_this.mQuote)
+                    // }
+                    // else{
+                    //     console.log("查無記錄")
+                    // }
+                    sessionStorage.setItem("pSize", _this.pSize);
+                    sessionStorage.setItem("pPrice", _this.pPrice);
+                    sessionStorage.setItem("selIndex", index);
+                    sessionStorage.setItem("pID", pID);
+                    sessionStorage.setItem("bID", bID);
+                },
+                saveBankAccount() {
+                    let _this = this;
+                    if (_this.bankCode == "" || _this.bankName == "" || _this.bankAccount == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '無法操作!',
+                            text: '請檢查收款帳戶是否填寫正確!',
+                        })
+                    } else {
+                        let request = {
+                            mID: _this.mID,
+                            mBankCode: _this.bankCode,
+                            mBankName: _this.bankName,
+                            mBankAccount: _this.bankAccount
+                        };
+                        try {
+                            axios.put(`${webApiAddress}/UpdataMemberBankInfo`, request)
+
+                            $('.credit_card_form').hide();
+                            Swal.fire({
+                                icon: 'success',
+                                title: '儲存成功',
+                                text: '銀行帳戶已儲存成功!'
+                            })
+
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }
+                },
+                back: function () {
+                    window.location = "/product_info"
+                },
+                next() {
+                    let _this = this;
+
+                    if (_this.bankCode == "" || _this.bankName == "" || _this.bankAccount == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '無法操作!',
+                            text: '請檢查收款帳戶是否填寫正確',
+                        })
+
+                    }
+                    else {
+                        if (_this.buyNow) {
+                            if (_this.DisplayPriceState = "目前沒有買家提交出價") {
+                                let request = {
+                                    info: "sell",
+                                    pID: _this.pID,
+                                    sID: _this.mID,
+                                    pName: _this.productInfo.pName,
+                                    pImg: _this.productInfo.pImg,
+                                    bID: _this.bID,
+                                    finalPrice: _this.TotalPrice,
+                                    sellerPrice: _this.pPrice,
+                                    bidID: _this.bidID,
+                                };
+                                try {
+                                    axios.post(`${webApiAddress}/InsertSellOrder`, request);
+                                    Swal.fire({
+                                        icon: 'success',
+                                                title: '完成',
+                                        text: '交易完成!',
+                                    })
+
+                                } catch (error) {
+                                    console.log(error)
+                                }
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '無法操作!',
+                                    text: '目前無買家出價無法交易!',
+                                })
+                            }
+                            
+                        }
+                        else {
+                            let request = {
+                                info: "quote",
+                                pID: _this.pID,
+                                sID: _this.mID,
+                                pPrice: _this.pPrice,
+                                finalPrice: _this.TotalPrice
+                            };
+                            try {
+                                console.log(request)
+                                axios.post(`${webApiAddress}/InsertSellerQuote`, request)
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '完成',
+                                    text: '您已完成報價!',
+                                })
+
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        }
+                    }
+                },
+                clickShowSize() {
+                    $('.selSizeHide').slideToggle();
+                },
+                Format(val) {
+                    return numeral(val).format("$0,0");
+                },
+                getInfo() {
+                    let _this = this;
+                    console.log(`↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓`);
+                    console.log(`bidID: ${_this.bidID}`)
+                    console.log(`pID: ${_this.pID}`);
+                    console.log(`sID: ${_this.mID}`);
+                    console.log(`bID: ${_this.bID}`);
+                    console.log(`pPrice: ${_this.pPrice}`);
+                    console.log(`pSize: ${_this.pSize}`);
+                    console.log(`activeIndex: ${_this.activeIndex}`);
+                    console.log(`productInfo: ${_this.productInfo}`);
+                    console.log(_this.productInfo);
+                    console.log(`SizeAndPriceList: ${_this.SizeAndPriceList}`);
+                    console.log(_this.SizeAndPriceList);
+                    console.log(`maxBid: ${_this.maxBid}`);
+                    console.log(`minQuote: ${_this.minQuote}`);
+                    console.log(`↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑`);
+                },
+                checkPrice() {
+                    let _this = this;
+                    if (_this.pPrice <= _this.maxBid) {
+                        _this.pPrice = _this.maxBid;
+                        _this.buyNow = true;
+                    } else {
+                        _this.buyNow = false;
+                    }
+                },
+
+            },
+            watch: {
+                pID: {
+                    handler: function () {
+                        this.getProductInfo();
+                        this.getMaxMinPrice();
+                    }
+                },
+                pPrice: {
+                    handler(newVal, oldVal) {
+                        console.log(`pPrice_watch`)
+                    },
+                },
+                maxBid: {
+                    handler(newVal, oldVal) {
+                    }
+                },
+                mID: {
+                    handler() {
+
+                    }
+                }
+
+            },
+            computed: {
+                TradeFee() {
+                    return this.pPrice == 0 ? "" : this.pPrice * 0.1;
+                },
+                TransferFee() {
+                    return 0;
+                    //return this.pPrice == 0 ? "" : this.pPrice * 0.03;
+                },
+                TotalPrice() {
+                    return this.pPrice == 0 ? "" :
+                        Math.round(this.pPrice - this.TradeFee - this.TransferFee - this.freightFee + this.TradeFee * this.specialOffer / 100);
+                },
+                DisplayTradeFee() {
+                    return this.Format(this.TradeFee);
+                },
+                DisplayTransFerFee() {
+                    return this.Format(this.TransferFee);
+                },
+                DisplayTotalPrice() {
+                    return this.Format(this.TotalPrice);
+                },
+                DisplayfreightFee() {
+                    return this.Format(this.freightFee);
+                },
+                DisplaySizeAndPriceList() {
+                    return this.SizeAndPriceList.map(item => {
+                        return {
+                            bID: item.bID != "" || item.bID != null ? item.bID : 0,
+                            pID: item.pID,
+                            size: item.pSize,
+                            price: item.pPrice,
+                            fPrice: item.pPrice != 0 ? this.Format(item.pPrice) : "無",
+                            bidID: item.bidID
+                        }
+                    })
+                },
+                DisplayMaxBid() {
+                    return this.maxBid == 0 ? " - " : this.Format(this.maxBid)
+                },
+                DisplayMinQuote() {
+                    return this.minQuote == 0 ? " - " : this.Format(this.minQuote)
+                },
+                DisplayBankAccount() {
+                    return typeof this.bankAccount == "string" ? `帳號後 5 碼為 ${this.bankAccount.substr(-5)}` : ""
+                },
+                DisplayEdit() {
+                    return this.DisplayBankAccount == "" ? `新增帳號` : `編輯帳號`
+                },
+                DisplayPriceState: {
+                    get() {
+                        return this.pPrice < this.maxBid && this.maxBid != 0 ? "輸入的賣價不可低於最高出價"
+                            : this.pPrice == this.maxBid && this.maxBid != 0 ? "您將以最高出價出售此商品"
+                                : this.maxBid == 0 ? "目前沒有買家提交出價" : this.DisplayPriceState = "";
+                    },
+                    set() {
+                        
+                    }
+
+                }
+            }
+        })
+    </script>
+
+}

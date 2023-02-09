@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "重設密碼";
+    ViewData["enTitle"] = "Reset";
+}
+@section Style{
+    <link href="~/css/sign.css" rel="stylesheet" />
+}
+<div id="Resetpwd">
+    <div class="index_space about_sign">
+        <div class="container">
+            <div class="card resetcard">
+                <div>
+                    <h3>重設密碼</h3>
+                    <p>請輸入新的密碼</p>
+                    <p class="password-text">至少 8 個字元、1 個大寫字母、1 個數字和 1 個符號</p>
+                    <input type="password" id="PassWord" placeholder="密碼*" required>
+                    <i class="far fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                    @*密碼確認*@
+                    <br />
+                    <br />
+                    <input type="password" id="PassWordAgain" placeholder="請再次輸入密碼*" required>
+                    <i class="far fa-eye" id="togglePassword1" style="cursor: pointer;"></i>
+                    <br />
+                    <button type="submit" class="btn_resetbtn btn-dark" @@click="update(D_MemberDTO)">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="~/js/seepassword.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var SignVue = new Vue
+            ({
+                el: "#Resetpwd",
+                name: "Resetpwd",
+                data: {
+                    //mID: sessionStorage.getItem("mID"),
+                    localmID: localStorage.getItem("localmID"),
+                    Filter: "",
+                },
+                mounted: function () {
+                    let _this = this;
+                },
+                methods: {
+                    update: function (D_MemberDTO) {
+                        let _this = this;
+                        var request = {};
+
+                        // 至少八個字，一個字母和一個數字
+                        var pwdRegxp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                        var Firstpwd = $("#PassWord").val();
+
+                        var Secondpwd = $("#PassWordAgain").val();
+                        request.MemberId = _this.localmID;
+
+                        if (Firstpwd != "" || Secondpwd != "") {
+                            if (pwdRegxp.test(Firstpwd) == true) {
+
+                                if (Firstpwd == Secondpwd) {
+                                    request.Password = $("#PassWord").val();
+
+                                    Swal.fire({
+                                        title: '確定要修改嗎?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: '成功',
+                                                showConfirmButton: false,
+                                            })
+                                            axios.put(`${webApiBaseAddress}/api/D_SignLogin/${_this.localmID}`, request).then(
+                                                response => {
+                                                    localStorage.removeItem("localmID")
+                                                    setTimeout(function(){
+                                                    window.location = "/D_Personal/index"
+                                                    },1500);
+                                                }
+                                            );
+                                        }
+                                    })
+                                   
+                                } else {
+                                    alert("第二次輸入不相符");
+                                }
+
+                            } else {
+                                alert("密碼格式錯誤");
+                            }
+                        } else {
+                            alert("有地方空白喔")
+                            return;
+                        }
+                    },
+                },
+            });
+    </script>
+}
+

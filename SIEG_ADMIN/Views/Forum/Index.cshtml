@@ -1,0 +1,134 @@
+﻿<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 新增btn & 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+            <div>
+                @*<div class="d-inline-block">
+                    <a class="category_btn" asp-controller="news" asp-action="category">
+                        <i class="bx bx-list-ul"></i>
+                        <span>分類管理</span>
+                    </a>
+                </div>*@
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="ForumListVue">
+            <div class="table-responsive text-nowrap">
+                <table class="table banner_table">
+                    <thead>
+                        <tr>
+                            <th class="img">圖片</th>
+                            <th class="sort">分類</th>
+                            <th class="title">標題</th>
+                            <th class="link">發佈日期</th>
+                            <th class="state">狀態</th>
+                            <th class="btn"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr v-for="item in PostDTOs">
+                            <td>
+                                <img v-if="item.img != 'https://localhost:7002/images/forum/post/none-img.jpg'" style="max-height:220px" :src=item.img>
+                            </td>
+                            <td>
+                                <div>{{item.category}}</div>
+                            </td>
+                            <td>
+                                <div class="one-row">{{item.title}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.addTime}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.valIdity}}</div>
+                            </td>
+                            <td>
+                                <div class="tb_btn del" @@click="deleteArticles(item.forumArticleId)">
+                                    <a>
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var postVue = new Vue({
+            el: "#ForumListVue",
+            name: "ForumListVue",
+            data: {
+                PostDTOs: [],
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getPostDTOs();
+            },
+            methods: {
+                getPostDTOs: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/G_ForumArticles`).then(
+                        response => {
+                            _this.PostDTOs = response.data.reverse();
+                            var PostList = [];
+                            for (let i = 0; i < _this.PostDTOs.length; i++) {
+                                let item = {};
+                                item = _this.PostDTOs[i];
+                                item.addTime = moment(item.addTime).add(8, 'hours').format("YYYY年M月D日 h:m A");
+                                item.img = "https://localhost:7002"+(item.img);
+                                item.valIdity = "顯示";
+                                PostList.push(item);
+                            }
+                            _this.PostDTOs = PostList;
+                            if (PostList.length == 0) {
+                                $(".no_data").show();
+                            }
+                            else {
+                                $(".no_data").hide();
+                            }
+                            //console.log(_this.PostDTOs)
+                        }
+                    );
+                },
+                deleteArticles: function (Id) {
+                    let _this = this;
+                    var ret = Swal.fire({
+                        title: '確定真要刪除?',
+                        text: "刪除便不可恢復!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete(`${webApiBaseAddress}/api/G_ForumArticles/${Id}`).then
+                            (
+                                response => {
+                                    _this.getPostDTOs();
+                                }
+                            )
+                        }
+                    });
+                },
+            },
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "免責聲明";
+    ViewData["EnTitle"] = "DISCLAIMER";
+}
+
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(images/1920x350-1.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">@ViewData["EnTitle"]</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="index_space disclaimer_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                <div class="disclaimer_block">
+                    <ul>
+                        <li>
+                            <h4>免責聲明</h4>
+                            <p>本網頁所載的所有資料、商標、標誌、圖像、短片、聲音檔案、連結及其他資料等（以下簡稱「資料」），只供參考之用，SIEG（以下簡稱「本網站」）將會隨時更改資料，並由本網站決定而不作另行通知。本網站不會對任何錯誤或遺漏承擔責任。</p>
+                            <p>本網站不會對使用或任何人士使用本網頁而引致任何損害（包括但不限於電腦病毒、系統固障、資料損失）承擔任何賠償。本網頁可能會連結至其他機構所提供的網頁，但這些網頁並不是由本網站所控制。本網站不會對這些網頁所顯示的內容作出任何保證或承擔任何責任。閣下如瀏覽這些網頁，將要自己承擔後果。</p>
+                            <p>本網站純屬學生練習作業，無任何商業用途。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_footerPartial" />

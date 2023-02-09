@@ -1,0 +1,105 @@
+﻿@section Style{
+
+    }
+
+    <!-- 最上方的 bar -->
+    <div class="topnav">
+        <a href="https://a0ec-111-242-180-163.jp.ngrok.io/login">Line Login</a>
+        <a href="https://a0ec-111-242-180-163.jp.ngrok.io/profile">User Profile</a>
+        <a href="https://a0ec-111-242-180-163.jp.ngrok.io/products">Line Pay</a>
+    </div>
+    <!-- 商品畫面 -->
+    <center>
+        <table>
+            <thead>
+                <tr>
+                    <th> 測試商品 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://static.accupass.com/org/2011051025162614811630.jpg"></td>
+                </tr>
+                <tr>
+                    <td> 價格 : 5 </td>
+                </tr>
+                <tr>
+                    <td> 購買數量 : 2 </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"> 總金額 : 10 </td>
+                </tr>
+                <tr>
+                    <td align="center"><button onclick="requestPayment()"> Line Pay 付款</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+
+    @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.1/dist/umd/uuidv4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <!-- Template Javascript -->
+
+
+    <script>
+        // products page
+        let baseLoginPayUrl = 'https://localhost:7052/api/LinePay/';
+        function requestPayment() {
+            // 交易訂單假資料
+            payment = {
+                amount: 3998,
+                currency: "TWD",
+                orderId: Date.now().toString(), //使用 Timestamp 當作 orderId
+                packages: [
+                    {
+                        id: "20191011I001",
+                        amount: 3998,
+                        name: "測試",
+                        products: [
+                            {
+                                name: "測試商品",
+                                imageUrl: "https://static.accupass.com/org/2011051025162614811630.jpg",
+                                quantity: 2,
+                                price: 1999,
+                            }
+                        ]
+                    },
+                ],
+                RedirectUrls: {
+                    ConfirmUrl: "https://a0ec-111-242-180-163.jp.ngrok.io/confirm",
+                    CancelUrl: "https://c4f0-61-63-154-173.jp.ngrok.io/api/LinePay/Cancel",
+                },
+            };
+            console.log(payment);
+
+            // 送出 交易申請至商家 server
+            $.post({
+                url: baseLoginPayUrl + "Create",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(payment),
+                success: (res) => {
+                    setTimeout(() => {
+                        window.location = res.info.paymentUrl.web;
+                    }, 4000);
+                    //window.location = res.info.paymentUrl.web;
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+        }
+    </script>
+
+
+    }

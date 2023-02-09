@@ -1,0 +1,137 @@
+﻿<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 新增btn & 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <a class="add_btn" asp-controller="Home" asp-action="add">
+                    <i class="bx bx-plus"></i>
+                    <span>新增</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="bannerVue">
+            <div class="table-responsive text-nowrap">
+                <table class="table banner_table">
+                    <thead>
+                        <tr>
+                            <th class="img">圖片</th>
+                            <th class="title">標題</th>
+                            <th class="link">連結</th>
+                            <th class="state">狀態</th>
+                            <th class="btn"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr v-for="item in BannerDTO">
+                            <td>
+                                <img :src="'https://localhost:7002'+item.bannerImg">
+                            </td>
+                            <td>
+                                <div>{{item.bannerTitle}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.bannerLink}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.bannerState}}</div>
+                            </td>
+                            <td>
+                                <div class="tb_btn edit">
+                                    <a @@click="editBanner(item.bannerId)">
+                                        <i class="bx bx-pencil"></i>
+                                    </a>
+                                </div>
+                                <div class="tb_btn del">
+                                    <a @@click="deleteBanner(item.bannerId)">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+
+        $(".back_home").addClass('active');
+
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#bannerVue",
+            name: "bannerVue",
+            data: {
+                BannerDTO: [],
+                Filter: "",
+                BannerId: null,
+                BannerImg: null,
+                BannerTitle: null,
+                BannerLink: null,
+                BannerValIdity: null,
+                bannerState: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getBannerDTO();
+            },
+            methods: {
+                getBannerDTO: async function () {
+                    let _this = this;
+                    let response = await axios.get(`${webApiBaseAddress}/api/E_Banner/Boss`);
+                    _this.BannerDTO = response.data;
+                    var BannerList = [];
+                    for (let i = 0; i < _this.BannerDTO.length; i++) {
+                        let item = {};
+                        item = _this.BannerDTO[i];
+                        BannerList.push(item);
+
+                        var str = item.bannerValIdity;
+                        if (str == false) {
+                            item.bannerState = "不顯示"
+                        }
+                        else {
+                            item.bannerState = "顯示"
+                        }
+                    }
+                },
+                deleteBanner: function (id) {
+                    let _this = this;
+                    var ret = confirm("確定要刪除嗎?");
+                    if (ret == true) {
+                        axios.delete(`${webApiBaseAddress}/api/E_Banner/${id}`).then(
+                            response => {
+                                //alert(response.data);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '刪除成功！',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                _this.getBannerDTO();
+                            }
+                        );
+                    }
+                },
+                editBanner: function (bnID) {
+                    sessionStorage.setItem("bnID", bnID);
+                    window.location = "/Home/edit";
+                },
+            },
+        });
+
+    </script>
+}

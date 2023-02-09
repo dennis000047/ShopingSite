@@ -1,0 +1,99 @@
+.grade-buyer {
+    position: relative;
+    margin-top: 65px;
+    line-height: 25px;
+    font-size: 18px;
+}
+
+.dennis_block {
+    /* position: absolute; */
+    padding: 15px;
+    /* background-color: rgba(255, 255, 255, 0.2); */
+    /* text-align: left; */
+    color: #000;
+}
+
+.gradeing-pg__grade-lev {
+    text-align: center;
+}
+
+.gradeing-pg__lev-lev {
+    text-align: left;
+}
+
+.gradeing-pg-foot {
+    position: absolute;
+    bottom: 0px;
+}
+
+/* .gradeing-pg-foot-bt {
+    position: absolute;
+    right: 0;
+
+} */
+
+
+
+
+
+
+
+
+
+
+
+/* 元 */
+#svg circle {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+    stroke: rgb(219, 217, 217);
+    stroke-width: 1em;
+}
+
+#svg #bar {
+    stroke: #006240;
+}
+
+#cont {
+    display: block;
+    height: 200px;
+    width: 200px;
+    margin: 2em auto;
+    /* box-shadow: 0 0 1em #006240; */
+    border-radius: 100%;
+    position: relative;
+}
+
+#cont:after {
+    position: absolute;
+    display: block;
+    height: 160px;
+    width: 160px;
+    left: 50%;
+    top: 50%;
+    box-shadow: inset 0 0 1em rgb(255, 253, 253);
+    content: attr(data-pct)"%";
+    margin-top: -80px;
+    margin-left: -80px;
+    border-radius: 100%;
+    line-height: 160px;
+    font-size: 2em;
+    text-shadow: 0 0 0.5em rgb(255, 255, 255);
+}
+
+input {
+    color: #000;
+}
+
+#svg {
+    transform: rotate(-90deg);
+}
+
+
+
+/* Make things perty  */
+/* html {  height: 100%;}
+  body { font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;  background-color: #0d0d0d; color: #fff; height: 100%; padding-top: 2em; text-align: center;}
+  h1, h2{ margin: 0; text-transform: uppercase;text-shadow: 0 0 0.5em black;}
+  h2 { font-weight: 300}
+  input { border: 1px solid #666; background: #333; color: #fff; padding: 0.5em; box-shadow: none; outline: none !important; margin: 1em  auto; text-align: center;} */

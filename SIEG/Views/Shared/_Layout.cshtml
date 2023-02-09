@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - S.I.E.G</title>
+
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Open+Sans:wght@400;500;600&display=swap"
+          rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="~/lib/animate/animate.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/lightbox/css/lightbox.min.css" rel="stylesheet" asp-append-version="true" />
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/responsive.css" rel="stylesheet" asp-append-version="true" />
+
+    <style>
+        .member_login.div_hide{
+            display:none !important;
+        }
+
+        .member_login.div_show {
+            display: block !important;
+        }
+    </style>
+
+    @await RenderSectionAsync("Style", required: false)
+
+</head>
+<body>
+
+    <!-- header -->
+    <div class="header_sec sticky-top" id="headerVue">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-5">
+                    <a class="d-flex align-items-center header_logo" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/logo.png" alt="logo-image" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-9 col-7 d-flex align-items-center justify-content-end">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                             aria-labelledby="offcanvasNavbarLabel">
+                            <div class="offcanvas-header">
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <div class="navbar-nav ms-auto">
+                                    <a class="nav-item nav-link" asp-controller="about" asp-action="index">關於我們</a>
+                                    <div class="nav-item dropdown">
+                                        <a class="nav-link" asp-controller="news_list" asp-action="index">最新消息</a>
+                                        <i class="bi bi-chevron-down dropdown-toggle" data-bs-toggle="dropdown"></i>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" v-for="item in NewsSortDTO" @@click="newsSortToList(item.newssortName)">{{item.newssortName}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="nav-item dropdown">
+                                        <a class="nav-link" asp-controller="product_list" asp-action="index">商品介紹</a>
+                                        <i class="bi bi-chevron-down dropdown-toggle" data-bs-toggle="dropdown"></i>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" v-for="item in ProductSortDTO" @@click="ProductSortToList(item.productsortName)">{{item.productsortName}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="nav-item dropdown">
+                                        <a class="nav-link" asp-controller="forum_list" asp-action="index">討論專區</a>
+                                        <i class="bi bi-chevron-down dropdown-toggle" data-bs-toggle="dropdown"></i>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" v-for="item in ProductSortDTO" @@click="ForumSortToList(item.productsortName)">{{item.productsortName}}</a>
+                                        </div>
+                                    </div>
+                                    <a class="nav-item nav-link" asp-controller="contact" asp-action="index">聯絡我們</a>
+                                    <div class="nav-item dropdown d-block d-lg-none member_login">
+                                        <a asp-controller="Member" asp-action="Kyccertified" class="nav-link">會員中心</a>
+                                        <i class="bi bi-chevron-down dropdown-toggle" data-bs-toggle="dropdown"></i>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="Kyccertified">KYC權限認證</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="Member_buyerorder">購買</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="SellerAddProduct">出售</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="Member_personal">個人資料</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="Member_coupon">優惠券</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="Member_ProductCollection">商品收藏組合</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="FavoritePosts">貼文收藏組合</a>
+                                            <a class="dropdown-item" asp-controller="Member" asp-action="SettingCreditcard">設定</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="header_icon">
+                            <li class="header_user">
+                                <a @@click="memberLogin">
+                                    <img src="~/images/icon-user.png" alt="img">
+                                </a>
+                            </li>
+                            @*<li class="header_notice">
+                                <a href="D_Personal">
+                                    <img src="~/images/icon-notice.png" alt="img">
+                                </a>
+                                <span class="new_notice"></span>
+                            </li>*@
+                            <li class="header_search">
+                                <a href="javascript:void(0)">
+                                    <img src="~/images/icon-search.png" alt="img">
+                                </a>
+                            </li>
+                        </ul>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                                aria-controls="offcanvasNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- search form -->
+        <div class="header_search_form">
+            <form action="ProductList">
+                <button type="button" class="fa fa-search" @@click="searchProsuct"></button>
+                <input type="text" name="search_content" placeholder="Search" class="searchInput">
+            </form>
+        </div>
+    </div>
+
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+
+    @await RenderSectionAsync("footer", required: false)
+
+    <!-- Top -->
+    <a href="#" class="back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/wow/wow.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/counterup/counterup.min.js"></script>
+    <script src="~/lib/parallax/parallax.min.js"></script>
+    <script src="~/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#headerVue",
+            name: "headerVue",
+            data: {
+                Filter: "",
+                NewsSortDTO: [],
+                newssortId: null,
+                newssortName: null,
+                ProductSortDTO: [],
+                productsortId: null,
+                productsortImg: null,
+                productsortBrand: null,
+                productsortSort: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getNewsSortDTO();
+                _this.getProductSortDTO();
+
+            },
+            methods: {
+                getNewsSortDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_NewsSort`).then(
+                        response => {
+                            _this.NewsSortDTO = response.data;
+                            var NewsSort = [];
+                            for (let i = 0; i < _this.NewsSortDTO.length; i++) {
+                                let item = {};
+                                item = _this.NewsSortDTO[i];
+                                NewsSort.push(item);
+                            }
+                            _this.NewsSortDTO = NewsSort;
+                        }
+                    );
+                },
+                newsSortToList: function (sortName) {
+                    sessionStorage.setItem("indexNSortName", sortName);
+                    window.location = "/news_list";
+                },
+                getProductSortDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort`).then(
+                        response => {
+                            _this.ProductSortDTO = response.data;
+                            //console.log(response.data);
+                        }
+                    );
+                },
+                ProductSortToList: function (sortName) {
+                    sessionStorage.setItem("indexPSortName", sortName);
+                    window.location = "/product_list";
+                },
+                ForumSortToList: function (sortName) {
+                    sessionStorage.setItem("indexPSortName", sortName);
+                    window.location = "/forum_list";
+                },
+                memberLogin: function () {
+                    mID = sessionStorage.getItem("mID");
+                    //console.log(mID);
+                    if (mID == "" || mID == null) {
+                        window.location = "/D_Personal";
+                    }
+                    else {
+                        window.location = "/Member/Kyccertified";
+                    }
+                },
+                searchProsuct: function () {
+                    sessionStorage.setItem("pKeyword", $(".searchInput").val());
+                    window.location = "/product_list";
+                },
+            },
+        });
+    </script>
+    <script>
+        let mID = sessionStorage.getItem("mID");
+        if (mID == "" || mID == null) {
+            $('.member_login').hide();
+            $('.member_login').addClass('div_hide');
+        }
+        else {
+            $('.member_login').show();
+            $('.member_login').addClass('div_show');
+        }
+
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SIEG
+build_property.RootNamespace = SIEG
+build_property.ProjectDir = C:\Users\iSpan\Desktop\ShopingSite\SIEG\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\iSpan\Desktop\ShopingSite\SIEG
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/about/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcYWJvdXRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/confirm/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY29uZmlybVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/disclaimer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZGlzY2xhaW1lclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/D_Personal/D_Personal_Circle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRF9QZXJzb25hbFxEX1BlcnNvbmFsX0NpcmNsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/D_Personal/Forgetpwd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRF9QZXJzb25hbFxGb3JnZXRwd2QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/D_Personal/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRF9QZXJzb25hbFxpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/D_Personal/ValidGoogleLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRF9QZXJzb25hbFxWYWxpZEdvb2dsZUxvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/forum_article/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZm9ydW1fYXJ0aWNsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/forum_list/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZm9ydW1fbGlzdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/forum_post/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZm9ydW1fcG9zdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/GradeIntroduce/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZGVJbnRyb2R1Y2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/FavoritePosts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXEZhdm9yaXRlUG9zdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Kyccertified.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXEt5Y2NlcnRpZmllZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Mailinginformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1haWxpbmdpbmZvcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Member_buyerorder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1lbWJlcl9idXllcm9yZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Member_coupon.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1lbWJlcl9jb3Vwb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Member_Membermodification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1lbWJlcl9NZW1iZXJtb2RpZmljYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Member_personal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1lbWJlcl9wZXJzb25hbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Member_ProductCollection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXE1lbWJlcl9Qcm9kdWN0Q29sbGVjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Passwordmodification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXFBhc3N3b3JkbW9kaWZpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/PaymentInformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXFBheW1lbnRJbmZvcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/SellerAddProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXFNlbGxlckFkZFByb2R1Y3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/Sellerinformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXFNlbGxlcmluZm9ybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Member/SettingCreditcard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXFNldHRpbmdDcmVkaXRjYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/news_info/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbmV3c19pbmZvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/news_list/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbmV3c19saXN0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/order/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3Ncb3JkZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/products/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/product_info/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdF9pbmZvXGluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/product_list/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccHJvZHVjdF9saXN0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/ResetPwd/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzZXRQd2RcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/sell/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3Ncc2VsbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_FooterPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXJQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_MemberBanner.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9NZW1iZXJCYW5uZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_Membersidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9NZW1iZXJzaWRlYmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_NoDataPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob0RhdGFQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/iSpan/Desktop/ShopingSite/SIEG/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-7tq2ntw0nk

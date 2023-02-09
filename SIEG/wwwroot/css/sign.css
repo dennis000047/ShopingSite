@@ -1,0 +1,96 @@
+.signUp1 {
+    width: 420px;
+    height: 520px;
+    margin: 0px auto;
+}
+
+.about_sign {
+    position: relative;
+}
+
+.about_fz {
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'proxima-nova', sans-serif;
+    /* text-align: center; */
+    /* padding: 25px; */
+
+}
+
+#tab-container {
+    padding: 16px;
+}
+
+.password-text {
+    font-family: 'proxima-nova', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #010101;
+    margin: 0 0 4px 0;
+}
+
+.center-text {
+    text-align: center;
+    color: #949494;
+    font-family: 'proxima-nova', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+
+
+.btn {
+    border: solid rgb(0, 0, 0) 1px;
+}
+
+.nav-sign {
+    margin: auto;
+}
+
+.login-f {
+
+    /* padding: 2px; */
+    font-size: 14px;
+    font-family: 'proxima-nova', sans-serif;
+}
+
+
+.about_sign .nav-item {
+    width: 50%;
+
+
+}
+
+.about_sign .nav-tabs .nav-link {
+    width: 100%;
+    border: unset;
+    border-bottom: 2px solid #ddd;
+    color: #777;
+}
+
+.about_sign .nav-tabs .nav-link.active {
+    color: #006340;
+    border-color: #006340;
+}
+
+
+@media (max-width: 480.5px) {
+
+    .signUp1 {
+        width: 100%;
+    }
+
+}
+
+
+/* 忘記密碼 */
+
+.resetcard {
+    width: 100%;
+    height: 250px;
+    border: solid 0.5px #e0e0e0;
+    background-color: #ffffff;
+    padding: 16px;
+    text-align: center;
+}

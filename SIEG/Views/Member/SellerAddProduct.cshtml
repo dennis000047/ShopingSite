@@ -1,0 +1,465 @@
+﻿@{
+    ViewData["Title"] = "賣家售價訂單";
+    ViewData["enTitle"] = "SellerAddProduct";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-9">
+                    <div class="orderTopWidth">
+                        <h4>出售</h4>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#Currently"
+                                        type="button" role="tab" aria-selected="true">
+                                    <a class="orderTopWidth-1">目前</a>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#determined" type="button"
+                                        role="tab" aria-selected="false" @@click="getDTOes">
+                                    <a class="orderTopWidth-1">待定 </a>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#history" type="button"
+                                        role="tab" aria-selected="false">
+                                    <a class="orderTopWidth-1">歷史紀錄</a>
+                                </button>
+                            </li>
+                        </ul>
+                        <hr>
+                        </a>
+                    </div>
+                    <div class="tab-content">
+                        <!-- 目前出價 -->
+                        <div class="tab-pane fade show active" id="Currently" role="tabpanel">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>商品</th>
+                                        <th>報價</th>
+                                        @* <th>最低買價</th>*@
+                                        <th>最高買價</th>
+                                        <th>出售日期</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in SellerAddProductsDTOes">
+                                        <template v-if="item.Edit==true">
+                                            <td class="imgTd" data-title="商品">
+                                                <img :src="item.imgFront" class="imgWidth">
+                                                <div class="imgMargin">
+                                                    <div>{{item.productName}}</div>
+                                                    <span class="nameDilute">{{item.model}}</span>
+                                                    <div v-if="item.size!= 0">
+                                                        <p class=" badge rounded-pill Pcolor">美國尺碼:{{item.size}}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td data-title="報價">NT$<input v-model="item.price" /></td>
+                                            @* <td data-title="最低報價">NT${{item.lowPrice}}</td>*@
+                                            <td data-title="最高出價">NT${{item.hightPrice}}</td>
+                                            <td data-title="到期日">{{item.newShelfdate}}</td>
+                                            <td data-title="">
+                                                <button type="button" class="btn btncolor" @@click="updatebid(item)">確定</button>
+                                                <button type="button" class="btn btn-link" @@click="cancel">
+                                                    <img src="~/images/Benicon/turn-back.png" class="AccountIcon">
+                                                </button>
+                                            </td>
+                                        </template>
+                                        <template v-else>
+                                            <td class="imgTd" data-title="商品">
+                                                <img :src="item.imgFront" class="imgWidth">
+                                                <div class="imgMargin">
+                                                    <div>{{item.productName}}</div>
+                                                    <span class="nameDilute">{{item.model}}</span>
+                                                    <div v-if="item.size!= 0">
+                                                        <p class=" badge rounded-pill Pcolor">美國尺碼:{{item.size}}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td data-title="報價">NT${{item.price}}</td>
+                                            @* <td data-title="最低報價">NT${{item.lowPrice}}</td>*@
+                                            <td data-title="最高出價">NT${{item.hightPrice}}</td>
+                                            <td data-title="到期日">{{item.newShelfdate}}</td>
+                                            <td data-title="">
+                                                <button type="button" class="btn btncolor" @@click="bidedit(item.sellerAddProductID)">修改出價</button>
+                                                <button type="button" class="btn btn-link" @@click="deleteOrder(item.sellerAddProductID)">
+                                                    <img src="~/images/Benicon/trash.png" class="AccountIcon">
+                                                </button>
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 待定 -->
+                        <div class="tab-pane fade" id="determined" role="tabpanel">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>商品</th>
+                                        <th>訂單編號</th>
+                                        <th>成交價格</th>
+                                        <th>狀態</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in SellOrderDTOes" v-if="item.state!='已完成' && item.state!='退貨已完成'">
+                                        @* <template v-if="item.state=='商品已送達七天鑑賞'">
+                                        <td class="imgTd" data-title="商品">
+                                        <img :src="item.imgFront" class="imgWidth">
+                                        <div class="imgMargin">
+                                        <div>{{item.productName}}</div>
+                                        <span class="nameDilute">{{item.model}}</span>
+                                        <div>
+                                        <p class=" badge rounded-pill Pcolor">美國尺碼:{{item.size}}</p>
+                                        </div>
+                                        </div>
+                                        </td>
+                                        <td data-title="訂單編號">{{item.orderId}}</td>
+                                        <td data-title="成交價格">NT${{item.price}}</td>
+                                        <td data-title="狀態">{{item.state}}</td>
+                                        <td>
+                                        <button type="button" class="btn btncolor-2" @@click="updateOrder(item)">確認無誤紐</button>
+                                        <button type="button" class="btn btncolor" @@click="returnthegoods(item)">退貨紐</button>
+                                        </td>
+                                        </template>*@
+                                        <td class="imgTd" data-title="商品">
+                                            <img :src="item.imgFront" class="imgWidth">
+                                            <div class="imgMargin">
+                                                <div>{{item.productName}}</div>
+                                                <span class="nameDilute">{{item.model}}</span>
+                                                <div v-if="item.size!= 0">
+                                                    <p class=" badge rounded-pill Pcolor">美國尺碼:{{item.size}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-title="訂單編號">{{item.orderId}}</td>
+                                        <td data-title="成交價格">NT${{item.price}}</td>
+                                        <td data-title="狀態">{{item.state}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 歷史紀錄 -->
+                        <div class="tab-pane fade" id="history" role="tabpanel">
+                            <div class="searchlocation">
+                                <input class="form-control" type="text" placeholder="收尋名稱" id="aaaa" v-model="FilterSellerOrder" @@keyup.enter="filtersellerorder" />
+                                <button type="button" class="btn" id="btnlocation" @@click="filtersellerorder">篩選</button>
+                            </div>
+                            <hr>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>商品</th>
+                                        <th>訂單編號</th>
+                                        <th>購買日期</th>
+                                        <th>成交價錢</th>
+                                        <th>狀態</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="detailbgcolor" data-title="商品" v-for="item in SellOrderDTOes" v-if="item.state=='已完成' || item.state=='退貨已完成'">
+                                        <td class="imgTd-1" data-bs-toggle="modal" :data-bs-target="'#'+item.num" :id="item.orderId">
+                                            <img :src="item.imgFront" class="imgWidth">
+                                            <div class="imgMargin" :id="item.orderId">
+                                                <div :id="item.orderId">{{item.productName}}</div>
+                                                <span :id="item.orderId" class="nameDilute">{{item.model}}</span>
+                                                <div :id="item.orderId" v-if="item.size!= 0">
+                                                    <p class=" badge rounded-pill Pcolor">美國尺碼:{{item.size}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-title="訂單編號">{{item.orderId}}</td>
+                                        <td data-title="購買日期">{{item.newCompleteTime}}</td>
+                                        <td data-title="成交價錢">NT${{item.price}}</td>
+                                        <td data-title="狀態">{{item.state}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- modal -->
+        <div v-for="item in SellOrderDTOes">
+            <div class="modal fade" :id="item.num" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">訂單細節</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img :src="item.imgFront" class="imgWidth">
+                            <div class="orderdetail">
+                                <span>訂單編號:</span>
+                                <span>{{item.orderId}}</span>
+                            </div>
+                            <div class="orderdetail">
+                                <span>商品名稱:</span>
+                                <span>{{item.productName}}</span>
+                            </div>
+                            <div class="orderdetail" v-if="item.size!= 0">
+                                <span>商品尺寸:</span>
+                                <span>美國尺碼:{{item.size}}</span>
+                            </div>
+                            <div class="orderdetail">
+                                <span>賣出日期:</span>
+                                <span>{{item.newCompleteTime}}</span>
+                            </div>
+                            <div class="orderdetail">
+                                <span>售出價錢:</span>
+                                <span>NT${{item.price}}</span>
+                            </div>
+                            <div class="orderdetail">
+                                <span>訂購人:</span>
+                                <span>{{item.receiver}}</span>
+                            </div>
+                            @*	<div class="orderdetail">
+                            <span>收貨人:</span>
+                            <span>盧冠佑</span>
+                            </div>*@
+                            <div class="orderdetail">
+                                <span>寄送地址:</span>
+                                <span>{{item.shippingAddress}}</span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $('.SidebarSellerAddProduct').css("background", "#ededed");
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                SellOrderDTOes: [],
+                SellerAddProductsDTOes: [],
+                PersonalDTOes: {},
+                FilterSellerOrder: "",
+                //Id: null,
+                num: null,
+                newCompleteTime: null,
+                newShelfdate: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getSellOrderDTOes();
+                _this.getSellerAddProductsDTOes();
+                _this.getPersonalDTOes();
+            },
+            methods: {
+                getSellOrderDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_Sellerorder/${_this.mID}`).then(
+                        response => {
+                            _this.SellOrderDTOes = response.data;
+                            var SellOrderList = [];
+                            for (var i = 0; i < _this.SellOrderDTOes.length; i++) {
+                                var item = {};
+                                item = _this.SellOrderDTOes[i];
+                                item.num = "A" + item.orderId;
+                                var str = item.completeTime;
+                                item.newCompleteTime = str.split("T")[0];
+                                SellOrderList.push(item);
+
+                            }
+                            _this.SellOrderDTOes = SellOrderList;
+                        }
+                    );
+                },
+                getSellerAddProductsDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_SellerAddProducts/${_this.mID}`).then(
+                        response => {
+                            _this.SellerAddProductsDTOes = response.data;
+                            var SellerAddProductsList = [];
+                            for (var i = 0; i < _this.SellerAddProductsDTOes.length; i++) {
+                                var item = {};
+                                item = _this.SellerAddProductsDTOes[i];
+                                item.Edit = false;
+                                var str = item.shelfdate;
+                                item.newShelfdate = str.split("T")[0];
+                                SellerAddProductsList.push(item);
+
+                            }
+                            _this.SellerAddProductsDTOes = SellerAddProductsList;
+                        }
+                    );
+                },
+
+                bidedit: function (bidid) {
+                    let _this = this;
+                    var SellerAddProductsList = [];
+                    for (var i = 0; i < _this.SellerAddProductsDTOes.length; i++) {
+                        var item = {};
+                        item = _this.SellerAddProductsDTOes[i];
+                        if (bidid == _this.SellerAddProductsDTOes[i].sellerAddProductID) {
+                            item.Edit = true;
+                        }
+                        else {
+                            item.Edit = false;
+                        }
+                        SellerAddProductsList.push(item);
+                    }
+                    _this.SellerAddProductsDTOes = SellerAddProductsList;
+                },
+
+                cancel: function () {
+                    let _this = this;
+                    var SellerAddProductsList = [];
+                    for (var i = 0; i < _this.SellerAddProductsDTOes.length; i++) {
+                        var item = {};
+                        item = _this.SellerAddProductsDTOes[i];
+                        item.Edit = false;
+                        SellerAddProductsList.push(item);
+                    }
+                    _this.SellerAddProductsDTOes = SellerAddProductsList;
+                    _this.getSellerAddProductsDTOes();
+                },
+
+                getDTOes: function () {
+                    this.FilterSellerOrder = "";
+                    let _this = this;
+                    _this.getSellOrderDTOes();
+                },
+
+                deleteOrder: function (orderId) {
+                    let _this = this;
+                    //var ret = confirm("確定要刪除嗎?");
+                    Swal.fire({
+                        title: '確定要刪除嗎?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '刪除成功',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            axios.delete(`${webApiBaseAddress}/api/B_SellerAddProducts/${orderId}`).then(
+                                response => {
+                                    _this.getSellerAddProductsDTOes();
+                                }
+                            );
+                        }
+                    })
+                    //if (ret == true) {
+                    //    axios.delete(`${webApiBaseAddress}/api/B_SellerAddProducts/${orderId}`).then(
+                    //        response => {
+                    //            alert(response.data);
+                    //            _this.getSellerAddProductsDTOes();
+                    //        }
+                    //    );
+                    //}
+                },
+                updatebid: function (item) {
+                    let _this = this;
+                    var request = {};
+                    //var Today = new Date();
+                    request.Edit = item.Edit;
+                    request.SellerAddProductID = item.sellerAddProductID;
+                    request.imgFront = item.imgFront;
+                    request.newShelfdate = item.newShelfdate;
+                    request.price = item.price;
+                    request.shelfdate = item.shelfdate;
+                    request.productId = item.productId;
+                    request.productName = item.productName;
+                    request.size = item.size;
+                    request.memberId = item.memberId;
+                    request.lowPrice = item.lowPrice;
+                    request.hightPrice = item.hightPrice;
+                    request.finalPrice = parseInt(item.price) - (parseInt(item.price) * (0.1));
+                    if (item.price >= item.hightPrice) {
+                        //alert(item.productId);
+                        //alert(item.buyerBidID);
+                        sessionStorage.setItem("pID", item.productId);
+                        sessionStorage.setItem("bidID", item.buyerBidID);
+                        window.location = "/sell/index";
+                    }
+                    else {
+                        axios.put(`${webApiBaseAddress}/api/B_SellerAddProducts/${item.sellerAddProductID}`, request).then(
+                            response => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '修改成功',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                //alert(response.data);
+                                //_this.filterEmployeeDTOes();
+                                _this.getSellerAddProductsDTOes();
+                                _this.cancel();
+                            }
+                        );
+                    }
+                },
+                filtersellerorder: function () {
+                    let _this = this;
+                    var request = {};
+                    if (_this.FilterSellerOrder == "" || _this.FilterSellerOrder == null) {
+                        _this.getSellOrderDTOes();
+                    }
+                    else {
+                        request.orderId = _this.FilterSellerOrder
+                        axios.post(`${webApiBaseAddress}/api/B_Sellerorder/FilterBuyerOrders/${_this.mID}`, request).then(
+                            response => {
+                                _this.SellOrderDTOes = response.data;
+                                var SellOrderList = [];
+                                for (var i = 0; i < _this.SellOrderDTOes.length; i++) {
+                                    var item = {};
+                                    item = _this.SellOrderDTOes[i];
+                                    item.num = "A" + item.orderId;
+                                    var str = item.completeTime;
+                                    item.newCompleteTime = str.split("T")[0];
+                                    SellOrderList.push(item);
+                                }
+                                _this.SellOrderDTOes = SellOrderList;
+
+                            }
+                        );
+                    }
+                },
+                getPersonalDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+                        response => {
+                            _this.PersonalDTOes = response.data
+                        }
+                    );
+                },
+            },
+        });
+    </script>
+
+    }

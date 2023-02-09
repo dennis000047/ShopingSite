@@ -1,0 +1,91 @@
+﻿
+<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="newsVue">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="category_name">分類名稱</label>
+                        <input type="text" class="form-control" id="category_name" placeholder="最新資訊" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="category_state">狀態</label>
+                        <select id="category_state" class="form-select">
+                            <option value="true">顯示</option>
+                            <option value="false">不顯示</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" @@click="addNewsCategory">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+
+        $(".back_news").addClass('active');
+
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#newsVue",
+            name: "newsVue",
+            data: {
+                newssortId: null,
+                newssortName: null,
+                newssortValIdity: null,
+            },
+            mounted: function () {
+                let _this = this;
+            },
+            methods: {
+                addNewsCategory: function () {
+                    let _this = this;
+
+                    if ($('#category_name').val() == "" || $('#category_state').val() == "") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '尚有欄位未填寫！',
+                        })
+                    } else {
+                        var request = {};
+                        request.newssortId = 0;
+                        request.newssortName = $('#category_name').val();
+                        request.newssortValIdity = $('#category_state').val() == "true" ? true : false;
+
+                        axios.post(`${webApiBaseAddress}/api/E_NewsSort`, request).then(
+                            response => {
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '送出成功！',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                //alert(response.data);
+                                $('#category_name').val("");
+                                $('#category_state').val("")[0].selectedIndex = 0;
+                            }
+                        );
+                    }
+
+                },
+            },
+        });
+
+    </script>
+}

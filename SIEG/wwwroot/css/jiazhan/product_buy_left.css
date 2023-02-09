@@ -1,0 +1,18 @@
+.product_buy_Left {
+    text-align: center;
+}
+
+
+.product_buy_Title {
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.hightAndLowPrice {
+    font-size: 20px;
+}
+
+.hightAndLowPrice p {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}

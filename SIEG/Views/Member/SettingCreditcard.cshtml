@@ -1,0 +1,181 @@
+﻿@{
+    ViewData["Title"] = "設置信用卡";
+    ViewData["enTitle"] = "SettingCreditcard";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-7">
+                    <div class="orderTopWidth">
+                        <div>
+                            <div>
+                                <h4>帳戶設定</h4>
+                            </div>
+                            <div class="settingdiv">
+                                <div class="settingbut">
+                                    <p class="settinp">購買資訊</p>
+                                    <a asp-area="" asp-controller="Member" asp-action="PaymentInformation">
+                                        <button type="button" class="btn btncolor"> 編輯 </button>
+                                    </a>
+                                </div>
+                                <hr>
+                                <div>
+                                    <div class="creditcard">
+                                        <div> 付款方式:</div>
+                                        <div> 尾號4碼為{{creditCard4digits}}的Visa信用卡</div>
+                                        <div> 有效期限{{PaymentInformationDTOes.creditCardDate}}</div>
+                                    </div>
+                                    <div class="creditcard">
+                                        <div> 帳單地址:</div>
+                                        <div> {{PaymentInformationDTOes.billingAddress}}</div>
+                                        <div><br></div>
+                                    </div>
+                                    <!-- <p>你並未儲存任何付款資訊。</p> -->
+                                </div>
+                            </div>
+                            <div class="settingdiv">
+                                <div class="settingbut">
+                                    <p class="settinp">郵寄資訊</p>
+                                    <a asp-area="" asp-controller="Member" asp-action="Mailinginformation">
+                                        <button type="button" class="btn btncolor">
+                                            編輯
+                                        </button>
+                                    </a>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p>{{PaymentInformationDTOes.shippingaddress}}</p>
+                                </div>
+                            </div>
+                            <div class="settingdiv">
+                                <div class="settingbut">
+                                    <p>賣家資訊</p>
+                                    <a class="settingicon">
+                                        <img src="/images/Benicon/question.png" class="AccountIcon-1"
+                                             data-bs-toggle="tooltip" data-bs-placement="top" title=""
+                                             data-bs-original-title="為了確保S.I.E.G的真實性，所有賣家都必須具備有效信用卡">
+                                        <!-- data-bs-toggle="tooltip"
+                                        data-bs-placement="top" -->
+                                    </a>
+                                    <div class=" settinp"></div>
+
+                                    <a asp-area="" asp-controller="Member" asp-action="Sellerinformation">
+                                        <button type="button" class="btn btncolor">
+                                            編輯
+                                        </button>
+                                    </a>
+                                </div>
+                                <hr>
+                                <div>
+                                    <div class="creditcard">
+                                        <div> 銀行帳戶:</div>
+                                        <div> 尾號4碼為{{BankAccount4digits}}的銀行帳戶</div>
+                                        <div> 銀行代號:{{PaymentInformationDTOes.bankCode}}</div>
+                                        <div>銀行名稱:{{PaymentInformationDTOes.bankname}} </div>
+                                    </div>
+                                    <div class="creditcard">
+                                        <div> 持有人姓名:</div>
+                                        <div> {{PaymentInformationDTOes.name}}</div>
+                                        <div><br></div>
+                                        <div><br></div>
+                                    </div>
+                                    <!-- <p>你並未儲存任何帳戶資訊。</p> -->
+                                </div>
+                            </div>
+                            <!-- <div class="settingdiv">
+                                <div class="settingbut">
+                                    <p class="settinp">收款資訊</p>
+                                    <a href="#">
+                                        <button type="button" class="btn btncolor">
+                                            編輯
+                                        </button>
+                                    </a>
+                                </div>
+                                <hr>
+                                <div>
+                                    <p>你並未儲存任何帳戶資訊。</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                PaymentInformationDTOes: {},
+                PersonalDTOes: {},
+                Filter: "",
+                creditCard4digits: "",
+                BankAccount4digits:"",
+            },
+            mounted: function () {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
+                let _this = this;
+                $('.SidebarSetting').css("background", "#ededed");
+                _this.getPaymentInformationDTOes();
+                _this.getPersonalDTOes();
+
+            },
+            methods: {
+                getPaymentInformationDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_PaymentInformation/${_this.mID}`).then(
+                        response => {
+                            _this.PaymentInformationDTOes = response.data;
+                            var creditCardNumber = _this.PaymentInformationDTOes.creditCard;
+                            var BankAccount = _this.PaymentInformationDTOes.bankAccount;                        
+                            _this.creditCard4digits =creditCardNumber.slice(-4);
+                            var BankAccount4 = _this.PaymentInformationDTOes.bankAccount
+                            _this.BankAccount4digits = BankAccount4.slice(-4);
+                            //_this.BankAccount4digits = BankAccount.slice(-4);
+                        }
+                    );
+                },
+                getPersonalDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+						response => {
+							_this.PersonalDTOes = response.data
+                          
+                        }
+					);
+				},
+            },
+        });
+
+    </script>
+
+    }
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,126 @@
+﻿<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 新增btn & 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <a class="add_btn" asp-controller="news" asp-action="category_add">
+                    <i class="bx bx-plus"></i>
+                    <span>新增</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="newsVue">
+            <div class="table-responsive text-nowrap">
+                <table class="table banner_table">
+                    <thead>
+                        <tr>
+                            <th class="name">分類名稱</th>
+                            <th class="state">狀態</th>
+                            <th class="btn"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr v-for="item in NewsCategoryDTO">
+                            <td>
+                                <div>{{item.newssortName}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.newsCategoryState}}</div>
+                            </td>
+                            <td>
+                                <div class="tb_btn edit">
+                                    <a @@click="editCategory(item.newssortId)">
+                                        <i class="bx bx-pencil"></i>
+                                    </a>
+                                </div>
+                                <div class="tb_btn del" @@click="deleteCategory(item.newssortId)">
+                                    <a>
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+
+        $(".back_news").addClass('active');
+
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#newsVue",
+            name: "newsVue",
+            data: {
+                NewsCategoryDTO: [],
+                newssortId: null,
+                newssortName: null,
+                newsCategoryState: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getNewsCategoryDTO();
+            },
+            methods: {
+                getNewsCategoryDTO: async function () {
+                    let _this = this;
+                    let response = await axios.get(`${webApiBaseAddress}/api/E_NewsSort/Boss`);
+                    _this.NewsCategoryDTO = response.data;
+                    var NewsCategory = [];
+                    for (let i = 0; i < _this.NewsCategoryDTO.length; i++) {
+                        let item = {};
+                        item = _this.NewsCategoryDTO[i];
+                        NewsCategory.push(item);
+                        console.log(item);
+
+                        var str = item.newssortValIdity;
+                        if (str == false) {
+                            item.newsCategoryState = "不顯示"
+                        }
+                        else {
+                            item.newsCategoryState = "顯示"
+                        }
+                    }
+                },
+                deleteCategory: function (id) {
+                    let _this = this;
+                    var ret = confirm("確定要刪除嗎?");
+                    if (ret == true) {
+                        axios.delete(`${webApiBaseAddress}/api/E_NewsSort/${id}`).then(
+                            response => {
+                                //alert(response.data);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '刪除成功！',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                _this.getNewsCategoryDTO();
+                            }
+                        );
+                    }
+                },
+                editCategory: function (nCategoryID) {
+                    sessionStorage.setItem("nCategoryID", nCategoryID);
+                    window.location = "/news/category_edit";
+                },
+            },
+        });
+
+    </script>
+}

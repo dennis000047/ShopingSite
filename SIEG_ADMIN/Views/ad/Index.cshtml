@@ -1,0 +1,132 @@
+﻿
+<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 新增btn & 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <a class="add_btn" asp-controller="ad" asp-action="add">
+                    <i class="bx bx-plus"></i>
+                    <span>新增</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="adVue">
+            <div class="table-responsive text-nowrap">
+                <table class="table banner_table">
+                    <thead>
+                        <tr>
+                            <th class="img">圖片</th>
+                            <th class="link">連結</th>
+                            <th class="state">狀態</th>
+                            <th class="btn"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr v-for="item in AdDTO">
+                            <td>
+                                <img :src="'https://localhost:7002'+item.adImg">
+                            </td>
+                            <td>
+                                <div>{{item.adLink}}</div>
+                            </td>
+                            <td>
+                                <div>{{item.adState}}</div>
+                            </td>
+                            <td>
+                                <div class="tb_btn edit">
+                                    <a @@click="editAd(item.adId)">
+                                        <i class="bx bx-pencil"></i>
+                                    </a>
+                                </div>
+                                <div class="tb_btn del">
+                                    <a @@click="deleteAd(item.adId)">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(".back_home").addClass('active');
+
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#adVue",
+            name: "adVue",
+            data: {
+                AdDTO: [],
+                AdId: null,
+                AdImg: null,
+                AdLink: null,
+                adState: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getAdDTO();
+            },
+            methods: {
+                getAdDTO: async function () {
+                    let _this = this;
+                    let response = await axios.get(`${webApiBaseAddress}/api/E_Ad/Boss`);
+                    _this.AdDTO = response.data;
+                    var AdList = [];
+                    for (let i = 0; i < _this.AdDTO.length; i++) {
+                        let item = {};
+                        item = _this.AdDTO[i];
+                        AdList.push(item);
+
+                        var str = item.adValIdity;
+                        if (str == false) {
+                            item.adState = "不顯示"
+                        }
+                        else {
+                            item.adState = "顯示"
+                        }
+                    }
+                },
+                deleteAd: function (id) {
+                    let _this = this;
+                    var ret = confirm("確定要刪除嗎?");
+                    if (ret == true) {
+                        axios.delete(`${webApiBaseAddress}/api/E_Ad/${id}`).then(
+                            response => {
+                                //alert(response.data);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '刪除成功！',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                _this.getAdDTO();
+                            }
+                        );
+                    }
+                },
+                editAd: function (adID) {
+                    sessionStorage.setItem("adID", adID);
+                    window.location = "/ad/edit";
+                },
+            },
+        });
+
+    </script>
+}

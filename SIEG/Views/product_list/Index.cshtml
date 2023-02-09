@@ -1,0 +1,642 @@
+﻿@{
+    ViewData["Title"] = "商品介紹";
+    ViewData["EnTitle"] = "PRODUCT";
+}
+
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(images/1920x350-1.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">@ViewData["EnTitle"]</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="index_space product_list_page" id="productlistVue">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-xl-3 order-lg-1 order-2 widget_area">
+                <div class="sticky_sidebar">
+                    <!-- 側欄搜尋 -->
+                    <div class="widget widget_search">
+                        <form class="search_form">
+                            <input type="text" placeholder="搜尋商品" id="productlistName" v-model="Filter">
+                            <button type="button" @@click="filterProductListDTO"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    <!-- 側欄分類 -->
+                    <div class="widget widget_categories">
+                        <div class="widget_title">商品<span>分類</span></div>
+                        <ul>
+                            <li class="active" @@click="clickAddClass"><a @@click="getProductListDTO">所有商品</a></li>
+                            <li v-for="item in ProductSortDTO" @@click="clickAddClass">
+                                <div class="has_child">
+                                    <a @@click="filterProductSort(item.productsortName)">{{item.productsortName}}</a>
+                                    <span class="has_child_btn">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </span>
+                                </div>
+                                <ul class="sub_child">
+                                    <li v-for="subitem in ProductBrandDTO.filter(x => x.productsortName == item.productsortName)">
+                                        <a @@click="filterProductBrand(subitem.productsortBrand, subitem.productsortName)">{{subitem.productsortBrand}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 價格範圍 -->
+                    <div class="widget price_range">
+                        <div class="widget_title">價格<span>範圍</span></div>
+                        <div class="form-check" @@click="clickChkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="below1500" @@click="Below1500">
+                            <label class="form-check-label" for="below1500" @@click="Below1500">
+                                1500 以下
+                            </label>
+                        </div>
+                        <div class="form-check" @@click="clickChkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="below3000" @@click="Below3000">
+                            <label class="form-check-label" for="below3000" @@click="Below3000">
+                                1500 - 3000
+                            </label>
+                        </div>
+                        <div class="form-check" @@click="clickChkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="below4500" @@click="Below4500">
+                            <label class="form-check-label" for="below4500" @@click="Below4500">
+                                3000 - 4500
+                            </label>
+                        </div>
+                        <div class="form-check" @@click="clickChkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="below6000" @@click="Below6000">
+                            <label class="form-check-label" for="below6000" @@click="Below6000">
+                                4500 - 6000
+                            </label>
+                        </div>
+                        <div class="form-check" @@click="clickChkbox">
+                            <input class="form-check-input" type="checkbox" value="" id="more6000" @@click="More6000">
+                            <label class="form-check-label" for="more6000" @@click="More6000">
+                                6000 以上
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9 order-lg-2 order-1">
+                <div class="product_list_content">
+                    <!-- 一頁12筆資料 -->
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-4 col-6 product_col" v-for="item in ProductListDTO">
+                            <div class="product_card">
+                                <div class="product_img">
+                                    <a @@click="hrefToInfo(item.productlistId)">
+                                        <img :src="item.productlistImg" alt="">
+                                    </a>
+                                </div>
+                                <div class="product_content">
+                                    <h4><a @@click="hrefToInfo(item.productlistId)" class="two-row">{{item.productlistName}}</a></h4>
+                                    <div class="sale">
+                                        <div class="price">{{item.productPrice}}</div>
+                                        @*<div class="sold">剩餘{{item.productlistSellCount}}件</div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 頁碼 -->
+                    @*<nav aria-label="Page navigation" id="pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="product_list.html"><i class="bi bi-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="product_list.html">1</a></li>
+                            <li class="page-item"><a class="page-link" href="product_list.html">2</a></li>
+                            <li class="page-item"><a class="page-link" href="product_list.html">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="product_list.html">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>*@
+                    <partial name="_NoDataPartial" class="no_data" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_footerPartial" />
+
+@section Scripts{
+
+    <script>
+
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#productlistVue",
+            name: "productlistVue",
+            data: {
+                ProductListDTO: [],
+                ProductSortDTO: [],
+                ProductBrandDTO: [],
+                Filter: sessionStorage.getItem('pKeyword'),
+                productlistId: null,
+                productlistImg: null,
+                productlistName: null,
+                productlistPrice: null,
+                productlistSort: null,
+                productlistBrand: null,
+                productPrice: null,
+                productsortId: null,
+                productsortName: null,
+                productsortBrand: null,
+                indexPSortName: sessionStorage.getItem('indexPSortName'),
+                indexPBrand: sessionStorage.getItem('indexPBrand'),
+
+            },
+            mounted: function () {
+
+                $(function () {
+                    setTimeout(function () {
+                        $(".sub_child").hide();
+                        $(".has_child_btn").click(function () {
+                            $(this).toggleClass("active");
+                            $(this).parent().next().slideToggle();
+                            $(this).parent().parent().toggleClass("active");
+                        });
+                    }, 100);
+                });
+
+                $(".dropdown-menu a").click(function () {
+                    $(".dropdown-menu a").removeClass('active');
+                    $(this).addClass('active');
+                });
+
+
+                let _this = this;
+                //_this.getProductListDTO();
+                _this.getProductSortDTO();
+                _this.getProductBrandDTO();
+
+                _this.sort();
+
+
+            },
+            methods: {
+                sort: function () {
+                    let _this = this;
+                    if (_this.Filter == null && _this.indexPSortName == null && _this.indexPBrand == null) {
+                        _this.getProductListDTO();
+                    } else if (_this.Filter == null && _this.indexPSortName != null && _this.indexPBrand != null) {
+                        _this.indexFilterBrand();
+                    } else if (_this.Filter == null && _this.indexPSortName != null && _this.indexPBrand == null) {
+                        _this.headerFilterSort();
+                    } else {
+                        _this.filterProductListDTO();
+                    }
+                    //_this.headerFilterSort();
+                    //_this.indexFilterBrand();
+                    //_this.filterProductListDTO();
+                },
+                getProductListDTO: function () {
+
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductList`).then(
+                        response => {
+                            _this.ProductListDTO = response.data;
+                            var ProductList = [];
+                            for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                let item = {};
+                                item = _this.ProductListDTO[i];
+                                ProductList.push(item);
+                                item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                            }
+                            _this.ProductListDTO = ProductList;
+                            console.log(_this.ProductListDTO);
+                            //console.log(ProductList.length);
+                            if (ProductList.length == 0) {
+                                $(".no_data").show();
+                                $("#pagination").hide();
+                            }
+                            else {
+                                $(".no_data").hide();
+                                $("#pagination").show();
+                            }
+                        }
+                    );
+                },
+                getProductSortDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort`).then(
+                        response => {
+                            _this.ProductSortDTO = response.data;
+                            //console.log(response.data);
+                        }
+                    );
+                },
+                getProductBrandDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort/Brand`).then(
+                        response => {
+                            _this.ProductBrandDTO = response.data;
+                            //console.log(response.data);
+                        }
+                    );
+                },
+                filterProductListDTO: function () {
+                    let _this = this;
+                    var request = {};
+
+
+                    //sessionStorage.setItem("pKeyword", _this.Filter);
+                    request.productlistName = _this.Filter;
+                    console.log(_this.Filter);
+
+                    if (_this.Filter == "" || _this.Filter == null) {
+                        //alert(_this.Filter);
+                        _this.getProductListDTO();
+                    }
+                    else {
+                        axios.post(`${webApiBaseAddress}/api/E_ProductList/Filter`, request).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                        sessionStorage.removeItem('pKeyword');
+                    }
+                },
+                filterProductSort: function (sort) {
+                    let _this = this;
+                    var request = {};
+
+
+                    sessionStorage.setItem("pKeyword", sort);
+                    request.productlistSort = sort;
+                    //console.log(sort);
+                    axios.post(`${webApiBaseAddress}/api/E_ProductList/FilterSort`, request).then(
+                        response => {
+                            _this.ProductListDTO = response.data;
+                            var ProductList = [];
+                            for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                let item = {};
+                                item = _this.ProductListDTO[i];
+                                ProductList.push(item);
+
+                                console.log(item);
+
+                                item.productPrice = "$" + item.productlistPrice.toLocaleString();
+
+                            }
+                            _this.ProductListDTO = ProductList;
+                            console.log(_this.ProductListDTO);
+                            if (ProductList.length == 0) {
+                                $(".no_data").show();
+                                $("#pagination").hide();
+                            }
+                            else {
+                                $(".no_data").hide();
+                                $("#pagination").show();
+                            }
+                        }
+                    );
+                    sessionStorage.removeItem('pKeyword');
+                },
+                filterProductBrand: function (brand, sortName) {
+                    let _this = this;
+                    var request = {};
+                    request.productlistBrand = brand;
+                    request.productlistSort = sortName;
+
+                    axios.post(`${webApiBaseAddress}/api/E_ProductList/FilterBrand`, request).then(
+                        response => {
+                            _this.ProductListDTO = response.data;
+                            var ProductList = [];
+                            for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                let item = {};
+                                item = _this.ProductListDTO[i];
+                                ProductList.push(item);
+
+                                //console.log(item);
+
+                                item.productPrice = "$" + item.productlistPrice.toLocaleString();
+
+                            }
+
+                            _this.ProductListDTO = ProductList;
+                            console.log(_this.ProductListDTO);
+
+                            if (ProductList.length == 0) {
+                                $(".no_data").show();
+                                $("#pagination").hide();
+                            }
+                            else {
+                                $(".no_data").hide();
+                                $("#pagination").show();
+                            }
+                        }
+                    );
+                    sessionStorage.removeItem('pBrand');
+                    sessionStorage.removeItem('pSortName');
+                },
+                headerFilterSort: function () {
+                    let _this = this;
+                    var request = {};
+                    request.productlistSort = _this.indexPSortName;
+
+                    axios.post(`${webApiBaseAddress}/api/E_ProductList/FilterSort`, request).then(
+                        response => {
+                            _this.ProductListDTO = response.data;
+                            var ProductList = [];
+                            for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                let item = {};
+                                item = _this.ProductListDTO[i];
+                                ProductList.push(item);
+                                console.log(item);
+                                item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                            }
+
+                            _this.ProductListDTO = ProductList;
+                            console.log(_this.ProductListDTO);
+                            if (ProductList.length == 0) {
+                                $(".no_data").show();
+                                $("#pagination").hide();
+                            }
+                            else {
+                                $(".no_data").hide();
+                                $("#pagination").show();
+                            }
+                        }
+                    );
+                    sessionStorage.removeItem('indexPSortName');
+                },
+                indexFilterBrand: function () {
+                    let _this = this;
+                    var request = {};
+                    request.productlistBrand = _this.indexPBrand;
+                    request.productlistSort = _this.indexPSortName;
+
+                    axios.post(`${webApiBaseAddress}/api/E_ProductList/FilterBrand`, request).then(
+                        response => {
+                            _this.ProductListDTO = response.data;
+                            var ProductList = [];
+                            for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                let item = {};
+                                item = _this.ProductListDTO[i];
+                                ProductList.push(item);
+
+                                console.log(item);
+
+                                item.productPrice = "$" + item.productlistPrice.toLocaleString();
+
+                            }
+                            _this.ProductListDTO = ProductList;
+                            console.log(_this.ProductListDTO);
+                            if (ProductList.length == 0) {
+                                $(".no_data").show();
+                                $("#pagination").hide();
+                            }
+                            else {
+                                $(".no_data").hide();
+                                $("#pagination").show();
+                            }
+                        }
+                    );
+                    sessionStorage.removeItem('indexPBrand');
+                    sessionStorage.removeItem('indexPSortName');
+                },
+                Below1500: function () {
+                    let _this = this;
+
+                    var checkbox = document.getElementById('below1500');
+
+                    if (checkbox.checked == true) {
+                        axios.get(`${webApiBaseAddress}/api/E_ProductList/Below1500`).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                //console.log(ProductList.length);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        _this.getProductListDTO();
+                    }
+                },
+                Below3000: function () {
+                    let _this = this;
+
+                    var checkbox = document.getElementById('below3000');
+
+                    if (checkbox.checked == true) {
+                        axios.get(`${webApiBaseAddress}/api/E_ProductList/Below3000`).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                //console.log(ProductList.length);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        _this.getProductListDTO();
+                    }
+                },
+                Below4500: function () {
+                    let _this = this;
+
+                    var checkbox = document.getElementById('below4500');
+
+                    if (checkbox.checked == true) {
+                        axios.get(`${webApiBaseAddress}/api/E_ProductList/Below4500`).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                //console.log(ProductList.length);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        _this.getProductListDTO();
+                    }
+                },
+                Below6000: function () {
+                    let _this = this;
+
+                    var checkbox = document.getElementById('below6000');
+
+                    if (checkbox.checked == true) {
+                        axios.get(`${webApiBaseAddress}/api/E_ProductList/Below6000`).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                //console.log(ProductList.length);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        _this.getProductListDTO();
+                    }
+                },
+                More6000: function () {
+                    let _this = this;
+
+                    var checkbox = document.getElementById('more6000');
+
+                    if (checkbox.checked == true) {
+                        axios.get(`${webApiBaseAddress}/api/E_ProductList/More6000`).then(
+                            response => {
+                                _this.ProductListDTO = response.data;
+                                var ProductList = [];
+                                for (let i = 0; i < _this.ProductListDTO.length; i++) {
+                                    let item = {};
+                                    item = _this.ProductListDTO[i];
+                                    ProductList.push(item);
+
+                                    item.productPrice = "$" + item.productlistPrice.toLocaleString();
+                                }
+                                _this.ProductListDTO = ProductList;
+                                console.log(_this.ProductListDTO);
+                                //console.log(ProductList.length);
+                                if (ProductList.length == 0) {
+                                    $(".no_data").show();
+                                    $("#pagination").hide();
+                                }
+                                else {
+                                    $(".no_data").hide();
+                                    $("#pagination").show();
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        _this.getProductListDTO();
+                    }
+                },
+                hrefToInfo: function (productId) {
+
+                    let _this = this;
+                    //var request = {};
+
+                    //request.productlistId = productId;
+
+                    //axios.put(`${webApiBaseAddress}/api/E_ProductList/${productId}`, request).then(
+                    //    response => {
+                    //        //alert(response.data);
+                    //    }
+                    //);
+
+                    sessionStorage.setItem("pID", productId);
+                    window.location = "/product_info";
+                },
+                clickAddClass: function () {
+                    $(".widget_categories ul li").click(function () {
+                        $(".widget_categories ul li").removeClass('active');
+                        $(this).addClass('active');
+                    });
+                },
+                clickChkbox: function () {
+                    $('.form-check input').click(function () {
+                        if ($(this).prop('checked')) {
+                            $('.form-check input:checkbox').prop('checked', false);
+                            $(this).prop('checked', true);
+                        }
+                    });
+                },
+            },
+        });
+
+    </script>
+}

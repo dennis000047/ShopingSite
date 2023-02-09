@@ -1,0 +1,93 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="topnav">
+    <a href="https://55f8-111-242-183-203.jp.ngrok.iologin.html">Line Login</a>
+    <a href="https://55f8-111-242-183-203.jp.ngrok.ioprofile.html">User Profile</a>
+    <a href="https://55f8-111-242-183-203.jp.ngrok.ioproducts.html">Line Pay</a>
+</div>
+<!-- 商品畫面 -->
+<center>
+    <table>
+        <thead>
+            <tr>
+                <th> 測試商品 </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="https://static.accupass.com/org/2011051025162614811630.jpg"></td>
+            </tr>
+            <tr>
+                <td> 價格 : 1999 </td>
+            </tr>
+            <tr>
+                <td> 購買數量 : 2 </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"> 總金額 : 3998 </td>
+            </tr>
+            <tr>
+                <td align="center"><button onclick="requestPayment()"> Line Pay 付款</button></td>
+            </tr>
+        </tbody>
+    </table>
+</center>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="/js/moment-with-locales.js"></script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-63c643ccbd5b60b6"></script>
+
+    <script>
+        let baseLoginPayUrl = 'https://localhost:7139/api/LinePay/';
+        function requestPayment() {
+            // 交易訂單假資料
+            payment = {
+                amount: 3998,
+                currency: "TWD",
+                orderId: Date.now().toString(), //使用 Timestamp 當作 orderId
+                packages: [
+                    {
+                        id: Date.now().toString(),
+                        amount: 3998,
+                        name: "測試",
+                        products: [
+                            {
+                                name: "測試商品",
+                                imageUrl: "https://static.accupass.com/org/2011051025162614811630.jpg",
+                                quantity: 2,
+                                price: 1999,
+                            }
+                        ]
+                    },
+                ],
+                RedirectUrls: {
+                    ConfirmUrl: "https://55f8-111-242-183-203.jp.ngrok.ioconfirm",
+                    CancelUrl: "https://55f8-111-242-183-203.jp.ngrok.ioapi/LinePay/Cancel",
+                },
+            };
+
+            // 送出 交易申請至商家 server
+            $.post({
+                url: baseLoginPayUrl + "Create",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(payment),
+                success: (res) => {
+                    window.location = res.info.paymentUrl.web;
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+        }
+    </script>
+}

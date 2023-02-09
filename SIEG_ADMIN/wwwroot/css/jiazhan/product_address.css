@@ -1,0 +1,68 @@
+
+
+.setAddress {
+    margin-bottom: 30px;
+}
+
+.product_buy_Right {
+    background-color: #f3f3f3;
+    padding: 70px;
+}
+
+.product_Pay_Right {
+    background-color: #fafafa;
+    padding: 70px;
+}
+
+.product_Address_Right {
+    background-color: #fafafa;
+    padding: 70px;
+}
+
+.addressConcelAndNext {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.addressgroup {
+    margin: 10px 0px;
+}
+
+.btnCancel {
+    border: 1px solid #333;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.btnNext {
+    border: 1px solid #333;
+    padding: 8px 15px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* -----  功能區  ----- */
+
+.btnCancel:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.btnNext:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.DisPlayNone {
+    display: none;
+}
+
+.BuyDisPlayNone {
+    display: none;
+}
+
+.AddressDisPlayNone {
+    display: none;
+}

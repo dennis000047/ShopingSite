@@ -1,0 +1,543 @@
+/*發表文章按鈕*/
+.bubbly-button {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    display: inline-block;
+    font-size: 16px;
+    width: 60%;
+    padding: 10px 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #006340;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+    box-shadow: 0 2px 25px #004b31;
+}
+
+    .bubbly-button:focus {
+        outline: 0;
+    }
+
+    .bubbly-button:before,
+    .bubbly-button:after {
+        position: absolute;
+        content: '';
+        display: block;
+        width: 140%;
+        height: 100%;
+        left: -20%;
+        z-index: -1000;
+        transition: all ease-in-out 0.5s;
+        background-repeat: no-repeat;
+    }
+
+    .bubbly-button:before {
+        display: none;
+        top: -75%;
+        background-image: radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, transparent 20%, #006340 20%, transparent 30%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, transparent 10%, #006340 15%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%);
+        background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+    }
+
+    .bubbly-button:after {
+        display: none;
+        bottom: -75%;
+        background-image: radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, transparent 10%, #006340 15%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%), radial-gradient(circle, #006340 20%, transparent 20%);
+        background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+    }
+
+    .bubbly-button:active {
+        transform: scale(0.9);
+        background-color: #009b65;
+        box-shadow: 0 2px 25px #007049;
+    }
+
+    .bubbly-button.animate:before {
+        display: block;
+        animation: topBubbles ease-in-out 0.75s forwards;
+    }
+
+    .bubbly-button.animate:after {
+        display: block;
+        animation: bottomBubbles ease-in-out 0.75s forwards;
+    }
+
+@keyframes topBubbles {
+    0% {
+        background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+    }
+
+    50% {
+        background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+    }
+
+    100% {
+        background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+}
+
+@keyframes bottomBubbles {
+    0% {
+        background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+    }
+
+    50% {
+        background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+    }
+
+    100% {
+        background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+}
+
+/*名子*/
+.name {
+    padding-top: 10px;
+    font-size: 15px;
+}
+
+/*類別*/
+.sort {
+    font-size: 10px;
+    color: #0b7bc5;
+}
+
+/*時間*/
+.time {
+    font-size: 10px;
+    color: rgb(145, 145, 145);
+    margin: 0px 0px 11px;
+}
+
+/*內文*/
+.text {
+    word-break: break-all;
+    white-space: pre-line;
+    line-height: 22px;
+}
+
+/*圖片*/
+.image {
+    max-block-size: 700px;
+}
+
+/*愛心*/
+.heart {
+    width: 90px;
+    height: 100px;
+    background: url("../images/forum/heart.png") no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+    transition: background-position 1s steps(28);
+    transition-duration: 0s;
+}
+
+    .heart.is-active {
+        transition-duration: 1s;
+        background-position: -2800px 0;
+    }
+
+.placement {
+    padding-top: 40px;
+    transform: translate(0%, -50%);
+}
+
+/*收藏*/
+.book {
+    position: relative;
+    width: 32px;
+    height: 36px;
+    border-radius: 5px;
+    background: white;
+    border: none;
+    padding: 3px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+    transition: transform 100ms, background-color 40ms, color 40ms;
+    outline: none;
+    cursor: pointer;
+}
+
+    .book svg {
+        position: relative;
+    }
+
+    .book.pressed {
+        transform: scale(0.8);
+    }
+
+    .book.active {
+        color: white;
+        background-color: #006340;
+    }
+
+.wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    transition: transform 230ms, opacity 230ms;
+    background-color: transparent;
+    opacity: 0.5;
+}
+
+.book.active .wave {
+    background-color: #006340;
+    transform: scale(2.5);
+    opacity: 0;
+}
+
+/*總留言數*/
+.total_message {
+    padding-top: 8px;
+    color: #00000080;
+    margin-bottom: 0;
+}
+
+/*我要回復鈕*/
+.Reply_btn {
+    height: 20px;
+    border-left: 15px;
+    font-size: 13px;
+    background-color: #007049;
+    color: #fff;
+    border-radius: 3px;
+}
+
+/*更多留言*/
+.more_button {
+    background: none;
+    color: #00000080;
+}
+
+/*回文框*/
+.Reply_block {
+    text-align: left;
+    width: 62.1%;
+    height: 170px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 11.8%;
+    border: 1px solid rgb(0, 0, 0);
+    display: none;
+}
+
+/*回文框2*/
+.Reply2_block {
+    text-align: left;
+    width: 62.1%;
+    height: 170px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 11.8%;
+    border: 1px solid rgb(0, 0, 0);
+    display: none;
+}
+
+/*回文框文字輸入*/
+.describe {
+    width: 100%;
+    height: 80%;
+    font-size: 14px;
+    resize: none;
+    border: none;
+    display: block;
+    /* background-color: aquamarine; */
+}
+
+/*回文框取消鈕*/
+.custom {
+    width: 44px;
+    height: 26px;
+    color: #fff;
+    border-radius: 5px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5), 7px 7px 20px 0px rgba(0, 0, 0, .1), 4px 4px 5px 0px rgba(0, 0, 0, .1);
+    outline: none;
+}
+
+.cancel_btn {
+    background-color: #89d8d3;
+    background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+    border: none;
+    z-index: 1;
+}
+
+    .cancel_btn:after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        border-radius: 5px;
+        background-color: #4dccc6;
+        background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+        box-shadow: -7px -7px 20px 0px #fff 9, -4px -4px 5px 0px #fff 9, 7px 7px 20px 0px #000 2, 4px 4px 5px 0px #000 1;
+        transition: all 0.3s ease;
+    }
+
+    .cancel_btn:hover {
+        color: #fff;
+    }
+
+        .cancel_btn:hover:after {
+            top: 0;
+            height: 100%;
+        }
+
+    .cancel_btn:active {
+        top: 2px;
+    }
+
+/*送出鈕*/
+.submit_btn {
+    background: #004b31;
+    border: none;
+    z-index: 1;
+}
+
+    .submit_btn:after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 0;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        border-radius: 5px;
+        background-color: #009b65;
+        background-image: linear-gradient(315deg, #009b65 0%, #009b65 74%);
+        transition: all 0.3s ease;
+    }
+
+    .submit_btn:hover {
+        color: #000;
+    }
+
+        .submit_btn:hover:after {
+            top: auto;
+            bottom: 0;
+            height: 100%;
+        }
+
+    .submit_btn:active {
+        top: 2px;
+    }
+
+/*刪除、修改選單*/
+.list-container {
+    position: relative;
+}
+
+    .list-container.active .edit_button-list {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .list-container.active .edit_button-list-item {
+        animation: fadeInItem 0.6s 0.2s forwards;
+    }
+
+        .list-container.active .edit_button-list-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .list-container.active .edit_button-list-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .list-container.active .edit_button-list-item:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+    .list-container.active .edit_button {
+        animation: onePulse 0.6s forwards linear;
+    }
+
+    .list-container.active .menu-icon-wrapper {
+        transform: rotate(-45deg);
+    }
+
+    .list-container.active .menu-icon-line.first {
+        transform: rotate(-90deg) translateX(1px);
+    }
+
+    .list-container.active .menu-icon-line.last {
+        transform: rotate(-90deg) translateX(-1px);
+    }
+
+.edit_button {
+    background-color: #006340;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.2s ease-in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+    .edit_button:hover,
+    .edit_button:focus {
+        box-shadow: 0px 0px 0px 8px rgba(0, 99, 64, 0.3);
+        background-color: #006340;
+    }
+
+    .edit_button:focus {
+        outline: 0;
+    }
+
+.edit_button-list {
+    background-color: #fff;
+    border-radius: 8px;
+    list-style-type: none;
+    width: 110px;
+    height: 65px;
+    box-shadow: 0px 0px 4px 4px rgba(0, 99, 64, 0.3);
+    padding: 0;
+    padding: 5px;
+    position: absolute;
+    right: 24px;
+    bottom: -28px;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: all 0.3s ease 0.1s;
+}
+
+    .edit_button-list li {
+        opacity: 0;
+    }
+
+.edit_button-list-item {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s ease-in;
+    transform: translatex(-10px);
+}
+
+    .edit_button-list-item:hover {
+        color: #006340;
+    }
+
+    .edit_button-list-item:after {
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: calc(100% - 24px);
+        left: 12px;
+        bottom: 0;
+        background-color: rgba(132, 160, 244, 0.1);
+    }
+
+    .edit_button-list-item:last-child:after {
+        display: none;
+    }
+
+    .edit_button-list-item svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .edit_button-list-item span {
+        display: inline-block;
+        line-height: 18px;
+        margin-left: 8px;
+    }
+
+@keyframes onePulse {
+    0% {
+        box-shadow: 0px 0px 0px 0px rgba(0, 99, 64, 0.3);
+    }
+
+    50% {
+        box-shadow: 0px 0px 0px 12px rgba(0, 99, 64, 0.1);
+    }
+
+    100% {
+        box-shadow: 0px 0px 0px 4px rgba(0, 99, 64, 0.3);
+    }
+}
+
+@keyframes fadeInItem {
+    100% {
+        transform: translatex(0px);
+        opacity: 1;
+    }
+}
+
+.socials {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.social-link {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 12px;
+}
+
+.menu-icon-wrapper {
+    border-radius: 2px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 330ms ease-out;
+}
+
+.menu-icon-line {
+    background-color: #fff;
+    border-radius: 2px;
+    width: 100%;
+    height: 2px;
+}
+
+    .menu-icon-line.half {
+        width: 50%;
+    }
+
+    .menu-icon-line.first {
+        transition: transform 300ms cubic-bezier(0.52, -0.8, 0.52, 0.52);
+        transform-origin: right;
+    }
+
+    .menu-icon-line.last {
+        align-self: flex-end;
+        transition: transform 300ms cubic-bezier(0.52, -0.8, 0.52, 0.52);
+        transform-origin: left;
+    }

@@ -1,0 +1,100 @@
+/* -----  原始物件  ----- */
+a {
+    color: #333;
+}
+
+/*div {
+    padding: 1px;
+}*/
+
+hr {
+    color: #5f5f5f;
+}
+
+.border {
+    border: 1px solid #555;
+    margin: 1px;
+    padding: 1px;
+}
+
+.title {
+    margin: 10px;
+}
+
+.fontGreen {
+    color: #006340;
+}
+
+.fontRed {
+    color: #df2b14;
+}
+
+.fontBold {
+    font-weight: bold;
+}
+
+.fontSizeS {
+    font-size: 1em;
+}
+
+.fontSizeM {
+    font-size: 1.5em;
+}
+
+.fontSizeL {
+    font-size: 2em;
+}
+
+.padding {
+    padding: 1px;
+}
+
+.txtAlignStart {
+    text-align: start;
+}
+
+.txtAlignEnd {
+    text-align: end;
+}
+
+.dashedBottom {
+    border-bottom: 1px dashed #5f5f5f;
+    margin: 5px;
+    padding: 5px
+}
+
+.btnGreen {
+    color: #fff;
+    border-color: #006340;
+    background-color: #006340;
+}
+
+.btnWhite {
+    color: #333;
+    border: 1px solid #333;
+    background-color: white;
+}
+
+.bkcGreen {
+    color: #fff;
+    background-color: #006340;
+    border-color: #006340;
+}
+
+.bkcLightGray {
+    color: #333;
+    border-color: #d3d3d3;
+    background-color: #d3d3d3;
+}
+
+.iconPointer {
+    cursor: pointer;
+    width: 25px;
+    text-align: center;
+}
+
+/* -----  功能區  ----- */
+
+.displayNone {
+    display: none;
+}

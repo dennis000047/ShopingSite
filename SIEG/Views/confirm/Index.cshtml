@@ -1,0 +1,218 @@
+﻿@section Style{
+    <link href="/css/jiazhan/product_buy.css" rel="stylesheet">
+    <style>
+        .line_confirm {
+            position: relative;
+            border: 5px solid #e8f1ee;
+            padding: 50px;
+            color: #777;
+        }
+
+            .line_confirm .title {
+                font-size: 32px;
+                margin-bottom: 15px;
+                font-weight: 500;
+                color: #333;
+            }
+
+        .line_confirm_img {
+            max-width: 450px;
+            margin: auto;
+        }
+
+        .line_confirm_info {
+            position: relative;
+            margin-left: 50px;
+        }
+
+            .line_confirm_info button {
+                background-color: #006340;
+                color: #fff;
+                padding: 5px 20px;
+                border-radius: 5px;
+                margin-top: 20px;
+                font-size: 15px;
+            }
+
+    </style>
+
+}
+
+@{
+    ViewData["Title"] = "購物確認";
+    ViewData["EnTitle"] = "CONFIRM";
+}
+
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(images/1920x350-1.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">@ViewData["EnTitle"]</h1>
+            @*<nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+            </ol>
+            </nav>*@
+        </div>
+    </div>
+</div>
+
+<!-- 最上方的 bar -->
+<div id="appVue" class="index_space">
+
+    <div class="container">
+        <div class="line_confirm">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="line_confirm_img">
+                        <img :src=orderInfo.pImg>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="line_confirm_info">
+                        <div class="title">{{orderInfo.pName}}</div>
+                        <div class="price mb-2"> 價　　格 ： $ {{orderInfo.finalPrice}} </div>
+                        <div class="count mb-2"> 購買數量 ： 1 </div>
+                        <div class="total mb-2"> 結帳金額 ： $ {{orderInfo.finalPrice}} </div>
+                        <div id="paymentStatus">交易狀態 ： 交易已授權，等待確認</div>
+                        <button @@click="confirmPayment()"> 確認付款</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<center>*@
+    @*<table>
+    <thead>
+    <tr>
+    <th colspan="2">{{orderInfo.pName}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td colspan="2"><img :src=orderInfo.pImg></td>
+    </tr>
+    <tr>
+    <td colspan="2"> 價格 : {{orderInfo.finalPrice}} </td>
+    </tr>
+    <tr>
+    <td colspan="2"> 購買數量 : 1 </td>
+    </tr>
+    <tr>
+    <td colspan="2" style="text-align: right;"> 總金額 : {{orderInfo.finalPrice}} </td>
+    </tr>
+    <tr>
+    <td align="center" colspan="2"><button @@click="confirmPayment()"> 確認付款</button></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <div class="Container">
+    <a id="paymentStatus">交易狀態 : 交易已授權，等待確認<a>
+    </div>*@
+    @*</center>*@
+</div>
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.1/dist/umd/uuidv4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <!-- Template Javascript -->
+
+
+    <script>
+        // confirm page
+        var webApiAddress = "https://localhost:7139/api/J";
+        var appVue = new Vue({
+            el: "#appVue",
+            data: {
+                baseLoginPayUrl: 'https://localhost:7052/api/LinePay/',
+                transactionId: "",
+                orderId: "",
+                orderInfo: JSON.parse(window.name),
+            },
+            mounted() {
+                console.log(this.orderInfo)
+                // 取出 query parameter 中的 transactionId & orderId
+                const params = new Proxy(new URLSearchParams(window.location.search), {
+                    get: (searchParams, prop) => searchParams.get(prop),
+                });
+
+                this.transactionId = params.transactionId;
+                this.orderId = params.orderId;
+            },
+            methods: {
+                confirmPayment() {
+                    let _this = this
+                    // 交易訂單假資料
+                    let payment = {
+                        amount: _this.orderInfo.pPrice,
+                        currency: "TWD",
+                    };
+                    // 送出確認交易
+                    $.post({
+                        url: _this.baseLoginPayUrl + `Confirm?transactionId=${_this.transactionId}&orderId=${_this.orderId}`,
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(payment),
+                        success: (res) => {
+                            try {
+                                console.log(res);
+                                axios.post(`${webApiAddress}/InsertBuyerOrder`, _this.orderInfo);
+                                $("#paymentStatus").text("交易狀態 : 成功");
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '成功!',
+                                    text: '付款成功, 即將跳轉訂單頁面',
+                                })
+
+                                setTimeout(() => {
+                                    location.replace("https://localhost:7002/Member/Member_buyerorder");
+                                }, 2000);
+
+                                //location.replace("https://localhost:7002/Member/Member_buyerorder");
+                                //let num = "";
+                                //for (let i = 3; i >= 1; i--) {
+                                //    setTimeout(() => {
+                                //        num = i + ".";
+                                //        $("#paymentStatus").text(`交易狀態 : 成功  ${num}`);
+                                //    }, (3 - i) * 1000);
+                                //    for (let j = 1; j <= 2; j++) {
+                                //        setTimeout(() => {
+                                //            num += ".";
+                                //            $("#paymentStatus").text(`交易狀態 : 成功  ${num}`);
+                                //        }, ((3 - i) * 1000) + (j * (1000 / 3)));
+                                //    }
+                            } catch {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '發生錯誤',
+                                    text: '訂單有誤,請重新嘗試或聯繫客服處理',
+                                })
+                            }
+
+                            //$("#paymentStatus").text(`交易狀態 : 成功 `);
+                            //location.replace("https://localhost:7002/Member/Member_buyerorder");
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        }
+                    })
+
+                },
+
+            }
+        })
+    </script>
+
+
+    }
+

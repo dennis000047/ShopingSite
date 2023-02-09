@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "關於我們";
+    ViewData["EnTitle"] = "ABOUT";
+}
+
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(/images/1920x350-1.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">@ViewData["EnTitle"]</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="about_space about_intro">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                <div class="about_intro_top">
+                    <div class="wow zoomIn">SIEG在德文代表勝利</div>
+                    <div class="wow zoomIn" data-wow-delay="150ms">其中字母也都各有含意</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <div class="about_intro_mean wow slideInUp" data-wow-duration="0.5s" data-wow-delay="150ms">
+                    <div class="en"><span>S</span>tock</div>
+                    <p>以股票交易的概念買賣商品</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="about_intro_mean wow slideInUp" data-wow-duration="0.5s" data-wow-delay="300ms">
+                    <div class="en"><span>I</span>tentions</div>
+                    <p>我們用心服務每位用戶</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="about_intro_mean wow slideInUp" data-wow-duration="0.5s" data-wow-delay="450ms">
+                    <div class="en"><span>E</span>ssential</div>
+                    <p>成為不可缺少的存在</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="about_intro_mean wow slideInUp" data-wow-duration="0.5s" data-wow-delay="600ms">
+                    <div class="en"><span>G</span>enuine</div>
+                    <p>提供正版商品保障每位客戶</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="about_space about_member">
+    <div class="container">
+        <div class="owl-carousel owl-theme about_member-carousel">
+            <div class="item">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-5.jpg" />
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">SIEG即將進軍元宇宙，<br>我們將開啟潮流新世代主宰時尚圈。</div>
+                            <div class="name">Kayden</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center flex-md-row-reverse">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-3.jpg">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">戒不掉的時尚靈魂，<br>由我們為您打造個人專屬風格。</div>
+                            <div class="name">Ellie</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-1.jpg" />
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">
+                                天天平價 天天驚喜，<br>SIEG是您購買潮流品牌的第一選擇。
+                            </div>
+                            <div class="name">Guan Yu</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center flex-md-row-reverse">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-2.jpg">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">你想要的東西 我們都有，<br>沒有的東西 由你創造讓我們幫你把關。</div>
+                            <div class="name">Dennis</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-4.jpg" />
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">各位不要再睡了，<br>快來SIEG買東西不要被我帥醒了。</div>
+                            <div class="name">Ben</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center flex-md-row-reverse">
+                    <div class="col-lg-5">
+                        <div class="about_member_img">
+                            <img src="~/images/about/member-6.jpg">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="about_member_content">
+                            <img src="~/images/about/deco-2.png">
+                            <div class="say">在一個充滿假貨的社會中，<br>我必須保護我們的客戶和他們辛苦賺來的錢。</div>
+                            <div class="name">Casper</div>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="about_quality">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="about_quality_img wow slideInLeft" data-wow-duration="1s" data-wow-delay="150ms">
+                    <img src="~/images/about/about-img-1.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="about_quality_content">
+                    <div class="title_block wow slideInDown">
+                        <div class="en">Committed to Quality</div>
+                        <h3 class="ch">穩定的品質</h3>
+                    </div>
+                    <div class="wow slideInUp">
+                        <p>建立以來，我們的團隊成員驗證了數千萬種產品。</p>
+
+                        <p>
+                            我們匯總了在SIEG驗證過的每個產品的數據，以構建不符合我們標準的元素的數據庫。<br>
+                            我們的數據庫每天更新，並不斷地幫助我們的團隊了解最新情況。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_footerPartial" />

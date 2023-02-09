@@ -1,0 +1,50 @@
+/* -----  Group  ----- */
+.selSizeGroup {
+    background-color: #f3f3f3;
+    margin-top: 20px;
+    padding: 20px 25px 20px 25px;
+}
+
+.sizeItem {
+    background-color: #fff;
+    padding: 15px 8px 15px 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.sizeItem .size {
+    margin: 0px;
+    font-weight: bold;
+}
+
+.sizeItem .price {
+    color: #006340;
+    font-weight: bold;
+}
+
+.cancelGroup {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px 15px 10px 15px;
+    display: inline-block;
+}
+
+
+/* -----  功能區  ----- */
+
+.sizeItem:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.cancel:hover {
+    color: #fff;
+    cursor: pointer;
+    background-color: #333;
+}

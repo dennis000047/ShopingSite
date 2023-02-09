@@ -1,0 +1,589 @@
+/* 成員框架 */
+.MemberFrame {
+    /* width: 270px; */
+    /* background-color: #fafafa;*/
+    /* border: 3px solid #8E8E8E; */
+    height: 900px;
+}
+
+/* 會員邊欄 */
+.MemberSidebar {
+    display: flex;
+    /* 照片垂直置中 */
+    align-items: center;
+    /* border: 3px solid #8E8E8E;
+    width: 270px; */
+    height: 60px;
+    /* margin: 30px 0PX 15PX 20px; */
+}
+
+.sidebarcoler {
+    background-color: #fafafa;
+}
+/* 圖片 */
+.AccountIcon {
+    width: 20PX;
+    /* position:absolute; */
+}
+
+
+/* 姓名 */
+.namefont {
+    font-size: 25px;
+    text-align: center;
+    padding: 25px 0px;
+}
+
+/* 側邊欄位標題 */
+.title {
+    font-size: 15px;
+    padding-left: 20px;
+    color: #000;
+}
+
+/* 標題下方註解 */
+.titlehint {
+    font-size: 15px;
+    padding-left: 20px;
+    color: rgb(172, 172, 172);
+}
+
+/* 側邊欄位A元素 */
+.Aelement {
+    padding: 10px 0px 10px 10px;
+    display: block;
+    color: black;
+}
+
+    .Aelement:hover {
+        background: #ededed;
+    }
+
+.Aelement-1 {
+    padding: 10px 0px 10px 10px;
+    display: block;
+    background-color: #ededed;
+}
+
+
+
+/* 上傳身分證提示照片 */
+.IdentityIMG {
+    width: 150px;
+    margin-left: 60px;
+    display: inline-block;
+    text-align: center;
+    font-size: medium;
+}
+
+.text-2 {
+    margin: 20px 0px 0px 30px;
+    font-size: 20px;
+}
+
+.text-3 {
+    margin: 20px 0px 0px 30px;
+}
+
+.KycFontSize {
+    font-size: 30px;
+}
+
+.KycImge {
+    margin-top: 50px;
+    display: inline-block;
+    margin-left: 50px;
+}
+
+.KycImge-2 {
+    margin-top: 50px;
+    margin-left: 50px;
+    display: inline-block;
+}
+
+
+
+.h2kyc {
+    margin: 20px 0px;
+}
+
+/* 提交跟清除按鈕距離 */
+.submitDistance1 {
+    margin: 50px 0px 50px 20px;
+    width: 90px;
+    height: 35px;
+    background-color: #393939;
+    color: #efefef;
+    border: 0px;
+}
+
+    .submitDistance1:hover {
+        background-color: #0f0f0f;
+    }
+
+/* 上方member---------------------------------------------------------------------- */
+
+/* 購買CSS---------------------------------- */
+.orderTopWidth {
+    margin-top: 80px;
+}
+
+
+.orderTopWidth-1 {
+    padding-right: 70px;
+    color: #a1a5a4
+}
+
+    .orderTopWidth-1:hover {
+        color: #0f0f0f;
+    }
+
+.orderTopWidth-2 {
+    justify-content: center;
+    margin-top: 80px;
+    display: flex;
+}
+
+.orderTopWidth-3 {
+    margin-top: 80px;
+}
+
+
+
+.totalAmount {
+    margin-left: 200PX;
+}
+
+/* 目前購買邊框 */
+.currentOrder {
+    border: 1px solid #8E8E8E;
+}
+
+/* 目前購買文字艱鉅 */
+.currentWidth {
+    margin-right: 210px;
+}
+
+hr {
+    background-color: #b41313;
+}
+
+.imgWidth {
+    width: 120px;
+}
+
+/* td內容置中 */
+.table tbody tr td {
+    vertical-align: middle;
+    word-break: break-all;
+    min-height: 120px;
+}
+
+.imgTd {
+    display: flex;
+    align-items: center;
+}
+
+.imgTd-1 {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .imgTd-1:hover {
+        background-color: #ededed;
+    }
+
+.imgMargin {
+    margin-left: 20px;
+}
+
+/* 淡化文字 */
+.nameDilute {
+    color: rgb(172, 172, 172);
+    font-size: 6px;
+}
+
+/* .detailbgcolor {
+    cursor: pointer;
+} */
+
+/* .detailbgcolor:hover {
+    background-color: #ededed;
+} */
+
+
+.personalDivrow {
+    margin-bottom: 30px;
+}
+
+.btncolor {
+    background-color: #006340;
+    color: white;
+}
+
+
+
+.btncolor-2 {
+    background-color: #006340;
+    color: white;
+    margin: 10px 0px;
+    /* background-color: #006340; */
+}
+
+    .btncolor-2:hover {
+        background-color: #006340;
+        color: #fafafa;
+    }
+
+
+.btncolor:hover {
+    background-color: #006340;
+    color: #fafafa;
+}
+
+.noticeDivimg {
+    display: flex;
+    align-items: center;
+    /* border-bottom: 1px solid #ededed; */
+    /* padding: 20px 0px; */
+    /* width: calc(100% - 50px); */
+    position: relative;
+    padding-right: 70px;
+}
+
+    .noticeDivimg img {
+        /*margin-left: 40px;
+        height: 56px;*/
+    }
+
+.noticecolor {
+    /* list-style-position: inside; */
+    list-style: none;
+    border-bottom: 1px solid #ededed;
+}
+
+/*  .noticecolor:hover {
+        background-color: #ededed;
+    }*/
+
+.Productcollection {
+    height: 20px !important;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    margin: 0;
+}
+
+
+.noticetext {
+    margin-left: 35px;
+    flex: 1 0 0%;
+}
+
+.product_collecthr {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 30px;
+}
+
+.AccountIcon-1 {
+    height: 20px;
+}
+
+.news_collect {
+    display: flex;
+    cursor: pointer;
+    flex: 1 0 0%;
+    padding: 15px 0px;
+}
+
+    .news_collect:hover {
+        background-color: #ededed;
+    }
+
+.news_collect-img {
+    width: 100px;
+}
+
+.settinp {
+    display: flex;
+    flex: 1 0 0%;
+}
+
+.settingdiv {
+    margin: 60px 0px 30px 60px;
+}
+
+.settingicon {
+    margin-left: 10px;
+}
+
+.addressgroup {
+    margin-top: 30px;
+    /*    width: 500px;*/
+}
+
+.addressgroup-1 {
+    display: flex;
+    margin-top: 30px;
+    /*    width: 500px;*/
+}
+
+.addressgroup-2 {
+    margin-right: 80px;
+}
+
+.inputright {
+    float: right;
+}
+
+@media (max-width: 767px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tbody tr td:before {
+        content: attr(data-title) " ";
+        font-size: 16px;
+        width: 80px;
+        line-height: 25px;
+        float: left;
+        color: black;
+        text-align: left;
+    }
+
+    .table tbody tr td {
+        display: block;
+        text-align: right;
+        border-style: none;
+    }
+
+        .table tbody tr td:first-child {
+            padding-top: 30px;
+            border-top: 6px double #006340;
+        }
+
+    .table tbody tr td {
+        font-size: 16px;
+        padding: 10px 30px;
+        border-right: 6px double #006340;
+        border-left: 6px double #006340;
+    }
+
+        .table tbody tr td:last-child {
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+            border-bottom: 6px double #006340;
+        }
+
+    .creditcard {
+        margin-top: 20px;
+    }
+}
+
+
+
+
+.Pcolor {
+    background-color: #006340;
+    color: white;
+}
+
+.orderdetail {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .orderdetail span {
+        word-break: break-all;
+        width: calc(100% - 120px);
+    }
+
+        .orderdetail span:first-child {
+            width: 110px;
+        }
+
+.cupon-block {
+    position: relative;
+    border: solid 1px #ddd;
+    margin-top: 30px;
+}
+
+    .cupon-block:before {
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 100%;
+        left: 110px;
+        border-right: dashed 1px #ccc;
+    }
+
+.cupon-value {
+    display: inline-block;
+    width: 110px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #595757;
+    padding: 35px 15px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cupon-info {
+    display: inline-block;
+    width: calc(100% - 115px);
+    padding: 10px 15px;
+    vertical-align: middle;
+}
+
+.cupon-date {
+    font-size: 13px;
+    color: #898989;
+    margin: 0;
+    line-height: 1;
+}
+
+.cupon-name {
+    color: #595757;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cant-use .cupon-value,
+.cant-use .cupon-name,
+.cant-use .cupon-date {
+    color: #ccc;
+}
+
+
+/* 圖商上傳 */
+.preview {
+    /* float: left; */
+    background: #cccccc;
+    height: 205px;
+    width: 400px;
+    text-align: center;
+    line-height: 200px
+}
+
+    .preview img {
+        height: 200px;
+        order: 1;
+        vertical-align: middle;
+    }
+
+#image_uploads {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    opacity: 1;
+    /* position: relative;
+    width: 100px;
+    height: 100px; */
+    background: #ddd;
+    cursor: pointer;
+    display: inline-block;
+    /* margin-bottom: 15px; */
+    vertical-align: middle;
+    opacity: 0;
+}
+
+    #image_uploads:before {
+        font-size: 15px;
+        text-align: center;
+        position: relative;
+        /* top: -30px; */
+        width: 100%;
+        height: 100%;
+        display: block;
+        content: "正➕面";
+        line-height: 200px;
+        /* background: rgb(221, 221, 221); */
+        transition: all 0.3s ease 0s;
+    }
+
+
+
+
+.preview-2 {
+    /* float: left; */
+    background: #cccccc;
+    height: 205px;
+    width: 400px;
+    text-align: center;
+    line-height: 200px
+}
+
+    .preview-2 img {
+        height: 200px;
+        order: 1;
+        vertical-align: middle;
+    }
+
+#image_uploads-2 {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    opacity: 1;
+    /* position: relative;
+    width: 100px;
+    height: 100px; */
+    background: #ddd;
+    cursor: pointer;
+    display: inline-block;
+    /* margin-bottom: 15px; */
+    vertical-align: middle;
+    opacity: 0;
+}
+
+    #image_uploads-2:before {
+        font-size: 15px;
+        text-align: center;
+        position: relative;
+        /* top: -30px; */
+        width: 100%;
+        height: 100%;
+        display: block;
+        content: "正➕面";
+        line-height: 200px;
+        /* background: rgb(221, 221, 221); */
+        transition: all 0.3s ease 0s;
+    }
+
+.searchlocation {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#aaaa {
+    padding-right: 110px;
+}
+
+#btnlocation {
+    width: 100px;
+    position: absolute;
+    right: 0;
+    background: #006340;
+    color: #fff;
+}
+
+.creditcard {
+    display: inline-block;
+    margin-right: 100px;
+}
+
+.settingbut {
+    display: flex;
+}
+
+.PaymentInformation {
+    margin-bottom: 60px;
+}
+
+.Memberkyc {
+    width: 300px;
+}

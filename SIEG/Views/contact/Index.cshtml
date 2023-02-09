@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "聯絡我們";
+    ViewData["EnTitle"] = "CONTACT";
+}
+
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(images/1920x350-1.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">@ViewData["EnTitle"]</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="index_space contact_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                <div class="contact_top">
+                    <div class="title">歡迎與我們聯繫</div>
+                    <img src="images/deco-1.png">
+                    <p>如有任何問題請填寫以下表單，客服人員將會盡速與您聯繫</p>
+                </div>
+                <div id="contactVue">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-sm-4 mb-3">
+                                <input type="text" class="form-control" id="name" placeholder="姓名*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-sm-4 mb-3">
+                                <input type="email" class="form-control" id="email" placeholder="Email*" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-sm-4 mb-3">
+                                <input type="text" class="form-control" id="title" placeholder="主旨*" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <textarea class="form-control" id="messae" placeholder="留言訊息*" required></textarea>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="button" class="btn_style1" @@click="sendContact">送出表單</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_footerPartial" />
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#contactVue",
+            name: "contactVue",
+            data: {
+                contactId: null,
+                contactName: null,
+                contactEmail: null,
+                contactTitle: null,
+                contactText: null,
+                contactState: null,
+            },
+            mounted: function () {
+                let _this = this;
+            },
+            methods: {
+                sendContact: function () {
+                    let _this = this;
+
+                    if ($('#name').val() == "" || $('#email').val() == "" || $('#title').val() == "" || $('#messae').val() ==""){
+                        Swal.fire({
+                            icon: 'error',
+                            title: '尚有欄位未填寫！',
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'success',
+                            title: '送出成功！',
+                            text: '已收到您的來信，我們將會盡速回覆',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        var request = {};
+                        request.contactId = 0;
+                        request.contactName = $('#name').val();
+                        request.contactEmail = $('#email').val();
+                        request.contactTitle = $('#title').val();
+                        request.contactText = $('#messae').val();
+                        request.contactState = "未處理";
+                        axios.post(`${webApiBaseAddress}/api/E_Contact`, request).then(
+                            response => {
+                                //alert(response.data);
+                                $('#name').val("");
+                                $('#email').val("");
+                                $('#title').val("");
+                                $('#messae').val("");
+                            }
+                        );
+                    }
+
+                },
+            },
+        });
+
+
+    </script>
+
+}

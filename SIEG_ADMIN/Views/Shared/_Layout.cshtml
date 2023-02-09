@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>後台 | SIEG</title>
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Helpers -->
+    <script src="/assets/vendor/js/helpers.js"></script>
+    <script src="/assets/js/config.js"></script>
+
+    @await RenderSectionAsync("Style", required: false)
+
+</head>
+
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- 側欄選單 -->
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a class="app-brand-link" asp-controller="Home" asp-action="index">
+                        <img src="https://localhost:7002/images/logo.png" alt="logo-image" class="img-fluid">
+                    </a>
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+                <div class="menu-inner-shadow"></div>
+                <ul class="menu-inner">
+                    <li class="menu-item back_home">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div data-i18n="Layouts">首頁管理</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a class="menu-link" asp-controller="Home" asp-action="index">
+                                    <div data-i18n="Without menu">輪播圖</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" asp-controller="ad" asp-action="index">
+                                    <div data-i18n="Without navbar">廣告圖</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item back_news">
+                        <a class="menu-link" asp-controller="news" asp-action="index">
+                            <i class="menu-icon tf-icons bx bx-news"></i>
+                            <div data-i18n="Analytics">消息管理</div>
+                        </a>
+                    </li>
+                    <li class="menu-item back_product">
+                        <a class="menu-link" asp-controller="Product" asp-action="index">
+                            <i class="menu-icon tf-icons bx bx-box"></i>
+                            <div data-i18n="Analytics">商品管理</div>
+                        </a>
+                    </li>
+                    <li class="menu-item back_forum">
+                        <a class="menu-link" asp-controller="Forum" asp-action="index">
+                            <i class="menu-icon tf-icons bx bx-hash"></i>
+                            <div data-i18n="Analytics">討論區管理</div>
+                        </a>
+                    </li>
+                    <li class="menu-item back_contact">
+                        <a class="menu-link" asp-controller="contactus" asp-action="index">
+                            <i class="menu-icon tf-icons bx bx-info-square"></i>
+                            <div data-i18n="Analytics">聯絡我們</div>
+                        </a>
+                    </li>
+                  @*  <li class="menu-item back_contact">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-info-square"></i>
+                            <div data-i18n="Layouts">聯絡我們</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="contact.html" class="menu-link">
+                                    <div data-i18n="Without menu">一般來信</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="contact_product.html" class="menu-link">
+                                    <div data-i18n="Without navbar">新增品項</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>*@
+                    <li class="menu-item back_memberkyc">
+                        <a class="menu-link" asp-controller="Memberkyc" asp-action="index">
+                            <i class="menu-icon tf-icons bx bxs-user-detail"></i>
+                            <div data-i18n="Analytics">會員認證管理</div>
+                        </a>
+                    </li>
+                    <li class="menu-item back_Returns">
+                        <a class="menu-link" asp-controller="Returns" asp-action="index">
+                            <i class="menu-icon tf-icons bx bxs-checkbox-minus"></i>
+                            <div data-i18n="Analytics">退貨專區</div>
+                        </a>
+                    </li>
+                    <li class="menu-item back_coupon">
+                        <a href="coupon.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-discount"></i>
+                            <div data-i18n="Analytics">優惠券管理</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <main role="main" class="layout-page">
+                @RenderBody()
+            </main>
+
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/assets/vendor/js/bootstrap.js"></script>
+    <script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <script src="/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/assets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+﻿<!-- Content -->
+<!-- 側邊攔 -->
+<div class="col-lg-3 d-lg-block d-none" style="background-color: #fafafa;">
+    <div class="MemberFrame">
+        <div class="namefont">
+            {{PersonalDTOes.name}}
+        </div>
+        <a asp-area="" asp-controller="Member" asp-action="Kyccertified" class="Aelement SidebarKYC">
+            <div class="MemberSidebar ">
+                <div>
+                    @*  <img src="~/images/benicon/padlock.png" class="AccountIcon" />*@
+                    <img src="~/images/benicon/padlock.png" class="AccountIcon " />
+                </div>
+                <div>
+                    <div class="title">
+                        KYC權限認證
+                    </div>
+                    <div class="titlehint">
+                        賣家認證
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="" asp-controller="Member" asp-action="Member_buyerorder" class="Aelement SidebarBuyerOrders">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="/images/Benicon/delivery-box.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        購買
+                    </div>
+                    <div class="titlehint">
+                        有效出價、進行中、已完成訂單
+                    </div>
+                </div>
+            </div>
+        </a>
+
+
+        <a asp-area="" asp-controller="Member" asp-action="SellerAddProduct" class="Aelement SidebarSellerAddProduct" v-if="PersonalDTOes.access==2">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/money.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        出售
+                    </div>
+                    <div class="titlehint">
+                        有效出價、進行中、已完成訂單
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a v-else>
+
+        </a>
+
+        <a asp-area="" asp-controller="Member" asp-action="Member_personal" class="Aelement SidebarMember">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/user.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        個人資料
+                    </div>
+                    <div class="titlehint">
+                        了解您的獨特之處
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a asp-area="" asp-controller="Member" asp-action="Member_coupon" class="Aelement SidebarCoupon">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/Coupon.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        優惠卷
+                    </div>
+                    <div class="titlehint">
+                        查詢優惠卷剩餘數量
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        @*<a href="notice.html" class="Aelement">
+        <div class="MemberSidebar">
+        <div>
+        <img src="~/images/Benicon/notification.png" class="AccountIcon">
+        </div>
+        <div>
+        <div class="title">
+        簡訊中心
+        </div>
+        <div class="titlehint">
+        查看最新簡訊
+        </div>
+        </div>
+        </div>
+        </a>*@
+
+        <a asp-area="" asp-controller="Member" asp-action="Member_ProductCollection" class="Aelement SidebarProductCollection">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/heart.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        商品收藏組合
+                    </div>
+                    <div class="titlehint">
+                        查看您的商品內容
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a asp-area="" asp-controller="Member" asp-action="FavoritePosts" class="Aelement SidebarFavoritePosts">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/benicon/portfolio.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        貼文收藏組合
+                    </div>
+                    <div class="titlehint">
+                        查看您的貼文內容
+                    </div>
+                </div>
+            </div>
+        </a>
+
+
+        <a asp-area="" asp-controller="Member" asp-action="SettingCreditcard" class="Aelement SidebarSetting">
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/settings.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        設定
+                    </div>
+                    <div class="titlehint">
+                        預設付款、收款、地址
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a  class="Aelement" onclick='Signout()'>
+            <div class="MemberSidebar">
+                <div>
+                    <img src="~/images/Benicon/exit.png" class="AccountIcon">
+                </div>
+                <div>
+                    <div class="title">
+                        登出
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<script>
+    function Signout() {
+        sessionStorage.removeItem("mID");
+        localStorage.removeItem("GETmID");
+        window.location = "/D_Personal"
+    }
+</script>

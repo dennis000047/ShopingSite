@@ -1,0 +1,91 @@
+/* 貼文串外框 */
+.form_list_content {
+    position: relative;
+    margin: 0px 10px 0px 10px;
+}
+
+.forum-sm-6 {
+    flex: 0 0 auto;
+    width: 100%
+}
+
+/* 內文預覽列 */
+.forum-two-row {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* 標題列 */
+.article_title a {
+    color: #333;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* 右側縮圖 */
+.preview_img {
+    position: static;
+    border-radius: 10px;
+    margin: 0px 0px 15px auto;
+    width: 110px;
+    height: 113px;
+    object-fit: cover;
+}
+
+/* 按讚+留言icon */
+.like_block {
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    width: initial;
+    height: initial;
+    background: none;
+    opacity: 1;
+    margin: 10px 0px 5px 0px;
+    position: relative;
+    max-width: 100%;
+}
+
+/* 按讚+留言文字 */
+.like_quantity {
+    float: right;
+    margin: 8px 0px 0px 3px;
+    font-size: 14px;
+}
+
+/* 改變鼠標形狀 */
+.mymouse {
+    cursor: pointer;
+}
+
+/*文章熱門、最新篩選按鈕*/
+.class-btn {
+    color: #fff;
+    background-color: #006340;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.class-btn:hover {
+    color: #fff;
+    background-color: #009b65;
+    border-radius: 18px;
+}
+
+
+/*文章熱門、最新篩選群組*/
+.dropdown-item:hover {
+    color: #006340;
+    background-color: #e8f1ee;
+}
+
+.dropdown-item.active {
+    color: rgb(255, 255, 255);
+    background-color: #12ac76;
+}

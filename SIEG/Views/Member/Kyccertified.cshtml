@@ -1,0 +1,224 @@
+﻿@{
+    ViewData["Title"] = "Kyc認證";
+    ViewData["enTitle"] = "Kyccertified";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-9">
+                    <div class="text">
+                        <div class="text-2">
+                            <h2 class="h2kyc">KYC權限認證</h2>
+                            <div>S.E.I.G賣家認證</div>
+                            <div>請上傳身分證正反面，圖片清晰</div>
+                        </div>
+                        <div>
+                            <div class="IdentityIMG">
+                                <img src="/images/Benicon/正確範例.png">
+                                <div>正確範例</div>
+                            </div>
+                            <div class="IdentityIMG">
+                                <img src="/images/Benicon/避免切邊.png">
+                                <div>避免切邊</div>
+                            </div>
+                            <div class="IdentityIMG">
+                                <img src="/images/Benicon/避免模糊.png">
+                                <div>避免模糊</div>
+                            </div>
+                            <div class="IdentityIMG">
+                                <img src="/images/Benicon/無反光.png">
+                                <div>無反光</div>
+                            </div>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/check-mark.png" class="AccountIcon">
+                            <span>由政府發行</span>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/check-mark.png" class="AccountIcon">
+                            <span>原始全尺寸且未經編輯的文件</span>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/check-mark.png" class="AccountIcon">
+                            <span>文件後方使用單色背景</span>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/check-mark.png" class="AccountIcon">
+                            <span>可閱讀、光線充足的彩色圖片</span>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/close.png" class="AccountIcon">
+                            <span>勿使用黑白照片</span>
+                        </div>
+                        <div class="text-2">
+                            <img src="/images/Benicon/close.png" class="AccountIcon">
+                            <span>勿使用經過編輯或過期的文件</span>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" asp-controller="Member" asp-action="index2" v-if="KyccertifiedDTO.idCardFront==null || KyccertifiedDTO.idCardFront==null">
+                            <div class="KycImge">
+                                <input type="file" id="image_uploads" name="image_uploads" class="IDcardimg" accept=".jpg, .jpeg, .png">
+                                <div class="preview">
+                                    <p>正➕面</p>
+                                </div>
+                            </div>
+
+                            <div class="KycImge-2">
+                                <div>
+                                    <input type="file" id="image_uploads-2" name="image_uploads" class="IDcardimg2" accept=".jpg, .jpeg, .png">
+                                </div>
+                                <div class="preview-2">
+                                    <p>反➕面</p>
+                                </div>
+                            </div>
+                            <div class="submitDistance">
+                                <input type="submit" class="btn btncolor submitDistance1" value="送出" @@click=insert>
+                            </div>
+                        </form>
+                        <div v-else>
+                            <h1 v-if="KyccertifiedDTO.access=='2'" class="text-3">已成為賣家</h1>
+                            <h1 v-else class="text-3">驗證中</h1>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                //mID: sessionStorage.setItem("mID", 101),
+                mIDD: sessionStorage.getItem("mID"),
+                KyccertifiedDTO: {},
+                PersonalDTOes: {},
+                IdCardFront: null,
+                IdCardBack: null,
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getKyccertifiedDTOes();
+                _this.getPersonalDTOes();
+                $('.SidebarKYC').css("background", "#ededed");
+                var input = document.getElementById('image_uploads');
+                var preview = document.querySelector('.preview');
+                input.addEventListener('change', updateImageDisplay); function updateImageDisplay() {
+                    while (preview.firstChild) {
+                        preview.removeChild(preview.firstChild);
+                    }
+
+                    if (input.files.length === 0) {
+                        var para = document.createElement('p');
+                        para.textContent = '正➕面';
+                        preview.appendChild(para);
+                    }
+                    else {
+                        var para = document.createElement('p');
+                        var image = document.createElement('img');
+                        image.src = window.URL.createObjectURL(input.files[0]);
+                        preview.appendChild(image);
+                        preview.appendChild(para);
+                    }
+                }
+
+                var input2 = document.getElementById('image_uploads-2');
+                var preview2 = document.querySelector('.preview-2');
+                input2.addEventListener('change', updateImage); function updateImage() {
+                    while (preview2.firstChild) {
+                        preview2.removeChild(preview2.firstChild);
+                    }
+
+                    if (input2.files.length === 0) {
+                        var para2 = document.createElement('p');
+                        para2.textContent = '反➕面';
+                        preview2.appendChild(para2);
+                    }
+                    else {
+                        var para2 = document.createElement('p');
+                        var image2 = document.createElement('img');
+                        image2.src = window.URL.createObjectURL(input2.files[0]);
+                        preview2.appendChild(image2);
+                        preview2.appendChild(para2);
+                    }
+                }
+                document.querySelector('.IDcardimg').addEventListener('change', function (e) {
+                    let files = e.target.files
+                    _this.IdCardFront = files[0].name;
+                });
+                document.querySelector('.IDcardimg2').addEventListener('change', function (e) {
+                    let files = e.target.files
+                    _this.IdCardBack = files[0].name;
+                });
+            },
+            methods: {
+                insert: function () {
+                    var _this = this;
+                    var request = {};
+                    //if (_this.IdCardFront == null || _this.IdCardBack == null) {
+                    //    Swal.fire({
+                    //        icon: 'error',
+                    //        title: '請兩張照片一起上傳',
+
+                    //    })
+                    //}
+                    //else {
+                        request.MemberId = _this.mIDD;
+                        request.IdCardFront = "/images/Benicon/memberidcard/" + _this.IdCardFront;
+                        request.IdCardBack = "/images/Benicon/memberidcard/" + _this.IdCardBack;
+                        axios.put(`${webApiBaseAddress}/api/B_personalinformation/Kyccertified/${_this.mIDD}`, request).then(
+                            response => {
+                                //Swal.fire({
+                                //    icon: 'success',
+                                //    title: '已完成上傳',
+                                //    showConfirmButton: false,
+                                //    timer: 1500
+                                //})
+                                //setTimeout(function () {
+                                //    _this.getKyccertifiedDTOes();
+                                //}, 1500);
+
+                            }
+                        );
+                    //}
+                },
+
+                getKyccertifiedDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_personalinformation/Kyccertified/${_this.mIDD}`).then(
+                        response => {
+                            _this.KyccertifiedDTO = response.data
+                        }
+                    );
+                },
+                getPersonalDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mIDD}`).then(
+                        response => {
+                            _this.PersonalDTOes = response.data
+                        }
+                    );
+                },
+                //Signout: function () {
+                //    sessionStorage.removeItem("mID");
+                //    window.location = "/D_Personal"
+                //}
+            },
+        });
+
+    </script>
+
+    }

@@ -1,0 +1,257 @@
+.form_list_content {
+    position: relative;
+    margin: 0px 10px 0px 10px;
+}
+
+.forum_space {
+    padding-top: 30px;
+    /* background-color: blue; */
+    height: 650px;
+    overflow-x: auto;
+}
+
+/*看板分類鈕*/
+.kanban-btn {
+    color: #fff;
+    background-color: #006340;
+    font-weight: 100;
+    border-radius: 18px;
+}
+
+.kanban-btn:hover {
+    color: #fff;
+    background-color: #009b65;
+    border-radius: 3px;
+}
+
+/*看板、標題分類選單*/
+.dropdown-menu {
+    min-width: 95%;
+}
+
+.dropdown-item:hover {
+    color: #006340;
+    background-color: #e8f1ee;
+}
+
+.dropdown-item.active {
+    color: rgb(255, 255, 255);
+    background-color: #12ac76;
+}
+
+/*看板分類鈕*/
+.class-btn {
+    color: #fff;
+    background-color: #006340;
+    font-weight: 100;
+}
+
+.class-btn:hover {
+    color: #fff;
+    background-color: #009b65;
+    border-radius: 18px;
+}
+
+/*身分列*/
+.identity {
+    padding-left: 2px;
+    height: 18px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: pace-between;
+}
+
+/*標題列*/
+.title {
+    width: 100%;
+    height: 30px;
+    font-size: 30px;
+    border: 0;
+    outline: none;
+    overflow: hidden;
+    display: block;
+    outline: none;
+}
+
+/*內文*/
+.describe {
+    padding-top: 5px;
+    width: 100%;
+    height: 450px;
+    font-size: 20px;
+    border: 0;
+    outline: none;
+    overflow: hidden;
+    display: block;
+    outline: none;
+    /* background-color: aquamarine; */
+}
+
+.btn_footer {
+    position: relative;
+    padding-top: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+/*圖片鈕*/
+.image-input {
+    text-align: start;
+}
+
+.image-input input {
+    display: none;
+}
+
+.image-input label {
+    padding-left: 5px;
+    color: #006340;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.image-input label i {
+    font-size: 125%;
+}
+
+.image-input label:hover i {
+    animation: shake .35s;
+}
+
+.image-input img {
+    max-width: 185px;
+    max-height: 175px;
+}
+
+.image-input span {
+    display: none;
+    text-align: start;
+    cursor: pointer;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(10deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+
+/*送出鈕*/
+@keyframes spin {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(720deg);
+    }
+}
+
+.submit {
+    position: relative;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    width: 100px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: transparent;
+    outline: 0;
+    cursor: pointer;
+    overflow: hidden;
+    float: right;
+}
+
+.spin {
+    border: 2px solid #006340;
+    color: #006340;
+    font-weight: 400;
+    transition: all 200ms ease-in-out;
+}
+
+.spin span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transition: opacity 200ms ease-in-out;
+}
+
+.spin span:last-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.spin svg {
+    height: 30px;
+    fill: #009b65;
+}
+
+.spin:hover {
+    background-color: #009b65;
+    color: #fff;
+}
+
+.spin.done,
+.spin.processing {
+    pointer-events: none;
+    cursor: default;
+}
+
+.spin.processing {
+    width: 50px;
+    border-width: 4px;
+    border-right-color: #bbb;
+    border-bottom-color: #bbb;
+    animation: spin;
+    animation-delay: 200ms;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+}
+
+.spin.processing:hover {
+    background-color: transparent;
+}
+
+.spin.processing span:first-child {
+    opacity: 0;
+}
+
+.spin.done:hover {
+    background-color: transparent;
+}
+
+.spin.done span:first-child {
+    opacity: 0;
+}
+
+.spin.done span:last-child {
+    opacity: 1;
+}
+
+
+.btn-in {
+    background-color: #006340;
+}

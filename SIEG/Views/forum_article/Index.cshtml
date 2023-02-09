@@ -1,0 +1,791 @@
+﻿@{
+    ViewData["Title"] = "討論專區";
+    ViewData["enTitle"] = "Forum";
+}
+
+@section Style{
+    <!--forum Article Stylesheet-->
+    <link href="~/css/forumArticleStyle.css" rel="stylesheet">
+}
+
+
+<!-- Content -->
+<div class="index_space news_list_page">
+    <div class="container">
+        <div class="row">
+            <div id="SortVue" class="col-lg-4 col-xl-3 order-lg-1 order-2 widget_area">
+                <div class="sticky_sidebar">
+                    <!-- 側欄分類 -->
+                    <div class="widget widget_categories">
+                        <!--發表文章按鈕-->
+                        <div style="text-align: center;">
+                            <button type="button" class="bubbly-button">發表文章</button>
+                        </div>
+                        <div class="widget_title">S.E.I.G<span>精選看板</span></div>
+                        <ul>
+                            <li v-for="item in ProductSortDTO">
+                                <div class="has_child">
+                                    <a>{{item.productsortName}}</a>
+                                    <span class="has_child_btn">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </span>
+                                </div>
+                                <ul class="sub_child">
+                                    <li v-for="subitem in ProductBrandDTO.filter(x => x.productsortName == item.productsortName)">
+                                        <a >{{subitem.productsortBrand}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9 order-lg-2 order-1">
+                <div id="DeleteVue" style="float:right" v-if="mID==MemberId">
+                    <div class="list-container">
+                        <button class="edit_button" aria-label="Menu Button">
+                            <div class="menu-icon-wrapper">
+                                <div class="menu-icon-line half first"></div>
+                                <div class="menu-icon-line"></div>
+                                <div class="menu-icon-line half last"></div>
+                            </div>
+                        </button>
+                        <ul class="edit_button-list">
+                            @*<li class="edit_button-list-item">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="feather feather-edit-2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                                <span style="font-size:13px">編輯貼文</span>
+                            </li>*@
+                            <li class="edit_button-list-item" style="color:red" @@click="deleteArticle()">
+                                <svg width="32px" height="32px" viewBox="0 0 32 32" id="i-trash"
+                                     xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentcolor"
+                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+                                </svg>
+                                <span style="font-size:13px">刪除</span>
+                            </li>
+                    </div>
+                    <div class="socials">
+                        <a class="social-link" href="https://twitter.com/aybukeceylan" target="_top">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-twitter">
+                                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                            </svg>
+                        </a>
+                        <a class="social-link" href="https://www.linkedin.com/in/ayb%C3%BCkeceylan/" target="_top">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-linkedin">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                <rect x="2" y="9" width="4" height="12" />
+                                <circle cx="4" cy="4" r="2" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div id="ForumArticleVue" class="form_list_content">
+                    <!--內文-->
+                    <div>
+                        <!--身分列-->
+                        <div style="padding-top: 5px; float: left;">
+                            <svg viewBox="0 0 40 40" focusable="false" width="32" height="32">
+                                <path fill="#12ac76" d="M40 20a20 20 0 1 1-40 0 20 20 0 0 1 40 0"></path>
+                                <path fill="#006340"
+                                      d="M16 7.9C12.4 7.4 9.3 6 9.3 6s5.5 4.3 5 5.3c-.4 1-4.2 0-4.2 0l4 2a9.7 9.7 0 0 0-1.5 4.6l.1 3.4a1.5 1.5 0 1 0 .8 2.9 8.3 8.3 0 0 0 6.2 5.3c.6 0 .6 2 .6 3.2-1.6 1-2.5 3-2 5v2.2a20.2 20.2 0 0 0 9.9-1.6l-.7-2.7v-.4l-.2-.4-.2-.4-.2-.3-.2-.3c-.7-1-1.7-1.6-2.9-1.8l.6-2.3s1.4-1 3-2.6l.4 1.3 1.4-2.5.9-1.8s3.8-10.3.8-13.9c-2.6-3-11-1.9-14.7-2.3">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="name">
+                            <span style="padding-left: 5px;">{{PostDTOs.nickName}}</span>
+                        </div>
+                        <!--Title-->
+                        <h3 style="padding-top: 15px;">{{PostDTOs.title}}</h3>
+                        <!--分類、時間-->
+                        <p class="time"><a href="forum_list.html" class="sort">{{PostDTOs.category}}</a>·{{PostDTOs.brandName}}·{{Date}}</p>
+                        <!--內文-->
+                        <div class="text">
+                            <span>
+                                {{PostDTOs.articleContent}}
+                            </span>
+                        </div>
+                        <!--內文圖-->
+                        <div v-if="PostDTOs.img != '/images/forum/post/none-img.jpg'" style="text-align: center;">
+                            <img :src="PostDTOs.img" class="image">
+                        </div>
+                        <!--Like-->
+                        <div style="padding-top: 20px; float:left">
+                            <img style="width: 30px; height:30px" src="~/images/forum/biglike.png">
+                        </div>
+                        <div style="padding-top:22px;">
+                            <span>{{PostDTOs.likeCount}}·留言 {{PostDTOs.replyCount}}</span>
+                            <!--收藏按讚紐-->
+                            <div class="placement" style="float: right;" @@click="like(PostDTOs)">
+                                <div class="heart"></div>
+                            </div>
+                            <button type="button" class="book" style="float: right;" @@click="book">
+                                <div class="wave"></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
+                                    <path d="M1417.763 66.17h-1024v1242l423-406 89-85 89 85 423 406v-1242zm12-128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62v-1289q0-34 19.5-62t52.5-41q21-9 44-9h1048z"
+                                          fill="currentColor" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div style="padding-top: 35px;border-bottom: 2px solid #ddd;"></div>
+                    </div>
+                </div>
+                <!--留言區-->
+                <div id="ReplyVue" style="background-color: #f5f5f5;">
+                    <div style="border-bottom: 1px solid #ddd;">
+                        <span>
+                            <a class="total_message">共{{totalreply}}則留言</a>
+                            <span>
+                                <button id="Reply_btn" class="Reply_btn" type="button" @@click="login">我要回復!</button>
+                                <div class="Reply_block">
+                                    <textarea id="text" class="describe" placeholder="請勿帶有仇恨言論"
+                                              v-model="Reply"></textarea>
+                                    <div style="text-align: center;" class="frame">
+                                        <button id="cancel" type="button" class="cancel_btn custom">取消</button>
+                                        <button id="submit_btn" type="button" class="submit_btn custom"
+                                                @@click="insert">
+                                            送出
+                                        </button>
+                                    </div>
+                                </div>
+                            </span>
+                            @*回覆二回覆框*@
+                            <span>
+                                <div class="Reply2_block">
+                                    <textarea id="text" class="describe" placeholder="請勿帶有仇恨言論"
+                                              v-model="Reply2"></textarea>
+                                    <div style="text-align: center;" class="frame">
+                                        <button id="cancel" type="button" class="cancel_btn custom"
+                                                onclick="$('.Reply2_block').css('display', 'none')">
+                                            取消
+                                        </button>
+                                        <button id="submit_btn" type="button" class="submit_btn custom"
+                                                @@click="rp2insert">
+                                            送出
+                                        </button>
+                                    </div>
+                                </div>
+                            </span>
+                        </span>
+                    </div>
+                    <template v-for="item in ReplyDTOs">
+                        <!--留言身分列-->
+                        <div style="padding-top: 5px; float: left;" v-if="item.valIdity == true">
+                            <svg viewBox="0 0 40 40" focusable="false" width="32" height="32">
+                                <path fill="#12ac76" d="M40 20a20 20 0 1 1-40 0 20 20 0 0 1 40 0"></path>
+                                <path fill="#006340"
+                                      d="M16 7.9C12.4 7.4 9.3 6 9.3 6s5.5 4.3 5 5.3c-.4 1-4.2 0-4.2 0l4 2a9.7 9.7 0 0 0-1.5 4.6l.1 3.4a1.5 1.5 0 1 0 .8 2.9 8.3 8.3 0 0 0 6.2 5.3c.6 0 .6 2 .6 3.2-1.6 1-2.5 3-2 5v2.2a20.2 20.2 0 0 0 9.9-1.6l-.7-2.7v-.4l-.2-.4-.2-.4-.2-.3-.2-.3c-.7-1-1.7-1.6-2.9-1.8l.6-2.3s1.4-1 3-2.6l.4 1.3 1.4-2.5.9-1.8s3.8-10.3.8-13.9c-2.6-3-11-1.9-14.7-2.3">
+                                </path>
+                            </svg>
+                        </div>
+                        <!--刪除的留言身分列-->
+                        <div style="padding-top: 5px; float: left;" v-if="item.valIdity == false">
+                            <svg viewBox="0 0 40 40" focusable="false" width="32" height="32">
+                                <path fill="#000000" d="M40 20a20 20 0 1 1-40 0 20 20 0 0 1 40 0"></path>
+                                <path fill="#006340"
+                                      d="M16 7.9C12.4 7.4 9.3 6 9.3 6s5.5 4.3 5 5.3c-.4 1-4.2 0-4.2 0l4 2a9.7 9.7 0 0 0-1.5 4.6l.1 3.4a1.5 1.5 0 1 0 .8 2.9 8.3 8.3 0 0 0 6.2 5.3c.6 0 .6 2 .6 3.2-1.6 1-2.5 3-2 5v2.2a20.2 20.2 0 0 0 9.9-1.6l-.7-2.7v-.4l-.2-.4-.2-.4-.2-.3-.2-.3c-.7-1-1.7-1.6-2.9-1.8l.6-2.3s1.4-1 3-2.6l.4 1.3 1.4-2.5.9-1.8s3.8-10.3.8-13.9c-2.6-3-11-1.9-14.7-2.3">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="name" style="border-bottom: 1px solid #ddd;">
+                            <span style="padding-left: 5px;" v-if="item.valIdity == true">{{item.nickName}}</span>
+                            <!--刪除的-->
+                            <span style="padding-left: 5px;" v-if="item.valIdity == false">這則留言已被刪除</span>
+                            <!--留言-->
+                            <div style="padding-left:37px;">
+                                <span style="word-break: break-all;white-space: pre-line;" v-if="item.valIdity == true">{{item.forumReplyContent}}</span>
+                                <!--刪除的-->
+                                <span style="word-break: break-all;white-space: pre-line;" v-if="item.valIdity == false">已經刪除的內容就像 SIEG 一樣，錯過是無法再相見的！</span>
+                                <p style="font-size: 13px;">
+                                    B{{item.floor}}·{{item.AddTime}} <button id="Reply2_btn" style="background:none; color:#00000080;" v-if="item.valIdity == true" @@click="rp2Open(item.forumReplyId, item.floor, rp2Floor)">回覆</button>
+                                    <!--留言刪除鈕-->
+                                    <button type="button" style="background:none;float:right;color:red" v-if="item.valIdity == true && item.memberId==mID" @@click="delReply1(item.forumReplyId)">
+                                        <svg width="22px" height="18px" viewBox="0 0 32 32" id="i-trash"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentcolor"
+                                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+                                        </svg>
+                                    </button>
+                                </p>
+                            </div>
+                            <!--更多留言-->
+                            <div style="padding: 3px 0px 3px 30px;">
+                                <button v-if="rp2.rp1floor == item.floor" v-for="rp2 in rp2Floor" id="more"
+                                        type="button" class="more_button slideToggle">
+                                    查看其他{{rp2.rpamount}}則留言
+                                </button>
+                                <div class="showcontent" style="display: none;">
+                                    <div v-if="rp2.forumReplyFloor == item.floor" v-for="rp2 in Reply2DTOs">
+                                        <!--留言身分列-->
+                                        <div style="padding-top: 5px; float: left;" v-if="rp2.valIdity == true">
+                                            <svg viewBox="0 0 40 40" focusable="false" width="32" height="32">
+                                                <path fill="#12ac76" d="M40 20a20 20 0 1 1-40 0 20 20 0 0 1 40 0"></path>
+                                                <path fill="#006340"
+                                                      d="M16 7.9C12.4 7.4 9.3 6 9.3 6s5.5 4.3 5 5.3c-.4 1-4.2 0-4.2 0l4 2a9.7 9.7 0 0 0-1.5 4.6l.1 3.4a1.5 1.5 0 1 0 .8 2.9 8.3 8.3 0 0 0 6.2 5.3c.6 0 .6 2 .6 3.2-1.6 1-2.5 3-2 5v2.2a20.2 20.2 0 0 0 9.9-1.6l-.7-2.7v-.4l-.2-.4-.2-.4-.2-.3-.2-.3c-.7-1-1.7-1.6-2.9-1.8l.6-2.3s1.4-1 3-2.6l.4 1.3 1.4-2.5.9-1.8s3.8-10.3.8-13.9c-2.6-3-11-1.9-14.7-2.3">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <!--刪除的-->
+                                        <div style="padding-top: 5px; float: left;" v-if="rp2.valIdity == false">
+                                            <svg viewBox="0 0 40 40" focusable="false" width="32" height="32">
+                                                <path fill="#000000" d="M40 20a20 20 0 1 1-40 0 20 20 0 0 1 40 0"></path>
+                                                <path fill="#006340"
+                                                      d="M16 7.9C12.4 7.4 9.3 6 9.3 6s5.5 4.3 5 5.3c-.4 1-4.2 0-4.2 0l4 2a9.7 9.7 0 0 0-1.5 4.6l.1 3.4a1.5 1.5 0 1 0 .8 2.9 8.3 8.3 0 0 0 6.2 5.3c.6 0 .6 2 .6 3.2-1.6 1-2.5 3-2 5v2.2a20.2 20.2 0 0 0 9.9-1.6l-.7-2.7v-.4l-.2-.4-.2-.4-.2-.3-.2-.3c-.7-1-1.7-1.6-2.9-1.8l.6-2.3s1.4-1 3-2.6l.4 1.3 1.4-2.5.9-1.8s3.8-10.3.8-13.9c-2.6-3-11-1.9-14.7-2.3">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div class="name" v-if="rp2.valIdity == true">
+                                            <span style="padding-left: 5px;">{{rp2.nickName}}</span>
+                                            <!--留言-->
+                                            <div style="padding-left:37px;">
+                                                <span style="word-break: break-all;white-space: pre-line;">{{rp2.forumReply2Content}}</span>
+                                                <p style="font-size: 13px;">
+                                                    B{{rp2.forumReplyFloor}}-{{rp2.floor}}·{{rp2.建立時間}}
+                                                    <!--留言刪除鈕-->
+                                                    <button type="button" style="background:none;float:right;color:red" v-if="rp2.valIdity == true&&rp2.memberId==mID" @@click="delReply2(rp2.forumReply2Id)">
+                                                        <svg width="22px" height="18px" viewBox="0 0 32 32" id="i-trash"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentcolor"
+                                                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
+                                                        </svg>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!--刪除的-->
+                                        <div class="name" v-if="rp2.valIdity == false">
+                                            <span style="padding-left: 5px;">這則留言已被刪除</span>
+                                            <!--留言-->
+                                            <div style="padding-left:37px;">
+                                                <span style="word-break: break-all;white-space: pre-line;">已經刪除的內容就像 SIEG 一樣，錯過是無法再相見的！</span>
+                                                <p style="font-size: 13px;">
+                                                    B{{rp2.forumReplyFloor}}-{{rp2.floor}}·{{rp2.建立時間}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Footer {
+    <partial name="_FooterPartial" />
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script src="~/js/forum_post.js"></script>
+
+    <script>
+        var articleId = sessionStorage.getItem("fID");
+        var webApiBaseAddress = "https://localhost:7139";
+        var ArticleVue = new Vue({
+            el: "#ForumArticleVue",
+            name: "ForumArticleVue",
+            data: {
+                mID: "",
+                PostDTOs: [],
+                Date: [],
+                Fliter: "",
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getPostDTOs();
+
+                //  /*按讚鈕*/
+                $(function () {
+                    $(".heart").on("click", function () {
+                        $(this).toggleClass("is-active");
+                    });
+                });
+
+                ///*收藏*/
+                $(function () {
+                    $(".book").on("mousedown", function () {
+                        if (!$(this).hasClass('active')) {
+                            $(this).addClass('pressed')
+                        }
+                    });
+                });
+
+                $(function () {
+                    $(".book").on("click", function () {
+                        $(this).removeClass('pressed')
+                        $(this).toggleClass('active')
+                    });
+                });
+            },
+            methods: {
+                getPostDTOs: function () {
+                    let _this = this;
+                    _this.mID = sessionStorage.getItem("mID");
+                    axios.get(`${webApiBaseAddress}/api/G_ForumArticles/${articleId}`).then(
+                        response => {
+                            _this.PostDTOs = response.data[0];
+                            var PostList = [];
+                            let item = {};
+                            item = _this.PostDTOs;
+                            _this.Date = moment(item.addTime).add(8, 'hours').format("YYYY年M月D日 h:m A");
+                            PostList.push(item);
+                            //console.log(_this.PostDTOs)
+                        }
+                    );
+                },
+                like: function (Post) {
+                    //console.log(Post)
+                    let _this = this;
+                    if(_this.mID == null){
+                        window.location = "/D_Personal";
+                    }else{
+                        var request = {};
+                        let PostId = articleId;
+                        request.ForumArticleId = PostId;
+                        request.MemberId = Post.memberId;
+                        request.Category = Post.category;
+                        request.ProductCategoryId = Post.productCategoryId;
+                        request.Title = Post.title;
+                        request.ArticleContent = Post.articleContent;
+                        request.LikeCount = Post.likeCount + 1;
+                        request.Img = Post.img;
+                        axios.put(`${webApiBaseAddress}/api/G_ForumArticles/${PostId}`, request).then(
+                            response => {
+                                //alert(response.data);
+                                _this.getPostDTOs();
+                            }
+                        );
+                    }
+                },
+                book: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    if(mID == null){
+                        window.location = "/D_Personal";
+                    }else{
+                        var _this = this;
+                        var request = {};
+                        request.MemberId = mID;
+                        request.ValIdity = true;
+                        request.ForumArticleId = _this.PostDTOs.forumArticleId;
+                        axios.post(`${webApiBaseAddress}/api/G_FaviriteArticles`, request).then(
+                            response => {
+                            }
+                        );
+                    }
+                },
+
+            },
+        });
+    </script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var SortVue = new Vue({
+            el: "#SortVue",
+            name: "SortVue",
+            data: {
+                ProductSortDTO: [],
+                ProductBrandDTO: [],
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getProductSortDTO();
+                _this.getProductBrandDTO();
+                $(function () {
+                    setTimeout(function () {
+                        $(".sub_child").hide();
+                        $(".has_child_btn").click(function () {
+                            $(this).toggleClass("active");
+                            $(this).parent().next().slideToggle();
+                            $(this).parent().parent().toggleClass("active");
+                        });
+                    }, 100);
+                });
+                /*文章頁發文鈕*/
+                let open = '@Url.Action("Forum_post", "Forum")';
+                var animateButton = function (e) {
+                
+                    e.preventDefault;
+                    e.target.classList.remove('animate');
+                
+                    e.target.classList.add('animate');
+                
+                
+                    setTimeout(function () {
+                        e.target.classList.remove('animate');
+                        var mID = sessionStorage.getItem("mID");
+                        if (mID == null) {
+                            window.location = "/D_Personal";
+                        }
+                        else {
+                            window.open('Forum_post');
+                        }
+                    }, 500);
+                };
+                
+                var bubblyButtons = document.getElementsByClassName("bubbly-button");
+                
+                for (var i = 0; i < bubblyButtons.length; i++) {
+                    bubblyButtons[i].addEventListener('click', animateButton, false);
+                }
+            },
+            methods: {
+                getProductSortDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort`).then(
+                        response => {
+                            _this.ProductSortDTO = response.data;
+                        }
+                    );
+                },
+                getProductBrandDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort/Brand`).then(
+                        response => {
+                            _this.ProductBrandDTO = response.data;
+                        }
+                    );
+                },
+            },
+        });
+    </script>
+
+    <script>
+        var articleid = sessionStorage.getItem("fID");
+        var webApiBaseAddress = "https://localhost:7139";
+        var ReplyVue = new Vue({
+            el: "#ReplyVue",
+            name: "ReplyVue",
+            data: {
+                mID:"",
+                ReplyDTOs: [],
+                Reply2DTOs: [],
+                lastFloor: [],
+                rp2Floor: [],
+                rp2LastFloor: [],
+                rp2Request: {},
+                totalreply: null,
+                Reply: null,
+                Reply2: null,
+
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getReplyDTOs();
+                _this.getReply2DTOs();
+                /*取消鈕*/
+                let cancel = document.getElementById('cancel');
+                cancel.addEventListener('click', function () {
+                    $('.Reply_block').css('display', 'none');
+                });
+
+                //留言收折+RP2回覆紐
+                $(function () {
+                    setTimeout(function () {
+                        let aa = {};
+                        $(".more_button").on('click', function () {
+                            aa = this.textContent;
+                            $(this).next(".showcontent").slideToggle();
+                            if (this.textContent == '隱藏留言') {
+                                this.textContent = _this.old;
+                            }
+                            else {
+                                this.textContent = '隱藏留言';
+                            }
+                            _this.old = aa;
+                        });
+                    }, 1000);
+                });
+            },
+            methods: {
+                getReplyDTOs: function () {
+                    let _this = this;
+                    _this.mID = sessionStorage.getItem("mID");
+                    axios.get(`${webApiBaseAddress}/api/G_ForumReply1/${articleid}`).then(
+                        response => {
+                            _this.ReplyDTOs = response.data;
+                            var EmployeeList = [];
+                            var lastfloorList = [];
+                            for (let i = 0; i < _this.ReplyDTOs.length; i++) {
+                                let item = {};
+                                let floor = {};
+                                item = _this.ReplyDTOs[i];
+                                item.AddTime = moment(_this.ReplyDTOs[i].addTime).add(8, 'hours').format("M月D日 h:mm A");
+                                EmployeeList.push(item);
+                                floor = _this.ReplyDTOs[i].floor + 1;
+                                lastfloorList.push(floor);
+                            }
+                            _this.ReplyDTOs = EmployeeList;
+                            lastFloor = lastfloorList.slice(-1);
+                            _this.getTotalReply();
+                            //console.log(_this.ReplyDTOs)
+                        }
+                    );
+                },
+                getReply2DTOs: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/G_ForumReply2/${articleid}`).then(
+                        response => {
+                            _this.Reply2DTOs = response.data;
+                            var EmployeeList = [];
+                            var FloorList = [];
+                            var RpList = [];
+                            for (let i = 0; i < _this.Reply2DTOs.length; i++) {
+                                let item = {};
+                                let floor = {};
+                                item = _this.Reply2DTOs[i];
+                                floor = _this.Reply2DTOs[i].forumReplyFloor;
+                                item.建立時間 = moment(_this.Reply2DTOs[i].addTime).add(8, 'hours').format("M月D日 h:mm A");
+                                EmployeeList.push(item);
+                                FloorList.push(floor);
+                                let rparray = {
+                                    "rp1floor": floor,
+                                    "rpamount": _this.Reply2DTOs[i].floor,
+                                }
+                                RpList.push(rparray);
+                            }
+                            _this.Reply2DTOs = EmployeeList;
+                            _this.removeDuplicates(RpList, "rp1floor");
+                            //console.log(response.data);
+
+                        }
+                    );
+                },
+                removeDuplicates: function removeDuplicates(originData, rp1floor) {
+                    let _this = this;
+                    var newArray = [];
+                    var lookupObject = {};
+
+                    for (var i in originData) {
+                        lookupObject[originData[i][rp1floor]] = originData[i];
+                    }
+
+                    for (i in lookupObject) {
+                        newArray.push(lookupObject[i]);
+                    }
+                    _this.rp2Floor = newArray;
+                    _this.getTotalReply();
+                },
+                getTotalReply: function () {
+                    let _this = this;
+                    let x = 0;
+                    for (let i = 0; i < _this.rp2Floor.length; i++) {
+                        x += _this.rp2Floor[i].rpamount;
+                    }
+                    x += lastFloor[0] - 1;
+                    if (x >= 0) {
+                        _this.totalreply = x;
+                    } else {
+                        _this.totalreply = 0;
+                    }
+                    _this.articleReply();
+                },
+                insert: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    var _this = this;
+                    var request = {};
+                    request.ForumArticleId = articleid;
+                    request.MemberId = mID;
+                    if (lastFloor[0] == null) {
+                        request.Floor = 1;
+                    } else {
+                        request.Floor = lastFloor[0];
+                    }
+                    request.ForumReplyContent = _this.Reply;
+                    //console.log(request)
+                    axios.post(`${webApiBaseAddress}/api/G_ForumReply1`, request).then(
+                        response => {
+                            _this.Reply = null;
+                            setTimeout(function () {
+                                $('.Reply_block').css('display', 'none');
+                            }, 500);
+                            _this.getReplyDTOs();
+                            _this.articleReply();
+                        }
+                    );
+                },
+                delReply1: function (replyId) {
+                    let _this = this;
+                    var ret = Swal.fire({
+                        title: '確定要刪除留言?',
+                        text: "刪除便不可恢復!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete(`${webApiBaseAddress}/api/G_ForumReply1/${replyId}`).then
+                            (
+                                response => {
+                                    _this.getReplyDTOs();
+                                }
+                            )
+                        }
+                    });
+                },
+                rp2Open: function (Reply1Id, rp1Floor, rp2Floor) {
+                    var mID = sessionStorage.getItem("mID");
+                    if (mID == null) {
+                        window.location = "/D_Personal";
+
+                    } else {
+                        var _this = this;
+                        $(".Reply2_block").slideToggle();
+                        _this.rp2Request.articleId = articleid;
+                        _this.rp2Request.forumReplyId = Reply1Id;
+                        _this.rp2Request.memberId = mID;
+                        _this.rp2Request.forumReplyFloor = rp1Floor;
+                        var rp2FloorObject = [];
+                        for (let i = 0; i < rp2Floor.length; i++) {
+                            if (rp2Floor[i].rp1floor == rp1Floor) {
+                                rp2FloorObject.push(rp2Floor[i]);
+                            }
+                        };
+                        if (rp2FloorObject.length == 0) {
+                            _this.rp2Request.Floor = 1;
+                        } else {
+                            _this.rp2Request.Floor = rp2FloorObject[0].rpamount + 1;
+                        }
+                    }
+                },
+                rp2insert: function () {
+                    var _this = this;
+                    _this.rp2Request['forumReply2Content'] = _this.Reply2;
+                    let request = {};
+                    request = _this.rp2Request;
+                    axios.post(`${webApiBaseAddress}/api/G_ForumReply2`, request).then(
+                        response => {
+                            _this.Reply2 = null;
+                            setTimeout(function () {
+                                $('.Reply2_block').css('display', 'none');
+                            }, 500);
+                            _this.getReply2DTOs();
+                            _this.removeDuplicates();
+                            _this.getTotalReply();
+                            setTimeout(function () {
+                                $(".more_button").on('click', function () {
+                                    $(this).next(".showcontent").slideToggle();
+                                });
+                            }, 1000);
+                        }
+                    );
+                },
+                delReply2: function (reply2Id) {
+                    let _this = this;
+                    var ret = Swal.fire({
+                        title: '確定要刪除留言?',
+                        text: "刪除便不可恢復!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete(`${webApiBaseAddress}/api/G_ForumReply2/${reply2Id}`).then
+                            (
+                                response => {
+                                    _this.getReply2DTOs();
+                                }
+                            )
+                        }
+                    });
+                },
+                articleReply: function () {
+                    let _this = this;
+                    var request = {};
+                    let PostId = articleId;
+                    request.ForumArticleId = PostId;
+                    request.ReplyCount = _this.totalreply;
+                    axios.put(`${webApiBaseAddress}/api/G_ForumArticles/ReplyCount/${PostId}`, request).then(
+                        response => {
+                            setTimeout(function () {
+                                ArticleVue.getPostDTOs();
+                            }, 400);
+                        }
+                    );
+                },
+                login: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    if (mID == null) {
+                        window.location = "/D_Personal";
+
+                    }
+                },
+            }
+        });
+    </script>
+
+    <script>
+        var articleid = sessionStorage.getItem("fID");
+        var webApiBaseAddress = "https://localhost:7139";
+        var DeleteVue = new Vue({
+            el: "#DeleteVue",
+            name: "DeleteVue",
+            data: {
+                mID: "",
+                MemberId:"",
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getMemberId();
+                $(function () {
+                    setTimeout(function () {
+                        /*刪除修改選單*/
+                        document.querySelector('.edit_button').addEventListener('click', function () {
+                            document.querySelector('.list-container').classList.toggle('active');
+                        });
+                    }, 1000);
+                });
+            },
+            methods: {
+                getMemberId: function () {
+                    let _this = this;
+                    _this.mID = sessionStorage.getItem("mID");
+                    axios.get(`${webApiBaseAddress}/api/G_ForumArticles/${articleId}`).then(
+                        response => {
+                            _this.MemberId = response.data[0].memberId;
+                        }
+                    );
+                },
+                deleteArticle: function () {
+                    let _this = this;
+                    var ret = Swal.fire({
+                        title: '確定真要刪除?',
+                        text: "刪除便不可恢復!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            axios.delete(`${webApiBaseAddress}/api/G_ForumArticles/${articleid}`).then
+                                (
+                                    response => {
+                                        window.location = "Forum_list"
+                                    }
+                                )
+                        }
+                    });
+                },
+            },
+        });
+    </script>
+}

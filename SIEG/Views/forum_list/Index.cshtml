@@ -1,0 +1,284 @@
+﻿@{
+    ViewData["Title"] = "討論專區";
+    ViewData["enTitle"] = "Forum";
+}
+
+@section Style{
+    <!--Forum List Stylesheet-->
+    <link href="~/css/formListStyle.css" rel="stylesheet">
+}
+
+<!-- Page Banner -->
+<div class="page_banner" style="background-image: url(../images/forum/forum.jpg)">
+    <div class="container">
+        <div class="content">
+            <h1 class="page_title">FORUM</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="index_space news_list_page" id="ForumListVue">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-xl-3 order-lg-1 order-2 widget_area">
+                <div class="sticky_sidebar">
+                    <!--文章熱門、最新篩選，發文按鈕-->
+                    <span class="dropdown">
+                        <button type="button" class="btn dropdown-toggle class-btn"
+                                data-bs-toggle="dropdown">
+                            文章篩選
+                        </button>
+                        <span class="dropdown-menu">
+                            <a id="hot" href="#" class="dropdown-item" @@click="hotarticles">熱門</a>
+                            <a id="new" href="#" class="dropdown-item active" @@click="newarticles">最新</a>
+                        </span>
+                    </span>
+                    <div style="float: right;">
+                        @*asp-controller="forum_post" asp-action="Index"*@
+                        <a @@click="PostArticle"><img src="~/images/forum/pen.jpg"></a>
+                    </div>
+                    <hr>
+                    <!-- 側欄搜尋 -->
+                    <div class="widget widget_search" style="padding-top: 15px;">
+                        <form class="search_form">
+                            <input type="text" placeholder="搜尋貼文" v-model="Filter">
+                            <button type="button" @@click="search"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    <!-- 側欄分類 -->
+                    <div class="widget widget_categories">
+                        <div class="widget_title">S.E.I.G<span>精選看板</span></div>
+                        <ul>
+                            <li v-for="item in ProductSortDTO">
+                                <div class="has_child">
+                                    <a @@click="filterProductSort(item.productsortName)">{{item.productsortName}}</a>
+                                    <span class="has_child_btn">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </span>
+                                </div>
+                                <ul class="sub_child">
+                                    <li v-for="subitem in ProductBrandDTO.filter(x => x.productsortName == item.productsortName)">
+                                        <a >{{subitem.productsortBrand}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9 order-lg-2 order-1">
+                <div class="form_list_content">
+                    <!--文章列表-->
+                    <div class="row">
+                        <div class="col-12 forum-sm-6 mymouse" v-for="item in PostDTOs" @@click="article(item.forumArticleId)">
+                            <img :src="item.img" style="float: right;" class="preview_img">
+                            <div class="news_content" style="width: calc(100% - 120px); float:left">
+                                <div style="font-size: 13px;">
+                                    <p>
+                                        {{item.category}}‧{{item.nickName}}‧{{item.addTime}}
+                                    </p>
+                                </div>
+                                <div class="article_title">
+                                    <a class="one-row">{{item.title}}</a>
+                                </div>
+                                <p tag class="forum-two-row">
+                                    {{item.articleContent}}
+                                </p>
+                            </div>
+                            <div style="float: left;">
+                                <span class="like_block">
+                                    <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+                                        <img alt=""
+                                             src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2716%27%20height=%2716%27/%3e"
+                                             style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;">
+
+                                        <img alt="like" src="~/images/forum/like.png"
+                                             style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 110%; max-height: 110%;">
+                                    </span>
+                                </span>
+                                <div class="like_quantity">
+                                    <p>{{item.likeCount}}</p>
+                                </div>
+                            </div>
+                            <div style="float: left; padding-left: 15px;">
+                                <span class="like_block">
+                                    <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
+                                        <img alt=""
+                                             src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2716%27%20height=%2716%27/%3e"
+                                             style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;">
+
+                                        <img alt="message" src="~/images/forum/message.png"
+                                             style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 110%; max-width: 110%; min-height: 110%; max-height: 110%;">
+                                    </span>
+                                </span>
+                                <div class="like_quantity">
+                                    <p>{{item.replyCount}}</p>
+                                </div>
+                            </div>
+                            <hr style="clear:both;">
+                        </div>
+                        <partial name="_NoDataPartial" class="no_data"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Footer {
+    <partial name="_FooterPartial" />
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script src="~/js/forum_post.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var postVue = new Vue({
+            el: "#ForumListVue",
+            name: "ForumListVue",
+            data: {
+                PostDTOs: [],
+                SortArticles: [],
+                ProductSortDTO: [],
+                ProductBrandDTO: [],
+                Filter: "",
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getPostDTOs();
+                _this.getProductSortDTO();
+                _this.getProductBrandDTO();
+                $(function () {
+                    setTimeout(function () {
+                        $(".sub_child").hide();
+                        $(".has_child_btn").click(function () {
+                            $(this).toggleClass("active");
+                            $(this).parent().next().slideToggle();
+                            $(this).parent().parent().toggleClass("active");
+                        });
+                    }, 100);
+                });
+                $(".dropdown-menu a").click(function () {
+                        $(".dropdown-menu a").removeClass('active');
+                        $(this).addClass('active');
+                });
+            },
+            methods: {
+                getPostDTOs: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/G_ForumArticles`).then(
+                        response => {
+                            _this.PostDTOs = response.data.reverse();
+                            var PostList = [];
+                            for (let i = 0; i < _this.PostDTOs.length; i++) {
+                                let item = {};
+                                item = _this.PostDTOs[i];
+                                item.addTime = moment(item.addTime).add(8, 'hours').format("YYYY年M月D日 h:m A");
+                                PostList.push(item);
+                            }
+                            _this.PostDTOs = PostList;
+                            _this.SortArticles = PostList;
+                            if (PostList.length == 0) {
+                                $(".no_data").show();
+                            }
+                            else {
+                                $(".no_data").hide();
+                            }
+                        }
+                    );
+                },
+                getProductSortDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort`).then(
+                        response => {
+                            _this.ProductSortDTO = response.data;
+                        }
+                    );
+                },
+                getProductBrandDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/E_ProductSort/Brand`).then(
+                        response => {
+                            _this.ProductBrandDTO = response.data;
+                        }
+                    );
+                },
+                article: function (itemid) {
+                    var PostId = itemid;
+                    sessionStorage.setItem("fID", PostId);
+                    window.location = "/forum_article";
+                },
+                search: function () {
+                    let _this = this;
+                    var request = {};
+                    request.Title = _this.Filter;
+                    axios.post(`${webApiBaseAddress}/api/G_ForumArticles/Filter`, request).then(
+                        response => {
+                            _this.PostDTOs = response.data;
+                            var PostList = [];
+                            for (let i = 0; i < _this.PostDTOs.length; i++) {
+                                let item = {};
+                                item = _this.PostDTOs[i];
+                                item.addTime = moment(item.addTime).add(8, 'hours').format("YYYY年M月D日 h:m A");
+                                PostList.push(item);
+                            }
+                            _this.PostDTOs = PostList.reverse();
+                            //console.log(_this.PostDTOs.length)
+                            if (PostList.length == 0) {
+                                $(".no_data").show();
+                            }
+                            else {
+                                $(".no_data").hide();
+                            }
+                        }
+                    );
+                },
+                PostArticle:function(){
+                    var mID = sessionStorage.getItem("mID")
+                    if(mID == null)
+                    {
+                        window.location = "/D_Personal";
+
+                    }else
+                    {
+                        window.location = "/forum_post";
+                    }
+                },
+                newarticles:function(){
+                    let _this = this;
+                    _this.PostDTOs.sort(function (a, b) {
+                        return a.addTime < b.addTime ? 1 : -1;
+                    });
+                },
+                hotarticles: function () {
+                    let _this = this;
+                    _this.PostDTOs.sort(function (a, b) {
+                        return a.likeCount < b.likeCount ? 1 : -1;
+                    });
+                },
+                filterProductSort: function (sortName) {
+                    let _this = this;
+                    _this.PostDTOs = _this.SortArticles;
+                    var filterResults = _this.PostDTOs.filter(function (item, index, array) {
+                        return item.category == sortName;
+                    });
+                    _this.PostDTOs = filterResults;
+                    $(".dropdown-menu a").removeClass('active');
+                    $("#new").addClass('active');
+                    if (filterResults.length == 0) {
+                        $(".no_data").show();
+                    }
+                    else {
+                        $(".no_data").hide();
+                    }
+                },
+            },
+        });
+    </script>
+}

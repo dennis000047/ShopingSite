@@ -1,0 +1,127 @@
+﻿<!-- 右邊內容 -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!-- 手機板選單 -->
+        <div class="top_nav justify-content-xl-end justify-content-between">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <i class="bx bx-menu bx-sm"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- 顯示資訊 -->
+        <div class="card" id="bannerVue">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+
+                        <label class="form-label" for="banner_name">分類名稱</label>
+              @*          <input type="text" class="form-control" v-model="CateName" />*@
+                        <select class="form-control" v-model="CateName">
+                            <option value="高檔鞋履">高檔鞋履</option>
+                            <option value="時尚包款">時尚包款</option>
+                            <option value="潮流服飾">潮流服飾</option>
+                            <option value="精品腕錶">精品腕錶</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">品牌名稱</label>
+                        <input type="text" class="form-control" v-model="BrandName" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">商品名稱</label>
+                        <input type="text" class="form-control" v-model="Name" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">品牌圖檔</label>
+                        <input type="text" class="form-control" v-model="Img" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">規格</label>
+                        <input type="text" class="form-control" v-model="Note" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">發售價</label>
+                        <input type="text" class="form-control" v-model="pPrice" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">商品圖檔</label>
+                        <input type="text" class="form-control" v-model="ImgFront" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label" for="banner_name">商品副標題</label>
+                        <input type="text" class="form-control" v-model="pModel" />
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" @@click="addProductCategory">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+
+        $(".back_product").addClass('active');
+
+        var webApiAddress = "https://localhost:7139/api/J";
+        var appVue = new Vue({
+            el: "#bannerVue",
+            name: "bannerVue",
+            data: {
+                CateName: null,
+                BrandName: null,
+                Name: null,
+                Img: null,
+                Note: null,
+                pPrice: null,
+                ImgFront: null,
+                pModel: null,
+                SizeList: [],
+            },
+            mounted: function () {
+                let _this = this;
+            },
+            methods: {
+                addProductCategory: function () {
+                    let _this = this;
+                    //_this.SizeList = ["9", "9.5", "10", "10.5", "11", "11.5", "12"];
+                    var request = {};
+                    //if (_this.CateName == "潮流服飾") {
+                    //    request.Img = "/images/700x480-2.jpg";
+                    //}
+                    //else if (_this.CateName == "高檔鞋履") {
+                    //    request.Img = "/images/700x480-7.jpg";
+                    //}
+                    //else if (_this.CateName == "時尚包款") {
+                    //    request.Img = "/images/700x480-8.jpg";
+                    //}
+                    //else if (_this.CateName == "精品腕錶") {
+                    //    request.Img = "/images/700x480-11.jpg";
+                    //}
+                    request.cateName = _this.CateName;
+                    request.brandName = _this.BrandName;
+                    request.name = _this.Name;
+                    request.Img = _this.Img;
+                    request.note = _this.Note;
+                    request.pPrice = Number(_this.pPrice);
+                    request.imgFront = _this.ImgFront;
+                    request.pModel = _this.pModel;
+                    //request.SizeList = _this.SizeList;
+                    try{
+                        axios.post(`${webApiAddress}/InsertProductCategory`, request);
+                    }catch(error){
+                        console.log(error)
+                    }                    
+                }
+
+            },
+
+        });
+
+    </script>
+}

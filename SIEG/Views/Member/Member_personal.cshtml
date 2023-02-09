@@ -1,0 +1,498 @@
+﻿@{
+    ViewData["Title"] = "個人資料";
+    ViewData["enTitle"] = "Personalinformation";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+    <link href="~/css/circle.css" rel="stylesheet" />
+}
+
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar">
+                <div class="col-lg-9">
+                    <div class="orderTopWidth">
+                        <div class="row">
+                            <div class="col-10">
+                                <h4>個人資料</h4>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <a asp-area="" asp-controller="Member" asp-action="Member_Membermodification">
+                                    <button type="button" class="btn btncolor">
+                                        編輯
+                                    </button>
+                                </a>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="personalDivrow">
+                                    <h6>名稱</h6>
+                                    <p>{{PersonalDTOes.name}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="personalDivrow">
+                                    <h6>電話</h6>
+                                    <p>{{PersonalDTOes.phone}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="personalDivrow">
+                                    <h6>電子信箱</h6>
+                                    <p>{{PersonalDTOes.email}}</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="personalDivrow">
+                                    <h6>暱稱</h6>
+                                    <p>{{PersonalDTOes.nickName}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="personalDivrow">
+                                    <h6>寄件地址</h6>
+                                    <p>{{PersonalDTOes.shippingaddress}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="personalDivrow">
+                                    <h6>帳單地址</h6>
+                                    <p>{{PersonalDTOes.billingAddress}}</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="personalDivrow">
+                                    <h6>重設密碼</h6>
+                                    <a asp-area="" asp-controller="Member" asp-action="Passwordmodification">
+                                        <button type="button" class="btn btncolor">
+                                            更改
+                                        </button>
+                                    </a>
+                                    @* <button type="button" class="btn btncolor" @@click="sendEmail()">
+                                    更改<a href="#"></a>
+                                    </button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*dennis*@
+                    <div class="grade-buyer">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="dennis_block">
+                                    買家當前等級與優惠為
+                                    <hr>
+                                    <div class="gradeing-pg__grade-lev">
+                <td class="gradeing-pg__lev-lev">
+                    <h4>等級 {{BuyerGrade}}</h4>
+                </td>
+                <div id="cont" data-pct="100">
+                    <svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <circle r="90" cx="100" cy="100" fill="transparent"
+                                stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                        <circle id="bar" r="90" cx="100" cy="100" fill="transparent"
+                                stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                    </svg>
+                </div>
+        </div>
+        <div class="gradeing-pg-foot">
+            <p>距離升級還要 NT$ {{BuyRemain}} </p>
+            <p>
+                按此前往使用優惠券。
+            </p>
+            <a class="gradeing-pg-foot-bt" asp-controller="GradeIntroduce" asp-action="Index">了解更多</a>
+        </div>
+
+    </div>
+</div>
+<div class="col-lg-5">
+    <div class="dennis_block">
+        賣家當前等級與優惠為
+        <hr>
+        <div class="gradeing-pg__grade-lev">
+            <td class="gradeing-pg__lev-lev">
+                <h4>等級 {{SellerGrade}}</h4>
+            </td>
+            <div id="cont2" data-pct="100">
+                <svg id="svg2" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <circle r="90" cx="100" cy="100" fill="transparent"
+                            stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                    <circle id="bar" r="90" cx="100" cy="100" fill="transparent"
+                            stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                </svg>
+            </div>
+        </div>
+
+        <div class="gradeing-pg-foot">
+            <p>距離升級還要 NT$ {{SellRemain}} </p>
+            <p>
+                有關買賣家費用等完整詳細資訊優惠，請查看我們的介紹頁面。
+            </p>
+            <a class="gradeing-pg-foot-bt" asp-controller="GradeIntroduce" asp-action="Index">了解更多</a>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+                </div>
+        </div>
+    </div>
+<partial name="_FooterPartial" />
+</div>
+
+
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    @* <script type="text/javascript" src="~/lib/emailjs/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("LA8QRRpuwpqpnI3up");
+        })();
+    </script>*@
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                PersonalDTOes: {},
+                email: "",
+                name: "",
+                //dennis
+                GradeBuy: {},
+                Price: null,
+                BuyerGrade: 0,
+                SellerGrade: 0,
+                BuyExp: 0,
+                SellExp: 0,
+                Count: null,
+                State: null,
+                BuyRemain: 0,
+                SellRemain: 0,
+            },
+            mounted: function () {
+                let _this = this;
+                $('.SidebarMember').css("background", "#ededed");
+                _this.getPersonalDTOes();
+                //dennis
+                _this.getD_GradeBuyDTO();
+
+
+                $(function () {
+                    setTimeout(function () {
+                        _this.getD_GradeSellDTO();
+                    }, 1000);
+                });
+            },
+            methods: {
+                getPersonalDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+                        response => {
+                            _this.PersonalDTOes = response.data
+                            console.log(_this.PersonalDTOes);
+                            _this.email = _this.PersonalDTOes.email
+                            _this.name = _this.PersonalDTOes.name
+                        }
+                    );
+                },
+                //sendEmail: function () {
+                //    let _this = this
+                //    window.location = "/Passwordmodification"
+                //    //var params = {
+                //    //    to_name: _this.name,
+                //    //    email_id: _this.email,
+                //    //}
+                //    //emailjs.send("service_c7s971q", "template_luei145", params).then(function (res) {
+                //    //    //alert("以寄信至您的信箱");
+                //    //    Swal.fire({
+                //    //        icon: 'success',
+                //    //        title: '以寄信至您的信箱',
+                //    //        showConfirmButton: false,
+                //    //        timer: 1500
+                //    //    })
+                //    //})
+                //},
+                //dennis
+                getD_GradeBuyDTO: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    //console.log(mID)
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/D_BuyerGrade/${mID}`).then(
+                        response => {
+                            _this.D_GradeBuyDTO = response.data;
+                            _this.BuyerGrade = _this.D_GradeBuyDTO[0].buyerGrade
+                            //_this.SellerGrade = _this.D_GradeBuyDTO[0].sellerGrade
+                            _this.BuyRemain = _this.D_GradeBuyDTO[0].price
+                            _this.Price = _this.D_GradeBuyDTO[0].price;
+                            _this.Count = _this.D_GradeBuyDTO[0].count;
+                            //console.log("我是買家價錢" + _this.Price)
+
+                            //買家等級判斷
+                            if (_this.Price < 50000) {
+                                _this.BuyerGrade = Math.floor(_this.Price / 50000);
+                                if (_this.BuyerGrade == 0) {
+                                    _this.BuyExp = _this.Price % 50000 / 500
+                                }
+                            } else {
+                                if (_this.Price >= 150000) {
+                                    _this.BuyerGrade == 2;
+                                    _this.BuyExp = Math.floor(_this.Price % 700000 / 7000)
+                                } else if (_this.Price >= 700000) {
+                                    _this.BuyerGrade == 3;
+                                    _this.BuyExp = 100;
+                                } else {
+
+                                    _this.BuyerGrade = Math.floor(_this.Price / 50000);
+                                    if (_this.BuyerGrade == 0) {
+                                        _this.BuyExp = _this.Price % 50000 / 500
+                                    }
+                                    else if (_this.BuyerGrade == 1) {
+                                        _this.BuyExp = Math.floor(_this.Price % 100000 / 1000);
+                                    }
+                                    else if (_this.BuyerGrade == 2) {
+                                        _this.BuyExp = Math.floor(_this.Price % 700000 / 7000)
+                                    } else if (_this.BuyerGrade >= 3) {
+                                        _this.BuyerGrade = 3
+                                        if (_this.BuyerGrade = 3) {
+                                            _this.BuyExp = 100
+                                        };
+                                    };
+                                };
+                            };
+                            //優惠券判斷
+                            if (_this.BuyerGrade == 2) {
+                                _this.Count = 2
+                            } else if (_this.BuyerGrade == 3) {
+                                _this.Count = 3
+                            } else {
+                                _this.Count = 0
+                            }
+
+                            //買家剩餘金額
+                            if (_this.BuyerGrade == 0) {
+                                _this.BuyRemain = 50000 - _this.Price
+                            }
+                            else if (_this.BuyerGrade == 1) {
+                                _this.BuyRemain = 100000 - _this.Price
+                            }
+                            else if (_this.BuyerGrade == 2) {
+                                _this.BuyRemain = 700000 - _this.Price
+                            }
+                            else if (_this.BuyerGrade == 3) {
+                                _this.BuyRemain = 0
+                            }
+                            //買家的圈圈
+                            $('document').ready(function () {
+                                var val = _this.BuyExp;//放%數
+                                var $circle = $('#svg #bar');
+                                if (isNaN(val)) {
+                                    val = 100;
+                                }
+                                else {
+                                    var r = $circle.attr('r');
+                                    var c = Math.PI * (r * 2);
+                                    if (val < 0) { val = 0; }
+                                    if (val > 100) { val = 100; }
+                                    var pct = ((100 - val) / 100) * c;
+                                    $circle.css({ strokeDashoffset: pct });
+                                    $('#cont').attr('data-pct', val);
+                                }
+                            });
+                            _this.updateB();
+                            _this.insert();
+                        }
+                    );
+                },
+                getD_GradeSellDTO: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/D_SellGrade/${mID}`).then(
+                        response => {
+                            _this.D_GradeSellDTO = response.data;
+                            //_this.BuyerGrade = _this.D_GradeSellDTO[0].buyerGrade
+                            _this.SellerGrade = _this.D_GradeSellDTO[0].sellerGrade
+                            _this.SellRemain = _this.D_GradeSellDTO[0].price
+                            _this.Price = _this.D_GradeSellDTO[0].price;
+
+                            //賣家等級判斷
+                            if (_this.Price < 150000) {
+                                _this.SellerGrade = Math.floor(_this.Price / 150000);
+                                if (_this.SellerGrade == 0) {
+                                    _this.SellExp = Math.floor(_this.Price % 150000 / 1500)
+                                }
+                            } else {
+                                _this.SellerGrade = Math.floor(_this.Price / 150000);
+                                if (_this.SellerGrade == 0) {
+                                    _this.SellExp = Math.floor(_this.Price % 150000 / 1500);
+                                }
+                                else if (_this.SellerGrade == 1) {
+                                    _this.SellExp = Math.floor(_this.Price % 300000 / 3000);
+                                }
+                                else if (_this.SellerGrade == 2) {
+                                    _this.SellExp = Math.floor(_this.Price % 900000 / 9000);
+                                } else if (_this.SellerGrade >= 3) {
+                                    _this.SellerGrade = 3
+                                    if (_this.SellerGrade = 3) {
+                                        _this.SellExp = 100
+                                    }
+                                }
+                            };
+                            // 賣家的圈圈
+                            $('document').ready(function () {
+                                var val = _this.SellExp;
+                                var $circle = $('#svg2 #bar');
+                                if (isNaN(val)) {
+                                    val = 100;
+                                }
+                                else {
+                                    var r = $circle.attr('r');
+                                    var c = Math.PI * (r * 2);
+                                    if (val < 0) { val = 0; }
+                                    if (val > 100) { val = 100; }
+                                    var pct = ((100 - val) / 100) * c;
+                                    $circle.css({ strokeDashoffset: pct });
+                                    $('#cont2').attr('data-pct', val);
+                                }
+                            });
+                            //賣家剩餘金額
+                            if (_this.SellerGrade == 0) {
+                                _this.SellRemain = 150000 - _this.Price
+                            }
+                            else if (_this.SellerGrade == 1) {
+                                _this.SellRemain = 300000 - _this.Price
+                            }
+                            else if (_this.SellerGrade == 2) {
+                                _this.SellRemain = 900000 - _this.Price
+                            }
+                            else if (_this.SellerGrade == 3) {
+                                _this.SellRemain = 0
+                            }
+                            console.log("我是賣家剩餘金額" + _this.Price)
+                            _this.updateS();
+                        }
+                    );
+                },
+                updateB: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    let _this = this;
+                    var request = {};
+                    request.BuyerGrade = _this.BuyerGrade;
+                    //request.SellerGrade = _this.SellerGrade;
+                    request.BuyerId = mID;
+                    request.SellerId = 0;
+                    request.State = _this.State;
+                    request.Price = _this.Price;
+                    request.Count = _this.Count;
+                    console.log(request)
+                    axios.put(`${webApiBaseAddress}/api/D_BuyerGrade/${mID}`, request).then(
+                        response => {
+                            console.log("我是get賣家" + response.data)
+                            if (response.status == 200) {
+                                //alert("成功")
+                            } else {
+                                //alert("失敗")
+                            }
+                        }
+                    );
+                },
+                updateS: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    let _this = this;
+                    var request = {};
+                    //request.BuyerGrade = _this.BuyerGrade;
+                    request.SellerGrade = _this.SellerGrade;
+                    request.BuyerId = 0;
+                    request.SellerId = mID;
+                    request.State = _this.State;
+                    request.Price = _this.Price;
+                    request.Count = _this.Count;
+
+                    axios.put(`${webApiBaseAddress}/api/D_SellGrade/${mID}`, request).then(
+                        response => {
+                            console.log(response.data)
+                            if (response.status == 200) {
+                                //alert("成功")
+                            } else {
+                                //alert("失敗")
+                            }
+                        }
+                    );
+                },
+                //更改優惠券數量
+                updateCP: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    let _this = this;
+                    var request = {};
+                    //request.MemberCouponId = 0;
+                    request.CouponId = 102;
+                    request.MemberId = mID;
+                    request.Count = _this.Count;
+                    console.log(request)
+
+                    axios.put(`${webApiBaseAddress}/api/D_BuyerGrade/xxx/${mID}`, request).then(
+                        response => {
+                            console.log("我是優惠券" + response.data)
+                            if (response.status == 200) {
+                                //alert("成功")
+                            } else {
+                                //alert("失敗")
+                            }
+                        }
+                    );
+                },
+                //新增新會員優惠券
+                insert: function () {
+                    var mID = sessionStorage.getItem("mID");
+                    var _this = this;
+                    var request = {};
+                    request.MemberCouponId = 0;
+                    request.CouponId = 102;
+                    request.MemberId = mID;
+                    request.Count = _this.Count;
+                    console.log("我是優惠券數量" + request.Count)
+
+                    axios.post(`${webApiBaseAddress}/api/D_BuyerGrade`, request).then(
+                        response => {
+                            console.log(response.data);
+                            if (response.data == "已經有了") {
+                                _this.updateCP();
+                                //alert("已更改");
+                            } else {
+                                //alert("新增成功");
+                            }
+                        }
+                    );
+
+                },
+            },
+        });
+    </script>
+
+    }
+
+
+
+
+
+
+
+
+
+
+

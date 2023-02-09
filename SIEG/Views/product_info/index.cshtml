@@ -1,0 +1,786 @@
+﻿@{
+    ViewData["Title"] = "產品介紹";
+    ViewData["EnTitle"] = "PRODUCT";
+}
+@section Style{
+
+    @*    <link href="~/css/forumArticleStyle.css" rel="stylesheet">*@
+    <link href="/css/jiazhan/product_info.css" rel="stylesheet">
+    <link href="/css/jiazhan/general.css" rel="stylesheet">
+    <link href="/css/BEN.css" rel="stylesheet">
+    <style>
+
+    </style>
+}
+<div id="appVue" style="margin-bottom: 100px;">
+    <!-- Page Banner -->
+    <div class="page_banner" style="background-image: url(/images/1920x350-1.jpg)">
+        <div class="container">
+            <div class="content">
+                <h1 class="page_title">@ViewData["EnTitle"]</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">{{productInfo.pCateName}}</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">{{productInfo.pBrand}}</a></li>
+                        <li class="breadcrumb-item active">{{productInfo.pName}}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        @*         <div class="pathGroup">
+        <a href="#"> Home /</a>
+        <a href="#"> {{productInfo.pCategory}} /</a>
+        <a href="#"> {{productInfo.pBrand}} /</a>
+        <a href="#"> {{productInfo.pName}} </a>
+        </div>*@
+        @*<div class="title">
+        <h4 class="mainTitle">{{productInfo.pName}}</h4>
+        <h5 class="subTitle">White Black Panda (2021)</h5>
+        </div>*@
+        <div class="productGroup">
+            <div class="row align-items-center">
+                @*LeftImage*@
+                <div class="col-xl-7 col-xs-7 col-12">
+
+                    <!--   測試用  -->
+           @*         <label> 會員 ID</label>
+                    <input type="number" v-model="mID" />*@
+                    <!--   測試用  -->
+
+                    <div class="imgGroup">
+                        @*<img src="/images/jiazhan/products/600x600-3.jpg" alt="">*@
+                        <img :src="productInfo.pImg" />
+                    </div>
+                </div>
+
+                @*RightProductInfo*@
+                <div class="col-xl-5 col-xs-5 col-12">
+                    <div class="infoGroup ">
+
+                        <div class="title">
+                            <div class="placement" style="float: right;"><div class="heart"></div></div>
+                            <h4 class="mainTitle">{{productInfo.pName}}</h4>
+                            <h5 class="subTitle">{{productInfo.pModel}}</h5>
+                        </div>
+
+                        <div class="stateGroup">
+                            <img src="/images/jiazhan/icon/SellingFastBadgeV3.gif">
+                            <p class="state"> 過去 3 天售出 2539 件 !</p>
+                        </div>
+
+                        <div class="">
+                            <div class="sizeSelGroup">
+                                <div class="row">
+                                    <div :class="['col-12', {'displayNone':pLength}]">
+
+                                        <!--  下拉式選擇尺碼-->
+                                        <div class="selSize" @@click="showSelSize = !showSelSize">
+                                            <div>尺碼</div>
+                                            <div>
+                                                <span>US {{pSize}}</span>
+                                                <i class="bi bi-chevron-down"></i>
+                                            </div>
+                                        </div>
+
+                                        <!--  下拉式選單顯示頁面  -->
+                                        <div :class="{ displayNone: showSelSize }">
+                                            <div class="selSizeHide">
+                                                <p>選擇 US 尺碼</p>
+                                                <hr />
+                                                <div class="sizeItemContoiner row">
+                                                    <div class="col-12 ">
+                                                        <div class="sizeAndPrice">
+                                                            <div @@click="activeIndex=index" :class="['sizePriceItem', {'selected':activeIndex==index}]" v-for="(item, index) in DisplaySizeAndPriceList" :key="index">
+                                                                <div class="sizeItem" @@click="showSelSize = !showSelSize;selectSizeItem(item.size, item.price, index, item.pID, item.sID)">
+                                                                    <div class="item">
+                                                                        <div class="fontBold">US {{item.size}}</div>
+                                                                        <div class="fontGreen">{{item.fPrice}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--  提交出價或直接購買按鈕  -->
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="divBuy">
+                                            <button class="btnBuy btnWhite" @@click="submitPrice">提交出價</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-12">
+                                        <div class="divBuy">
+                                            <button @@click="BuyNow" class="btnBuy btnGreen">{{DisplayselBuyPrice}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="divBuyOrSubmit fontGreen fontBold">
+                                    <span style="font-size:18px;" @@click="Quote">出售或提交報價 →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  價格按鈕區  -->
+                    <div class="divPriceInfo row">
+                        <div class="col-lg-5">
+                            <p>上次成交價: </p>
+                            <p class="fontBold" style="font-size:20px;">{{DispalyLastDealPrice}}</p>
+                            @*                            <p :class="['fontGreen', 'fontBold']" v-if="upDown='▲'">{{upDown}} ${{Difference}} ({{Percentage}}%)</p>
+                            <p :class="['fontRed', 'fontBold']" v-else>{{upDown}} ${{Difference}} ({{Percentage}}%)</p>*@
+                            <p :class="['fontRed', 'fontBold']" :style="{color:GetFontColor}">{{GetUpDown}} {{DispalyDifference}} ({{GetPercentage}}%)</p>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="divPrice">
+                                <button class="btnWhite" data-bs-toggle="modal" data-bs-target="#showQuote" @@click="getQuotePrice">
+                                    查看報價
+                                </button>
+                                <button class="btnWhite" data-bs-toggle="modal" data-bs-target="#showBid" @@click="getBidPrice">
+                                    查看出價
+                                </button>
+                                <button class="btnWhite" data-bs-toggle="modal" data-bs-target="#showTCount">
+                                    查看成交量
+                                </button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="showQuote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">報價資訊</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-stroped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td>報價</td>
+                                                        <td :class={displayNone:pLength}>尺碼</td>
+                                                        <td>數量</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-for="item in DisplayQuotePriceList">
+                                                    <tr>
+                                                        <td>{{item.fPrice}}</td>
+                                                        <td :class={displayNone:pLength}>US {{item.size}}</td>
+                                                        <td>{{item.count}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" @@click="" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="showBid" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">出價資訊</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-stroped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td>出價</td>
+                                                        <td :class={displayNone:pLength}>尺碼</td>
+                                                        <td>數量</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-for="item in DisplayBidPrice">
+                                                    <tr>
+                                                        <td>{{item.fPrice}}</td>
+                                                        <td :class={displayNone:pLength}>US {{item.size}}</td>
+                                                        <td>{{item.count}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="showTCount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">交易資訊</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-stroped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <td>日期</td>
+                                                        <td>時間</td>
+                                                        <td :class={displayNone:pLength}>尺碼</td>
+                                                        <td>成交價格</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-for="item in DisplayTranList">
+                                                    <tr>
+                                                        <td>{{item.date}}</td>
+                                                        <td>{{item.time}}</td>
+                                                        <td :class={displayNone:pLength}>US {{item.size}}</td>
+                                                        <td>{{item.fPrice}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--  右下角分享區  -->
+            <div class="news_share" style="border:0px;justify-content:end">
+                <div class="social">
+                    <!-- 點擊後加active -->
+                    @*<div class="placement" style="float: right;"><div class="heart"></div></div>*@
+                    @*                    <a class="like" href="#"><i class="fa fa-heart" style="height: 50px;"></i></a>
+                    <a class="fb" href="#">
+                    <img src="/images/icon-fb.png">
+                    </a>
+                    <a class="line" href="#">
+                    <img src="/images/icon-line.png">
+                    </a>*@
+                </div>
+            </div>
+        </div>
+        <!-- 相關商品-->
+        @*Deom*@
+
+
+        @*<div class="owl-carousel owl-theme banner-carousel">
+        <div class="item">
+        <img class="w-100" src="images/1920x700-1.jpg" alt="Image">
+        <div class="carousel-caption">
+        <div class="container">
+        <div class="row justify-content-start">
+        <div class="col-lg-8 text-start">
+        <div class="animated slideInUp banner_tx">
+        The Black Friday
+        <br>Countdown Is On
+        </div>
+        <a href="#" class="animated slideInUp btn_style1">
+        Read
+        More
+        </a>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>*@
+        <hr>
+        <div class="titleDiv">
+            <p class="titleP">相關商品</p>
+            <div class="productInfo_RelatedProduct">
+                <div class="container">
+                    <div class="owl-carousel owl-theme banner-carousel">
+
+                        @*<div class="item">
+
+                        <div class="product_col">
+                        <div class="productInfo_card">
+                        <div class="divLikeProduct">
+                        <a href="product_info.html">
+                        <img src="/images/jiazhan/products/600x600-3.jpg" alt="">
+                        </a>
+                        </div>
+                        <div class="productInfo_content">
+                        <!-- <a href="product_info.html" class="two-row"> -->
+                        <a href="product_info.html" class="">
+                        <div class="two-row">Jordan 1 Retro Low OG SPJordan 1 Retro Low OG SP</div>
+                        <div style="color:#999999;margin:0px">最低報價</div>
+                        <div class="minPrice fontSizeM">$1,780</div>
+                        <div class="listTimeSold">上次成交價 : $1,780</div>
+                        </a>
+                        </div>
+                        </div>
+                        </div>
+
+                        </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- 商品詳情-->
+        <div :class="{'displayNone':!productNote.length}">
+            <div class="titleDiv">
+                <p class="titleP">商品詳情</p>
+            </div>
+            @*            <template v-if="productNote.length">
+            <tr v-for="item in productNote">
+            <td>{{item.key}}</td>
+            <td>{{item.value}}</td>
+            </tr>
+            </template>*@
+            <div class="row">
+                <div class="col-4">
+                    <table class="product_note">
+                        <tr v-for="item in productNote">
+                            <td>{{item.key}}</td>
+                            <td>{{item.value}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-8">
+                    <div class="article">
+                        <template v-if="productNote.length">
+                            <p v-for="article in pInfo">{{article}}</p>
+
+                        </template>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+
+        <!-- 價格記錄-->
+        @*        <div class="titleDiv">
+        <p class="titleP">價格記錄</p>
+        </div>
+
+        <hr>*@
+
+        <!-- 12 個月歷史記錄-->
+        <div class="titleDiv">
+            <p class="titleP">歷史記錄</p>
+        </div>
+        <div class="productInfo_history">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-12" v-for="(item, index) in DispalyHistoricalData">
+                    <div class="historyBlock">
+                        <div class="historyContent">{{index == 0 ? item.val1 + " ~ " + item.val2 : item.val1}}</div>
+                        <div class="historyTitle">{{item.val3}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<partial name="_footerPartial" />
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>*@
+
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/counterup/counterup.min.js"></script>
+    <script src="/lib/parallax/parallax.min.js"></script>
+    <script src="/lib/lightbox/js/lightbox.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+
+    <script>
+        var webApiAddress = "https://localhost:7139/api/J";
+        var appVue = new Vue({
+            el: "#appVue",
+            data() {
+                return {
+                    mID: sessionStorage.getItem("mID"),
+                    pID: 0,
+                    //pID: 102,
+                    productInfo: [],
+                    quotePriceList: [],
+                    bidPriceList: [],
+                    SizeAndPriceList: [],
+                    showSelSize: true,
+                    pSize: null,
+                    pPrice: null,
+                    activeIndex: 0,
+                    lastTimePrice: null,
+                    upDown: null,
+                    TranList: [],
+                    fontColor: '#006340',
+                    sID: null,
+                    pLength: null,
+                    pCateID: null,
+                    productNote: [],
+                    pInfo: [],
+                    tpCateID: null,
+                    historicalData: [],
+                    relatedProducts: [],
+                }
+            },
+            mounted: async function () {
+                _this = this;
+                _this.pID = sessionStorage.getItem("pID");
+                //sessionStorage.setItem("mID", _this.mID);
+
+                //await _this.getProductInfo();
+                await _this.getRelatedProducts();
+
+                //await _this.getNewsListDTO();
+
+                const datas = _this.relatedProducts.map(item => {
+                    const { pID, pName, pImg } = item;
+                    return (`
+                                                                                    <div class="item">
+                                                                                        <div class="product_col">
+                                                                                            <div class="productInfo_card">
+                                                                                                <div class="divLikeProduct">
+                                                                                                    <a href="product_info">
+                                                                                                              <img src="${item.pImg}" alt="" class="bannerImg">
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                                <div class="productInfo_content">
+                                                                                                    <!-- <a href="product_info.html" class="two-row"> -->
+                                                                                                    <a href="product_info.html" class="">
+                                                                                                                <div class="two-row">${item.pName}</div>
+        @*      <div style="color:#999999;margin:0px">最低報價</div>
+                                                                                                    <div class="minPrice fontSizeM">$1,780</div>
+                                                                                                    @*<div class="listTimeSold">上次成交價 : $1,780</div>*@
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                `)
+                })
+                $(".banner-carousel").html(datas.join(""));
+                $(".banner-carousel").owlCarousel({
+                    loop: true,
+                    autoplay: true,
+                    smartSpeed: 1000,
+                    items: 4,
+                    margin: 24,
+                    dots: false,
+                    nav: false,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        768: {
+                            items: 2
+                        },
+                        992: {
+                            items: 3
+                        },
+                        1200: {
+                            items: 4
+                        }
+                    },
+                });
+                $(function () {
+                    $(".heart").on("click", function () {
+                        $(this).toggleClass("is-active");
+                    });
+                });
+
+            },
+            methods: {
+                async getProductInfo() {
+                    let _this = this;
+                    try {
+                        var response = await axios.get(`${webApiAddress}/GetProductInfo/${_this.pID}`);
+                        _this.productInfo = response.data[0];
+                        _this.pLength = response.data.length === 1;
+                        sessionStorage.setItem("pLength", _this.pLength);
+                        _this.pCateID = _this.productInfo.pCateID;
+                        //_this.getSizeAndQuote();
+                    } catch (error) {
+                        console.error(error);
+                    } finally {
+
+                    }
+                },
+                async getProductNote() {
+                    let _this = this;
+                    try {
+                        var response = await axios.get(`${webApiAddress}/GetProductNote/${_this.pCateID}`);
+                        _this.productNote = response.data;
+                        if (_this.productNote != null && _this.productNote[0].info != null) {
+                            _this.pInfo = _this.productNote[0].info.split("|");
+
+                        } else if (_this.productNote != null && _this.productNote[0].info == null) {
+                            _this.pInfo = ["", ""];
+                        } else {
+                            _this.pInfo = ["", ""];
+                            _this.productNote = ["", ""];
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                        _this.productNote = [];
+                    }
+                },
+                async getSizeAndQuote() {
+                    let _this = this;
+                    var response = await axios.get(`${webApiAddress}/GetSizeAndQuote/${_this.pCateID}`);
+                    _this.SizeAndPriceList = response.data;
+
+                    if (response.data.length >= 1) {
+                        console.log(`getSizeAndQuote_start_pPrice:${_this.pPrice}`)
+                        if (_this.pPrice == "" || _this.pPrice == null) { // 第一次進頁面給初始選取
+                            _this.pPrice = _this.SizeAndPriceList[0].pPrice;
+                            _this.selectSizeItem(_this.SizeAndPriceList[0].pSize, _this.SizeAndPriceList[0].pPrice, _this.activeIndex, _this.SizeAndPriceList[0].pID, _this.SizeAndPriceList[0].sID)
+                        }
+
+                    } else { // 商品無報價記錄
+                        _this.pPrice = "";
+                        sessionStorage.removeItem("sID");
+                    }
+                },
+                async getOrderList() { //交易記錄
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetOrderList/${_this.pID}`);
+                        _this.TranList = response.data;
+
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async getLastPrice() { //取得選取的 pID 最近一筆的成交價格
+                    try {
+                        let _this = this;
+                        let response = await axios.get(`${webApiAddress}/GetLastDealPrice/${_this.pID}`);
+                        _this.lastTimePrice = response.data;
+                        console.log(`getLastPrice:${_this.lastTimePrice}`)
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async getQuotePrice() {
+                    let _this = this;
+                    let response = await axios.get(`${webApiAddress}/QuotePriceList/${_this.pID}`);
+                    _this.quotePriceList = response.data;
+                },
+                async getBidPrice() {
+                    let _this = this;
+                    let response = await axios.get(`${webApiAddress}/BidPriceList/${_this.pID}`);
+                    _this.bidPriceList = response.data;
+                },
+                async getHistoricalData() {
+                    let _this = this;
+                    let response = await axios.get(`${webApiAddress}/GetHistoricalData/${_this.pCateID}`);
+                    _this.historicalData = response.data;
+                },
+                async getRelatedProducts() {
+                    let _this = this;
+                    let response = await axios.get(`${webApiAddress}/GetRelatedProducts/${_this.pID}`);
+                    _this.relatedProducts = response.data;
+                },
+                selectSizeItem(pSize, pPrice, index, pID, sID) {
+                    let _this = this;
+                    _this.pSize = pSize;
+                    _this.pPrice = pPrice;
+                    _this.pID = pID;
+                    _this.sID = sID;
+                    sessionStorage.setItem("pSize", pSize);
+                    sessionStorage.setItem("pPrice", pPrice);
+                    sessionStorage.setItem("selIndex", index);
+                    sessionStorage.setItem("pID", pID);
+                    sessionStorage.setItem("sID", sID);
+                    console.log(`selectSizeItem_pPrice:${_this.pPrice}`)
+                },
+                BuyNow() {
+                    let _this = this;
+                    if (_this.mID != null) {
+                        if (_this.DisplayselBuyPrice == "無報價記錄") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '無法操作!',
+                                text: '目前無賣家提出報價, 請使用提交出價功能',
+                            })
+
+                        } else {
+                            sessionStorage.setItem("bool", false);
+                            sessionStorage.setItem("pID", _this.pID);
+                            window.location = "/order";
+                        }
+                        sessionStorage.removeItem("bID");
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '無法操作!',
+                            text: '您尚未登入會員,請先登入會員',
+                        })
+                    }
+
+                },
+                submitPrice() {
+                    if (_this.mID != null) {
+                        sessionStorage.removeItem("bID");
+                        sessionStorage.setItem("bool", true);
+                        window.location = "/order";
+                        sessionStorage.removeItem("bID");
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '無法操作!',
+                            text: '您尚未登入會員,請先登入會員',
+                        })
+                    }
+
+                },
+                Quote() {
+                    if (_this.mID != null) {
+                        sessionStorage.removeItem("sID");
+                        sessionStorage.setItem("pPrice", 0);
+                        window.location = "/sell";
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '無法操作!',
+                            text: '您尚未登入會員,請先登入會員',
+                        })
+                    }
+
+                },
+                Format(val) {
+                    return numeral(val).format("$0,0");
+                },
+                CheckVal(value) {
+                    let parsedValue = parseInt(value, 10);
+                    return isNaN(parsedValue) ? value : this.Format(parsedValue);
+                },
+            },
+            watch: {
+                pID: {
+                    handler() {
+                        if (this.pID) {
+                            //this.getRelatedProducts();
+                            this.getProductInfo();
+                            this.getOrderList();
+                            this.getLastPrice();
+                            sessionStorage.setItem("pID", this.pID)
+                        }
+                    }
+                },
+                pCateID: {
+                    handler: function () {
+                        if (this.pCateID) {
+                            //this.getRelatedProducts();
+                            this.getHistoricalData();
+                            this.getSizeAndQuote();
+                            this.getProductNote();
+                            sessionStorage.setItem("pCateID", this.pCateID)
+                        }
+                    }
+                },
+                mID: {
+                    handler: function () {
+                        if (this.mID) {
+                            sessionStorage.setItem("mID", this.mID)
+                        }
+                    }
+                }
+            },
+            computed: {
+                DispalyLastDealPrice() {
+                    return this.lastTimePrice == 0 ? "無成交記錄" : this.Format(this.lastTimePrice);
+                },
+                GetDifference() {
+                    return this.lastTimePrice == 0 ? "" : this.pPrice - this.lastTimePrice;
+                },
+                DispalyDifference() {
+                    return this.lastTimePrice == 0 ? "" : this.Format(this.pPrice - this.lastTimePrice);
+                },
+                GetPercentage() {
+                    return this.lastTimePrice == 0 ? 0 : ((this.pPrice - this.lastTimePrice) / this.lastTimePrice * 100).toFixed(2);
+                },
+                GetUpDown() {
+                    return this.GetDifference > 0 ? "▲ " : this.GetDifference < 0 ? "▼ " : "  "
+                },
+                GetFontColor() {
+                    return this.GetDifference > 0 ? "#006340" : this.GetDifference < 0 ? "#df2b14" : "#333"
+                },
+                DisplayselBuyPrice() {
+                    return this.pPrice == "" ? "無報價記錄" : this.pPrice == null ? "購買" : `以 ${this.Format(this.pPrice)} 購買`
+                },
+                DisplaySizeAndPriceList() {
+                    return this.SizeAndPriceList.map(item => {
+                        return {
+                            sID: item.sID,
+                            pID: item.pID,
+                            price: item.pPrice,
+                            size: item.pSize,
+                            fPrice: item.pPrice != 0 ? this.Format(item.pPrice) : "無"
+                        }
+                    })
+                },
+                DisplayQuotePriceList() {
+                    return this.quotePriceList.map(item => {
+                        return {
+                            size: item.pSize,
+                            price: item.pPrice,
+                            count: item.pCount,
+                            fPrice: this.Format(item.pPrice)
+                        }
+                    })
+                },
+                DisplayBidPrice() {
+                    return this.bidPriceList.map(item => {
+                        return {
+                            size: item.pSize,
+                            price: item.pPrice,
+                            count: item.pCount,
+                            fPrice: this.Format(item.pPrice)
+                        }
+                    })
+                },
+                DisplayTranList() {
+                    var _this = this;
+                    return _this.TranList.map(item => {
+                        return {
+                            date: item.oTime.split('T')[0],
+                            time: item.oTime.split('T')[1].split('.')[0],
+                            size: item.oSize,
+                            price: item.oPrice,
+                            fPrice: _this.Format(item.oPrice),
+                        }
+                    })
+                },
+                DispalyHistoricalData() {
+                    return this.historicalData.map(item => {
+                        item.val1 = this.CheckVal(item.val1);
+                        item.val2 = this.CheckVal(item.val2);
+                        item.val3 = this.CheckVal(item.val3);
+                        return item;
+                    });
+                },
+            },
+        });
+    </script>
+    }

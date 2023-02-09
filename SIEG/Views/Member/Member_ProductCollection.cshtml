@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "商品收藏";
+    ViewData["enTitle"] = "ProductCollection";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+<div id="appVue">
+    <partial name="_MemberBanner" />
+    <div class="container-fluid">
+        <div class="row">
+            <partial name="_Membersidebar" />
+            <div class="col-lg-9">
+                <div class="orderTopWidth">
+                    <div class="product_collecthr">
+                        <h4>商品追蹤</h4>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>商品</th>
+                                <th>市場平均價</th>
+                                <th>最低賣價</th>
+                                <th>上次成交價</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr class="detailbgcolor" v-for="item in FaviriteProductsDTOes">
+                                <td class="imgTd-1" data-title="商品" @@click="searchproduct(item.productId)">
+                                    <img :src="item.imageFront" class="imgWidth">
+                                    <div class="imgMargin">
+                                        <div>{{item.productName}}</div>
+                                            <span class="nameDilute">{{item.model}}</span>
+                                            <div v-if="item.size!= 0">
+                                            <p class=" badge rounded-pill bg-success">us{{item.size}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-title="市場平均價">NT${{item.avecommodityprice}}</td>
+                                <td data-title="最低賣價">NT${{item.lowprice}}</td>
+                                <td data-title="上次成交價">NT${{item.lastprice}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-link" @@click="deleteFavirite(item.faviriteProductsId)">
+                                        <img src="~/images/Benicon/trash.png" class="AccountIcon">
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_FooterPartial" />
+</div>
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                FaviriteProductsDTOes: [],
+                PersonalDTOes: {},
+                //Filter: "",
+                //商品名稱: null,
+                //Image: null,
+                //商品平均價: null,
+                //最低賣價: null,
+                //上次成交價: null,
+                //會員id: null,
+                //商品id: null
+            },
+            mounted: function () {
+                let _this = this;
+                $('.SidebarProductCollection').css("background", "#ededed");
+                _this.getFaviriteProductsDTO();
+                _this.getPersonalDTOes();
+            },
+            methods: {
+                getFaviriteProductsDTO: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_FaviriteProducts/${_this.mID}`).then(
+                        response => {
+                            _this.FaviriteProductsDTOes = response.data;
+                            var FaviriteProductsList = [];
+                            for (var i = 0; i < _this.FaviriteProductsDTOes.length; i++) {
+                                var item = {};
+                                item = _this.FaviriteProductsDTOes[i];
+                                FaviriteProductsList.push(item);
+                            }
+                            _this.FaviriteProductsDTOes = FaviriteProductsList;
+                        }
+                    );
+                },
+                deleteFavirite: function (FaviriteId) {
+                    let _this = this;
+                    Swal.fire({
+                        title: '確定要刪除嗎?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '刪除成功',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            axios.delete(`${webApiBaseAddress}/api/B_FaviriteProducts/${FaviriteId}`).then(
+                                response => {
+                                    //alert(response.data);
+                                    _this.getFaviriteProductsDTO();
+                                }
+                            );
+                        }
+                    })
+                    //var ret = confirm("確定要刪除嗎?");
+                    //if (ret == true) {
+                    //    axios.delete(`${webApiBaseAddress}/api/B_FaviriteProducts/${FaviriteId}`).then(
+                    //        response => {
+                    //            alert(response.data);
+                    //             _this.getFaviriteProductsDTO();
+                    //        }
+                    //    );
+                    //}
+                },
+                searchproduct: function (ProductfaviriteProductsId) {
+                    //alert(ProductfaviriteProductsId);
+                    sessionStorage.setItem("pID", ProductfaviriteProductsId);
+                    window.location = "/product_info/index";
+                },
+                 getPersonalDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+						response => {
+							_this.PersonalDTOes = response.data						
+						}
+					);
+				},
+            },
+        });
+
+    </script>
+
+    }
+
+
+
+
+
+
+
+
+
+
+

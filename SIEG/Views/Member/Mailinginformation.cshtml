@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "郵寄信息";
+    ViewData["enTitle"] = "Mailinginformation";
+}
+
+@section Style{
+    <link href="~/css/BEN.css" rel="stylesheet">
+}
+    <div id="appVue">
+        <partial name="_MemberBanner" />
+        <div class="container-fluid">
+            <div class="row">
+                <partial name="_Membersidebar">
+                    <div class="col-lg-7">
+                        <div class="orderTopWidth-2">
+                            <div>
+                                <h1>地址</h1>
+                                <p>請提供你得郵遞資訊</p>
+                                <div>
+                                    <h4>
+                                        郵遞資訊
+                                    </h4>
+                                </div>
+                                <div>
+                                    <label>名字</label>
+                                <input type="text" disabled="disabled" name="text" class="form-control " placeholder="請輸入名子" v-model="MailinginformationDTOes.name">
+                                </div>                             
+                                <div class="addressgroup">
+                                    <label>地址</label>
+                                <input type="text" name="text" class="form-control" placeholder="請輸入地址" v-model="MailinginformationDTOes.shippingaddress">
+                                </div>                           
+                                <div class="addressgroup">
+                                    <label>電話號碼</label>
+                                <input type="tel" disabled="disabled" name="tel" class="form-control" placeholder="請輸入電話號碼" v-model="MailinginformationDTOes.phone">
+                                </div>
+                                <div class="addressgroup">
+                                    <a asp-area="" asp-controller="Member" asp-action="SettingCreditcard">
+                                        <button type="button" class="btn btncolor">
+                                            取消
+                                        </button>
+                                    </a>
+                                <input type="submit" class="btn btncolor inputright" value="儲存" @@click="update(MailinginformationDTOes)">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <partial name="_FooterPartial" />
+    </div>
+
+    @section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var webApiBaseAddress = "https://localhost:7139";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                mID: sessionStorage.getItem("mID"),
+                MailinginformationDTOes: {},
+                PersonalDTOes: {},
+                Filter: "",
+
+            },
+            mounted: function () {
+                let _this = this;
+                $('.SidebarSetting').css("background", "#ededed");
+                _this.getMailinginformationDTOes();
+                _this.getPersonalDTOes();
+            },
+            methods: {
+                getMailinginformationDTOes: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/B_PaymentInformation/Mailinginformation/${_this.mID}`).then(
+                        response => {
+                            _this.MailinginformationDTOes = response.data;
+
+                        }
+                    );
+                },
+                update: function (Mailinginformation) {
+                    let _this = this;
+                    var request = {};
+                    request.MemberId = Mailinginformation.memberId;
+                    request.Shippingaddress = Mailinginformation.shippingaddress;
+                    Swal.fire({
+                        title: '確定要修改嗎?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '修改成功',
+                                showConfirmButton: false,
+                            })
+                            axios.put(`${webApiBaseAddress}/api/B_PaymentInformation/Mailinginformation/${_this.mID}`, request).then(
+                                response => {
+                                    //alert(response.data);
+                                    setTimeout(function () {
+                                         window.location = "/Member/SettingCreditcard"
+                                    }, 1500);
+                                }
+                            );
+                        }
+                    })
+                    //var ret = confirm("確定要修改嗎?");
+                    //if (ret == true) {
+                    //    axios.put(`${webApiBaseAddress}/api/B_PaymentInformation/Mailinginformation/${_this.mID}`, request).then(
+                    //        response => {
+                    //            alert(response.data);
+                    //            window.location = "/Member/SettingCreditcard"
+                    //        }
+                    //    );
+                    //}
+                },
+                getPersonalDTOes: function () {
+					let _this = this;
+					axios.get(`${webApiBaseAddress}/api/B_personalinformation/${_this.mID}`).then(
+						response => {
+							_this.PersonalDTOes = response.data						
+						}
+					);
+				},
+            },
+        });
+
+    </script>
+    }
+
+
+
+
+
+
+
+
+
+

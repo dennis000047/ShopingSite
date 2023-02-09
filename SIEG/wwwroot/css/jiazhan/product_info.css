@@ -1,0 +1,374 @@
+/* -----  Group  ----- */
+/*愛心*/
+.heart {
+    width: 90px;
+    height: 100px;
+    background: url("/images/forum/heart.png") no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+    transition: background-position 1s steps(28);
+    transition-duration: 0s;
+}
+
+    .heart.is-active {
+        transition-duration: 1s;
+        background-position: -2800px 0;
+    }
+
+.placement {
+    padding: 0;
+    position: absolute;
+    right: 0;
+    bottom: -37px;
+    transform: unset;
+}
+.bannerImg {
+    max-width: 200px;
+    margin: auto;
+}
+.article {
+    padding: 0px 40px 0px 20px;
+}
+.product_note {
+    font-size: 15px;
+}
+
+td, th {
+    padding: 8px;
+    text-align: left;
+}
+
+.sizePriceItem {
+    width: 32%;
+    margin: 0 0.6%;
+    margin-bottom: 10px;
+    border: 1px solid #c3c3c3;
+}
+
+.sizeAndPrice {
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+}
+
+.sizeItemContoiner {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.selectItem {
+    /*margin: 2px;*/
+    padding: 2px 10px;
+    border: 1px solid #c3c3c3;
+    margin-bottom: 15px;
+}
+
+.sizeItem {
+    /*margin: 2px;*/
+    padding: 2px 10px;
+}
+
+.selSizeHide {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    /*width: calc(100% - 40px);*/
+    /*border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;*/
+    left: 0px;
+    /*left: 20px;*/
+    /*top: 68px;*/
+    padding: 5px 20px 10px 20px;
+    z-index: 1;
+}
+
+.historyBlock div {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.prdouct_share {
+    position: relative;
+    padding-top: 30px;
+    /* border-top: 2px solid #ddd; */
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.productInfo_card {
+    position: relative;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 2px;
+}
+
+.divPrice {
+    margin-top: 15px;
+}
+
+.imgGroup {
+    text-align: center;
+}
+
+    .imgGroup img {
+        width: 600px;
+        margin: auto;
+    }
+
+.subTitle {
+    color: #5f5f5f;
+    font-size: 15px;
+    padding-right: 80px;
+}
+
+.pathGroup a {
+    color: #5f5f5f;
+    font-size: 0.1em;
+}
+
+.iconGroup img {
+    width: 20px;
+    height: 20px;
+    margin: 0px 5px;
+}
+
+.pathGroup {
+    margin: 10px 0px;
+}
+
+.productGroup {
+    display: inline;
+    padding: 1px;
+}
+
+.stateGroup {
+    display: flex;
+    background-color: #e9e8e3;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sizeSelGroup {
+    border: 1px solid #ddd;
+    padding: 20px;
+    position: relative;
+}
+
+
+.selSize {
+    border: .5px solid #555;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.infoGroup {
+    padding: 1px;
+}
+
+.infoGroup .title {
+    position:relative;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.infoGroup .title .mainTitle {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.btnBuy {
+    border-radius: 5px;
+    letter-spacing: 1px;
+    display: inline-block;
+    transition: 0.3s;
+    width: 200px;
+    font-weight: bold;
+}
+
+.divBuy {
+    margin: 3px 0px;
+}
+
+    .divBuy button {
+        padding: 15px 18px;
+        width: 100%;
+    }
+
+
+
+.divBuyOrSubmit {
+    padding: 1px;
+    text-align: center;
+}
+
+.divPriceInfo {
+}
+
+
+
+
+/* -----  指定物件 CSS   ----- */
+.historyBlock {
+    background-color: #efefef;
+    margin: 10px;
+    padding: 15px;
+}
+
+.historyContent {
+    font-size: 1.5em;
+    font-weight: bold
+}
+
+.productInfo_card .divLikeProduct a {
+    display: block;
+    overflow: hidden;
+}
+
+.listTimeSold {
+    background-color: #efefef;
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.productInfo_content a div {
+    margin-bottom: 10px;
+}
+
+.minPrice {
+    /*margin-left: 20px;*/
+    margin-right: 20px;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.productInfo_card {
+    padding: 5px 20px;
+}
+
+.divPrice button {
+    margin-left: 4px;
+    margin-bottom: 10px;
+    padding: 5px 7px;
+}
+
+.sizeSelGroup .row .sizeTitle {
+    text-align: left;
+}
+
+.sizeSelGroup .row .allTitle {
+    text-align: right;
+}
+
+.infoGroup > div {
+    padding: 1px;
+}
+
+    .infoGroup > div > p.state {
+        font-size: 1.2em;
+        margin-left: 15px;
+    }
+
+    .infoGroup > div > img {
+        width: 50px;
+        height: 50px;
+    }
+
+
+.titleDiv {
+    margin-bottom: 15px;
+}
+
+.titleP {
+    font-size: 20px;
+}
+
+tr div {
+    margin: 300px 5px
+}
+
+tr > td > p {
+    margin-left: 60px
+}
+
+.divPriceInfo div p {
+    margin: 0px;
+}
+
+
+
+/* -----  功能區  ----- */
+
+
+.productInfo_card .divLikeProduct a img:hover {
+    transition: 0.3s;
+    transform: scale(1.05);
+}
+
+.divPrice button:hover {
+    color: #fff;
+    border-color: #999;
+    background-color: #333;
+    font-weight: bold;
+}
+
+.btnBuy:hover {
+    color: #fff;
+    border-color: #999;
+    background-color: #333;
+}
+
+.selSize:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.divBuyOrSubmit span:hover {
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.displayNone {
+    display: none;
+}
+
+.sizeItem:hover {
+    color: #333;
+    border-color: #999;
+    background-color: #eeeeee;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.selectItem:hover {
+    color: #333;
+    border-color: #999;
+    background-color: #eeeeee;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.selected {
+    border: 2px solid #a3a3a3;
+    font-weight: bold;
+    background-color: #f1f1f1
+}
+
+@media (max-width: 575px) {
+
+    .sizePriceItem {
+        width: 31%;
+        margin: 0 1%;
+    }
+}

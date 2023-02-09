@@ -1,0 +1,129 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "SIEGContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "SIEG_API",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Bank]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Banner]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BuyerBid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ContactAddProduct]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ContactCustomerService]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Coupon]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FaviriteArticle]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FaviriteNews]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FaviriteProduct]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ForumArticle]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ForumReply]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ForumReply2]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Member]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MemberCoupon]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[News]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NewsCategory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Order]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductCategory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SellerAddProduct]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GetSizeAndBid]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[GetSizeAndQuote]",
+         "ObjectType": 1
+      }
+   ],
+   "UiHint": "siegdb128.SIEG",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
